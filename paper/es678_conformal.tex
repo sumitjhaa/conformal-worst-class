@@ -57,7 +57,8 @@ from \texttt{torchvision}; ImageNet via published ResNet-152 softmax outputs on 
 \citep{angelopoulos2021uncertainty}. Per seed the official training set is split into disjoint $D_\text{train}/D_\text{design}/D_\text{cal}$
 (80/10/10\%) and the official test set is $D_\text{test}$, used once; ImageNet is re-split 20/40/40\% (about 20 calibration images per
 class). An assertion checks disjointness. Normalisation, weights and class Gaussians are fit on $D_\text{train}$; every tuned quantity
-uses $D_\text{design}$ only; augmentation is train-only. Classes are balanced. Shift sets: rotation/noise, CIFAR-10.1
+uses $D_\text{design}$ only; augmentation is train-only. Classes are balanced and no values are missing; the main quality issue is that CIFAR's test sets were collected
+separately from the training pool \citep{recht2018cifar}, which \S\ref{sec:depth} detects as per-class shift. Shift sets: rotation/noise, CIFAR-10.1
 \citep{recht2018cifar}, CIFAR-10-C \citep{hendrycks2019benchmarking}; unfamiliar inputs: FashionMNIST/KMNIST, CIFAR-100, CIFAR-10. SVHN was
 unreachable and dropped. Seeds: \SeedsMNIST/\SeedsCTen/\SeedsCTenR/\SeedsCHun/\SeedsINet; test accuracy \AccMNIST, \AccCTen, \AccCTenR,
 \AccCHun\ and \AccINet\%.
@@ -99,7 +100,8 @@ Right: cluster count $M$ from 1 (marginal) to $K$ (Mondrian), size vs worst clas
 \end{figure}
 \textbf{Validity.} Every in-expectation method covers \CovLo--\CovHi\% at $\alpha=0.1$ (Table~\ref{tab:main}); PAC variants over-cover by design.
 \textbf{Who is left out.} The smallest-set score, Naive($T$), covers its worst class \WorstCTenNaiveT\% on CIFAR-10, \WorstCHunNaiveT\% on
-CIFAR-100 and \WorstINetNaiveT\% on ImageNet; its worst feature cluster on CIFAR-10 is \FscCTenNaiveT\%. APS($T$) trades size for balance
+CIFAR-100 and \WorstINetNaiveT\% on ImageNet. A representative error: CIFAR-10's worst class is \ErrCTenCls\ (\ErrCTenCov\%);
+\ErrCTenConfShare\% of its misclassified images are called \ErrCTenConf, a visually similar class. Its worst feature cluster on CIFAR-10 is \FscCTenNaiveT\%. APS($T$) trades size for balance
 (\WorstCTenAPST, \WorstCHunAPST, \WorstINetAPST\%). On MNIST, accuracy above $1-\alpha$ forces \EmptyMNISTNaive\% empty sets.
 \textbf{Mondrian is not enough.} Per-class calibration guarantees each class only on average over calibration draws; with about 20
 images per class its ImageNet worst class is \WorstINetMond\% at \SizeINetMond\ labels. \textbf{Repair.} Mondrian-PAC lifts CIFAR-10's
@@ -111,7 +113,7 @@ both axes; on CIFAR-100 it reaches \WorstCHunClusPAC\% at \SizeCHunClusPAC\ labe
 (\SizeCTenLearned\ vs \SizeCTenNaiveT) and lowers the worst class. The pretrained ResNet-18 shows the same pattern (worst class \WorstCTenRNaiveT, \WorstCTenRAPST,
 \WorstCTenRClusPAC, \WorstCTenRMondPAC\% for Naive($T$), APS($T$), Clustered-PAC, Mondrian-PAC).
 
-\section{Graduate Depth Analysis}
+\section{Graduate Depth Analysis}\label{sec:depth}
 \textbf{Derivation.} With exchangeable, a.s.\ distinct scores the test score's rank among $n{+}1$ is uniform, so
 $P(Y\in C)=k/(n{+}1)\in[1-\alpha,1-\alpha+\tfrac1{n+1})$; given $D_\text{cal}$, coverage is $F(S_{(k)})\sim\mathrm{Beta}(k,n{+}1{-}k)$
 \citep{angelopoulos2021gentle}. At $n=100$, \BelowHundred\% of 200 re-splits fall below $1-\alpha$.
@@ -141,7 +143,7 @@ corrected thresholds across similar classes. Report the worst class and the empt
 \section{Reproducibility and AI-Use Disclosure}
 \texttt{scripts/train\_all.py} trains and caches each (run, seed); \texttt{run\_all.py}, \texttt{sweep.py} and \texttt{research.py}
 regenerate every table and figure; \texttt{paper\_numbers.py} writes every number in this paper as a macro, so none is typed by hand;
-\texttt{pytest tests/} runs 22 checks. Seeds, splits and grids are in \texttt{configs/default.yaml}. An interactive site (\texttt{site/})
+\texttt{pytest tests/} runs 22 checks. Seeds, splits and grids are in \texttt{configs/default.yaml}. An interactive site (\texttt{sumitjhaa.github.io/conformal-worst-class})
 re-runs conformal prediction in the browser. An extended version with proofs and all tables accompanies this paper. AI assistance (Claude)
 was used for code, debugging, plotting, the site and editing; all numbers come from the scripts.
 

@@ -234,9 +234,28 @@ def main() -> None:
                     put(f"Bs{tag}{ct}{mt}Lo", f(g.ci_lo.iloc[0]) if len(g) else "\\textbf{??}")
                     put(f"Bs{tag}{ct}{mt}Hi", f(g.ci_hi.iloc[0]) if len(g) else "\\textbf{??}")
 
+    # ---- representative error: CIFAR-10's worst class under Naive(T) and what its misclassified images are called
+    cc = read(RES / "class_cov.csv")
+    names10 = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
+    if cc is not None:
+        per = cc[(cc.dataset == "cifar10") & (cc.method == "temp_naive")].groupby("cls").coverage.mean()
+        if len(per):
+            w = int(per.idxmin())
+            put("ErrCTenCls", names10[w])
+            put("ErrCTenCov", pct(per.min()))
+            conf = np.zeros(10)
+            for f in sorted((RES / "cache").glob("cifar10_s*.pt")):  # shortcut: needs the local logit cache; macros stay ?? without it
+                import torch
+                t = torch.load(f, weights_only=False)["test"]
+                y, p = t["labels"].numpy(), t["logits"].argmax(1).numpy()
+                conf += np.bincount(p[(y == w) & (p != w)], minlength=10)
+            if conf.sum():
+                put("ErrCTenConf", names10[int(conf.argmax())])
+                put("ErrCTenConfShare", pct(conf.max() / conf.sum(), 0))
+
     # every macro a paper may use exists, even if its experiment has not run yet (renders as a bold ??)
     q = "\\textbf{??}"
-    names = ["WtEssMinN"] + [f"Wt{n}{t}" for t in TAG.values() for n in ("CovStd", "CovW", "Inf", "SizeStd", "SizeW")] + ["WcMaxErr", "WcInside", "WcN", "NsMaxErr", "WtGainMean", "WtGainMax", "WtEssMin", "EmptyMnist", "EmptyBoundMnist",
+    names = ["WtEssMinN", "ErrCTenCls", "ErrCTenCov", "ErrCTenConf", "ErrCTenConfShare"] + [f"Wt{n}{t}" for t in TAG.values() for n in ("CovStd", "CovW", "Inf", "SizeStd", "SizeW")] + ["WcMaxErr", "WcInside", "WcN", "NsMaxErr", "WtGainMean", "WtGainMax", "WtEssMin", "EmptyMnist", "EmptyBoundMnist",
              "EmptyHolds", "EmptyN", "BelowHundred", "SdHundred", "CovLo", "CovHi"]
     for tag in TAG.values():
         names += [f"ClBest{x}{tag}" for x in ("M", "Size", "Worst")] + [f"ClRatio{tag}", f"Ls{tag}Tv", f"TenAcc{tag}"]

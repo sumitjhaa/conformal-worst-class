@@ -13,7 +13,7 @@ leaves out, predicts the worst class with an exact law, and repairs it with a ch
 | **Clustered-PAC**: simultaneous high-probability guarantee over clusters of classes (exact δ_g, no union bound) | `src/conformal.py`, paper §4–5, site §9 |
 | Label-shift corollary (worst case = worst class), empty-set lemma | `src/theory.py`, paper §4 |
 | Audit of 13 methods × 5 settings × 3–10 seeds, label/covariate shift, ACI, weighted CP, OOD, bootstrap CIs | `scripts/research.py` |
-| Interactive site that reruns conformal prediction in the browser | `site/` |
+| Interactive site that reruns conformal prediction in the browser | [live site](https://sumitjhaa.github.io/conformal-worst-class/), `web/` |
 
 ## Settings (runs)
 | Run | Model | Classes | Seeds |
@@ -45,7 +45,7 @@ python scripts/make_figures.py     # rebuild every figure/table from the CSVs
 python scripts/paper_numbers.py    # results/numbers.tex: every number quoted in the papers, as LaTeX macros
 python scripts/export_site.py      # site/data/*.json
 python scripts/make_gifs.py        # site/gifs/*.gif: animated figures for the web tour, from the exported outputs
-python -m http.server -d site      # interactive site at http://localhost:8000
+cd web && yarn && yarn dev         # interactive site at http://localhost:3000
 ```
 Downloads: torchvision datasets automatically; CIFAR-10.1 v6 `.npy` files into `data/cifar10_1/`
 (github.com/modestyachts/CIFAR-10.1); CIFAR-10-C into `data/cifar10_c/` (Zenodo record 2535967); ImageNet ResNet-152
@@ -70,17 +70,19 @@ The conformal thresholds use **`D_cal`** only. **`D_test`** is opened once. Mixi
 - `paper/conformal_worst_class.tex` — extended version with proofs, all tables and figures.
 Both read every number from `results/numbers.tex`; compile with `tectonic -X compile <file>.tex` from `paper/`.
 
-## Explained site (`web/`, Next.js + React)
-A plain-language, animated tour for a non-specialist (class-12 level): the problem, the 4-step method on real scores,
-live demos, the worst-class law, the fix, shift, results and a glossary. `cd web && yarn && yarn dev`; see `web/README.md`.
+## Website
+**Live:** https://sumitjhaa.github.io/conformal-worst-class/
 
-## Interactive site (`site/`)
-Static HTML/JS, no build step, GitHub Pages ready. It reruns conformal prediction in the browser from exported logits
-(MNIST, CIFAR-10, CIFAR-100): live set lab with every method (incl. PAC and clustered), the re-split theorem check, results
-with bootstrap intervals, per-class audit, an exact worst-class law explorer, the cluster trade-off and an ImageNet gallery,
-live label shift, covariate shift (CIFAR-10.1 / CIFAR-10-C) with ACI and weighted CP, unfamiliar inputs, diagnostics,
-a guided tour, shareable links and SVG export of every chart.
+`web/` is a Next.js + React app exported as a static site: a plain-language, animated tour (problem, method on real scores,
+worst-class law, the fix, shift, results, glossary) plus 17 explorers that rerun conformal prediction in the browser from
+the exported logits (live set lab with every method, per-class audit, worst-class law, cluster trade-off, label and
+covariate shift, ImageNet gallery, draw-a-digit). Its data comes from `site/data/` and `site/gifs/` (written by
+`scripts/export_site.py` and `scripts/make_gifs.py`) and the paper PDFs, copied in by `web/scripts/sync-data.mjs`.
 
+- Local: `cd web && yarn && yarn dev`; see `web/README.md`. `node web/scripts/check-explorer.mjs` checks the browser maths
+  against the Python results.
+- Deploy: `.github/workflows/pages.yml` builds and publishes it on every push to `main`. One-time setup on GitHub:
+  Settings → Pages → Source: **GitHub Actions**.
 
 ## AI-use disclosure
 AI assistance (Claude) was used for code, debugging, plotting, the websites and editing. Every number was produced by the
