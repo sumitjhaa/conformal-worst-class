@@ -1,0 +1,106 @@
+dataset,seed,lr,segment,coverage,mean_size
+cifar10,0,0.0,clean,0.897,1.165
+cifar10,0,0.0,noise sev 1,0.832,1.606
+cifar10,0,0.0,noise sev 2,0.695,1.99
+cifar10,0,0.0,noise sev 3,0.566,2.204
+cifar10,0,0.0,noise sev 4,0.503,2.297
+cifar10,0,0.0,noise sev 5,0.42,2.25
+cifar10,0,0.0,all,0.6871428571428572,1.811
+cifar10,0,0.005,clean,0.8995,1.1835
+cifar10,0,0.005,noise sev 1,0.892,2.011
+cifar10,0,0.005,noise sev 2,0.891,4.185
+cifar10,0,0.005,noise sev 3,0.899,6.563
+cifar10,0,0.005,noise sev 4,0.9,7.279
+cifar10,0,0.005,noise sev 5,0.899,7.489
+cifar10,0,0.005,all,0.8971428571428571,4.2705714285714285
+cifar10,0,0.02,clean,0.9,1.2095
+cifar10,0,0.02,noise sev 1,0.897,2.32
+cifar10,0,0.02,noise sev 2,0.899,5.003
+cifar10,0,0.02,noise sev 3,0.899,7.138
+cifar10,0,0.02,noise sev 4,0.901,7.539
+cifar10,0,0.02,noise sev 5,0.899,7.995
+cifar10,0,0.02,all,0.8992857142857142,4.630571428571429
+cifar10,1,0.0,clean,0.8865,1.1405
+cifar10,1,0.0,noise sev 1,0.849,1.63
+cifar10,1,0.0,noise sev 2,0.713,2.039
+cifar10,1,0.0,noise sev 3,0.605,2.338
+cifar10,1,0.0,noise sev 4,0.563,2.457
+cifar10,1,0.0,noise sev 5,0.501,2.499
+cifar10,1,0.0,all,0.7148571428571429,1.892
+cifar10,1,0.005,clean,0.9,1.1845
+cifar10,1,0.005,noise sev 1,0.896,1.974
+cifar10,1,0.005,noise sev 2,0.886,3.825
+cifar10,1,0.005,noise sev 3,0.9,6.306
+cifar10,1,0.005,noise sev 4,0.899,7.027
+cifar10,1,0.005,noise sev 5,0.9,7.503
+cifar10,1,0.005,all,0.8972857142857142,4.143428571428571
+cifar10,1,0.02,clean,0.9005,1.2
+cifar10,1,0.02,noise sev 1,0.899,1.998
+cifar10,1,0.02,noise sev 2,0.895,4.521
+cifar10,1,0.02,noise sev 3,0.901,6.752
+cifar10,1,0.02,noise sev 4,0.899,7.447
+cifar10,1,0.02,noise sev 5,0.9,8.08
+cifar10,1,0.02,all,0.8992857142857142,4.456857142857143
+cifar10,2,0.0,clean,0.887,1.144
+cifar10,2,0.0,noise sev 1,0.806,1.613
+cifar10,2,0.0,noise sev 2,0.678,1.963
+cifar10,2,0.0,noise sev 3,0.57,2.234
+cifar10,2,0.0,noise sev 4,0.515,2.277
+cifar10,2,0.0,noise sev 5,0.48,2.294
+cifar10,2,0.0,all,0.689,1.8098571428571428
+cifar10,2,0.005,clean,0.898,1.1855
+cifar10,2,0.005,noise sev 1,0.891,2.149
+cifar10,2,0.005,noise sev 2,0.895,4.057
+cifar10,2,0.005,noise sev 3,0.9,5.953
+cifar10,2,0.005,noise sev 4,0.898,6.69
+cifar10,2,0.005,noise sev 5,0.901,7.129
+cifar10,2,0.005,all,0.8972857142857142,4.049857142857143
+cifar10,2,0.02,clean,0.899,1.212
+cifar10,2,0.02,noise sev 1,0.899,2.475
+cifar10,2,0.02,noise sev 2,0.898,4.978
+cifar10,2,0.02,noise sev 3,0.901,6.854
+cifar10,2,0.02,noise sev 4,0.899,7.094
+cifar10,2,0.02,noise sev 5,0.9,7.511
+cifar10,2,0.02,all,0.8992857142857142,4.476571428571429
+cifar10,3,0.0,clean,0.878,1.134
+cifar10,3,0.0,noise sev 1,0.816,1.62
+cifar10,3,0.0,noise sev 2,0.64,1.893
+cifar10,3,0.0,noise sev 3,0.503,2.039
+cifar10,3,0.0,noise sev 4,0.435,2.07
+cifar10,3,0.0,noise sev 5,0.411,2.127
+cifar10,3,0.0,all,0.6515714285714286,1.7167142857142856
+cifar10,3,0.005,clean,0.9,1.1925
+cifar10,3,0.005,noise sev 1,0.884,2.198
+cifar10,3,0.005,noise sev 2,0.899,4.814
+cifar10,3,0.005,noise sev 3,0.897,6.467
+cifar10,3,0.005,noise sev 4,0.901,7.161
+cifar10,3,0.005,noise sev 5,0.899,7.512
+cifar10,3,0.005,all,0.8971428571428571,4.3624285714285715
+cifar10,3,0.02,clean,0.9,1.2085
+cifar10,3,0.02,noise sev 1,0.897,2.632
+cifar10,3,0.02,noise sev 2,0.9,5.939
+cifar10,3,0.02,noise sev 3,0.898,7.226
+cifar10,3,0.02,noise sev 4,0.9,7.851
+cifar10,3,0.02,noise sev 5,0.9,8.133
+cifar10,3,0.02,all,0.8992857142857142,4.885428571428571
+cifar10,4,0.0,clean,0.903,1.169
+cifar10,4,0.0,noise sev 1,0.836,1.581
+cifar10,4,0.0,noise sev 2,0.699,1.829
+cifar10,4,0.0,noise sev 3,0.549,1.989
+cifar10,4,0.0,noise sev 4,0.472,2.014
+cifar10,4,0.0,noise sev 5,0.408,1.979
+cifar10,4,0.0,all,0.6814285714285714,1.6757142857142857
+cifar10,4,0.005,clean,0.9,1.1675
+cifar10,4,0.005,noise sev 1,0.89,1.842
+cifar10,4,0.005,noise sev 2,0.89,4.102
+cifar10,4,0.005,noise sev 3,0.9,6.472
+cifar10,4,0.005,noise sev 4,0.9,6.944
+cifar10,4,0.005,noise sev 5,0.9,7.369
+cifar10,4,0.005,all,0.8971428571428571,4.152
+cifar10,4,0.02,clean,0.8995,1.168
+cifar10,4,0.02,noise sev 1,0.9,1.973
+cifar10,4,0.02,noise sev 2,0.896,4.98
+cifar10,4,0.02,noise sev 3,0.9,6.924
+cifar10,4,0.02,noise sev 4,0.9,7.476
+cifar10,4,0.02,noise sev 5,0.9,8.037
+cifar10,4,0.02,all,0.8992857142857142,4.532285714285714

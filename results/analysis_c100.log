@@ -1,0 +1,17 @@
+[cifar100 s0] acc=0.7068 T=1.397 ECE 0.0963->0.0139 raps={'lam': 0.1, 'k_reg': 5} gamma={'dist_naive': 0.01, 'dist_aps': 0.1}
+[cifar100 s1] acc=0.7145 T=1.402 ECE 0.0904->0.0123 raps={'lam': 0.1, 'k_reg': 5} gamma={'dist_naive': 0.0, 'dist_aps': 0.1}
+[cifar100 s2] acc=0.7094 T=1.394 ECE 0.0920->0.0111 raps={'lam': 0.05, 'k_reg': 5} gamma={'dist_naive': 0.0, 'dist_aps': 0.1}
+wrote part cifar100
+  [cifar100 s0] K=100
+  [cifar100 s1] K=100
+  [cifar100 s2] K=100
+wrote worst_class.csv (36 rows)
+wrote ncal_sweep.csv (15 rows)
+wrote clusters.csv (54 rows)
+wrote label_shift.csv (450 rows)
+wrote aci.csv (54 rows)
+wrote aci_series.csv (720 rows)
+wrote weighted.csv (12 rows)
+wrote empty_sets.csv (72 rows)
+wrote distance_diag.csv (3 rows)
+wrote bootstrap.csv

@@ -1,0 +1,25 @@
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{3}{c}{CIFAR-100} & \multicolumn{3}{c}{ImageNet} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+Method & Cov. & Size & Worst & Cov. & Size & Worst \\
+\midrule
+Naive & 0.897 & 2.54\,{\scriptsize$\pm$0.09} & 0.750 & 0.899 & 1.76\,{\scriptsize$\pm$0.04} & 0.390 \\
+APS & 0.895 & 3.81\,{\scriptsize$\pm$0.13} & 0.777 & 0.899 & 6.27\,{\scriptsize$\pm$0.21} & 0.500 \\
+RAPS & 0.894 & 2.79\,{\scriptsize$\pm$0.07} & 0.740 & 0.900 & 1.92\,{\scriptsize$\pm$0.06} & 0.389 \\
+Naive(T) & 0.896 & 2.47\,{\scriptsize$\pm$0.08} & 0.730 & 0.899 & 1.75\,{\scriptsize$\pm$0.04} & 0.379 \\
+APS(T) & 0.893 & 4.78\,{\scriptsize$\pm$0.23} & 0.807 & 0.900 & 10.27\,{\scriptsize$\pm$0.37} & 0.529 \\
+Naive(T)+dist & 0.896 & 2.47\,{\scriptsize$\pm$0.09} & 0.733 & -- & -- & -- \\
+APS(T)+dist & 0.893 & 5.02\,{\scriptsize$\pm$0.18} & 0.760 & -- & -- & -- \\
+\addlinespace[2pt]
+Margin & 0.894 & 19.14\,{\scriptsize$\pm$0.88} & 0.753 & 0.901 & 99.90\,{\scriptsize$\pm$4.66} & 0.420 \\
+SAPS & 0.897 & 2.76\,{\scriptsize$\pm$0.10} & 0.727 & 0.899 & 1.98\,{\scriptsize$\pm$0.02} & 0.396 \\
+Learned & 0.896 & 2.51\,{\scriptsize$\pm$0.09} & 0.723 & 0.899 & 1.76\,{\scriptsize$\pm$0.03} & 0.392 \\
+\addlinespace[2pt]
+Mondrian & 0.901 & 5.79\,{\scriptsize$\pm$0.40} & 0.700 & 0.923 & 34.96\,{\scriptsize$\pm$2.21} & 0.477 \\
+Mondrian-PAC & 1.000 & 99.41\,{\scriptsize$\pm$1.02} & 0.997 & 1.000 & 1000\,{\scriptsize$\pm$0.00} & 1.000 \\
+Clustered & 0.893 & 4.87\,{\scriptsize$\pm$0.24} & 0.803 & 0.901 & 10.74\,{\scriptsize$\pm$0.34} & 0.529 \\
+Clustered-PAC & 0.920 & 6.14\,{\scriptsize$\pm$0.29} & 0.827 & 0.929 & 17.18\,{\scriptsize$\pm$1.09} & 0.607 \\
+Top-1 & 0.710 & 1.00\,{\scriptsize$\pm$0.00} & 0.430 & 0.784 & 1.00\,{\scriptsize$\pm$0.00} & 0.133 \\
+\bottomrule
+\end{tabular}

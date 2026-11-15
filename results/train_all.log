@@ -1,0 +1,184 @@
+[cached] mnist s0
+[cached] mnist s1
+[cached] mnist s2
+[train] mnist seed=3 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1901  design_nll 0.0615  design_acc 0.9813
+  epoch  1  train_loss 0.0486  design_nll 0.0511  design_acc 0.9855
+  epoch  2  train_loss 0.0329  design_nll 0.0435  design_acc 0.9887
+  epoch  3  train_loss 0.0248  design_nll 0.0425  design_acc 0.9873
+  epoch  4  train_loss 0.0200  design_nll 0.0426  design_acc 0.9875
+  epoch  5  train_loss 0.0146  design_nll 0.0461  design_acc 0.9873
+  epoch  6  train_loss 0.0118  design_nll 0.0364  design_acc 0.9905
+  epoch  7  train_loss 0.0110  design_nll 0.0404  design_acc 0.9907
+  epoch  8  train_loss 0.0102  design_nll 0.0510  design_acc 0.9875
+  epoch  9  train_loss 0.0073  design_nll 0.0415  design_acc 0.9910
+[cached] mnist s3
+[train] mnist seed=4 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1744  design_nll 0.0596  design_acc 0.9810
+  epoch  1  train_loss 0.0473  design_nll 0.0471  design_acc 0.9850
+  epoch  2  train_loss 0.0327  design_nll 0.0441  design_acc 0.9858
+  epoch  3  train_loss 0.0230  design_nll 0.0358  design_acc 0.9893
+  epoch  4  train_loss 0.0170  design_nll 0.0488  design_acc 0.9857
+  epoch  5  train_loss 0.0146  design_nll 0.0347  design_acc 0.9902
+  epoch  6  train_loss 0.0129  design_nll 0.0421  design_acc 0.9890
+  epoch  7  train_loss 0.0099  design_nll 0.0409  design_acc 0.9908
+  epoch  8  train_loss 0.0080  design_nll 0.0534  design_acc 0.9877
+  epoch  9  train_loss 0.0081  design_nll 0.0576  design_acc 0.9872
+[cached] mnist s4
+[train] mnist seed=5 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1742  design_nll 0.0615  design_acc 0.9817
+  epoch  1  train_loss 0.0476  design_nll 0.0448  design_acc 0.9847
+  epoch  2  train_loss 0.0316  design_nll 0.0462  design_acc 0.9840
+  epoch  3  train_loss 0.0235  design_nll 0.0455  design_acc 0.9853
+  epoch  4  train_loss 0.0192  design_nll 0.0280  design_acc 0.9908
+  epoch  5  train_loss 0.0135  design_nll 0.0377  design_acc 0.9893
+  epoch  6  train_loss 0.0106  design_nll 0.0406  design_acc 0.9895
+  epoch  7  train_loss 0.0139  design_nll 0.0310  design_acc 0.9923
+  epoch  8  train_loss 0.0095  design_nll 0.0373  design_acc 0.9900
+  epoch  9  train_loss 0.0064  design_nll 0.0453  design_acc 0.9897
+[cached] mnist s5
+[train] mnist seed=6 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1725  design_nll 0.0527  design_acc 0.9842
+  epoch  1  train_loss 0.0486  design_nll 0.0481  design_acc 0.9867
+  epoch  2  train_loss 0.0333  design_nll 0.0380  design_acc 0.9890
+  epoch  3  train_loss 0.0244  design_nll 0.0354  design_acc 0.9895
+  epoch  4  train_loss 0.0189  design_nll 0.0335  design_acc 0.9915
+  epoch  5  train_loss 0.0158  design_nll 0.0455  design_acc 0.9867
+  epoch  6  train_loss 0.0125  design_nll 0.0327  design_acc 0.9923
+  epoch  7  train_loss 0.0096  design_nll 0.0383  design_acc 0.9905
+  epoch  8  train_loss 0.0084  design_nll 0.0422  design_acc 0.9898
+  epoch  9  train_loss 0.0092  design_nll 0.0369  design_acc 0.9922
+[cached] mnist s6
+[train] mnist seed=7 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1856  design_nll 0.0689  design_acc 0.9815
+  epoch  1  train_loss 0.0504  design_nll 0.0633  design_acc 0.9808
+  epoch  2  train_loss 0.0335  design_nll 0.0418  design_acc 0.9868
+  epoch  3  train_loss 0.0238  design_nll 0.0388  design_acc 0.9897
+  epoch  4  train_loss 0.0210  design_nll 0.0371  design_acc 0.9900
+  epoch  5  train_loss 0.0147  design_nll 0.0381  design_acc 0.9880
+  epoch  6  train_loss 0.0119  design_nll 0.0383  design_acc 0.9903
+  epoch  7  train_loss 0.0099  design_nll 0.0367  design_acc 0.9897
+  epoch  8  train_loss 0.0091  design_nll 0.0527  design_acc 0.9875
+  epoch  9  train_loss 0.0092  design_nll 0.0435  design_acc 0.9897
+[cached] mnist s7
+[train] mnist seed=8 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1798  design_nll 0.0669  design_acc 0.9818
+  epoch  1  train_loss 0.0491  design_nll 0.0550  design_acc 0.9843
+  epoch  2  train_loss 0.0349  design_nll 0.0559  design_acc 0.9835
+  epoch  3  train_loss 0.0252  design_nll 0.0489  design_acc 0.9853
+  epoch  4  train_loss 0.0204  design_nll 0.0455  design_acc 0.9883
+  epoch  5  train_loss 0.0143  design_nll 0.0511  design_acc 0.9880
+  epoch  6  train_loss 0.0115  design_nll 0.0453  design_acc 0.9900
+  epoch  7  train_loss 0.0106  design_nll 0.0517  design_acc 0.9873
+  epoch  8  train_loss 0.0083  design_nll 0.0495  design_acc 0.9898
+  epoch  9  train_loss 0.0074  design_nll 0.0657  design_acc 0.9850
+[cached] mnist s8
+[train] mnist seed=9 on mps (48000 train / 6000 design)
+  epoch  0  train_loss 0.1791  design_nll 0.0539  design_acc 0.9830
+  epoch  1  train_loss 0.0507  design_nll 0.0463  design_acc 0.9855
+  epoch  2  train_loss 0.0346  design_nll 0.0348  design_acc 0.9892
+  epoch  3  train_loss 0.0261  design_nll 0.0304  design_acc 0.9898
+  epoch  4  train_loss 0.0195  design_nll 0.0352  design_acc 0.9883
+  epoch  5  train_loss 0.0152  design_nll 0.0324  design_acc 0.9898
+  epoch  6  train_loss 0.0125  design_nll 0.0536  design_acc 0.9865
+  epoch  7  train_loss 0.0129  design_nll 0.0402  design_acc 0.9895
+  epoch  8  train_loss 0.0092  design_nll 0.0521  design_acc 0.9855
+  epoch  9  train_loss 0.0108  design_nll 0.0419  design_acc 0.9880
+[cached] mnist s9
+[train] cifar100 seed=0 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 4.0155  design_nll 3.7801  design_acc 0.1138
+  epoch  1  train_loss 3.2834  design_nll 3.6833  design_acc 0.1620
+  epoch  2  train_loss 2.7894  design_nll 4.4642  design_acc 0.1382
+  epoch  3  train_loss 2.4603  design_nll 2.8246  design_acc 0.3024
+  epoch  4  train_loss 2.1766  design_nll 2.7509  design_acc 0.3184
+  epoch  5  train_loss 1.9738  design_nll 2.9841  design_acc 0.3164
+  epoch  6  train_loss 1.8017  design_nll 3.5334  design_acc 0.3042
+  epoch  7  train_loss 1.6619  design_nll 2.5171  design_acc 0.3800
+  epoch  8  train_loss 1.5442  design_nll 2.8248  design_acc 0.3798
+  epoch  9  train_loss 1.4324  design_nll 2.1131  design_acc 0.4406
+  epoch 10  train_loss 1.3322  design_nll 2.0172  design_acc 0.4760
+  epoch 11  train_loss 1.2475  design_nll 2.0812  design_acc 0.4774
+  epoch 12  train_loss 1.1722  design_nll 2.3448  design_acc 0.4592
+  epoch 13  train_loss 1.1034  design_nll 2.1799  design_acc 0.4724
+  epoch 14  train_loss 1.0404  design_nll 1.8641  design_acc 0.5208
+  epoch 15  train_loss 0.9825  design_nll 1.9011  design_acc 0.5180
+  epoch 16  train_loss 0.9057  design_nll 1.7137  design_acc 0.5556
+  epoch 17  train_loss 0.8632  design_nll 1.6450  design_acc 0.5684
+  epoch 18  train_loss 0.7999  design_nll 1.5729  design_acc 0.5986
+  epoch 19  train_loss 0.7325  design_nll 1.3653  design_acc 0.6286
+  epoch 20  train_loss 0.6815  design_nll 1.5258  design_acc 0.6102
+  epoch 21  train_loss 0.6120  design_nll 1.3023  design_acc 0.6498
+  epoch 22  train_loss 0.5404  design_nll 1.3637  design_acc 0.6436
+  epoch 23  train_loss 0.4572  design_nll 1.3353  design_acc 0.6468
+  epoch 24  train_loss 0.3868  design_nll 1.2976  design_acc 0.6664
+  epoch 25  train_loss 0.3052  design_nll 1.2205  design_acc 0.6840
+  epoch 26  train_loss 0.2431  design_nll 1.1476  design_acc 0.7030
+  epoch 27  train_loss 0.1993  design_nll 1.1269  design_acc 0.7020
+  epoch 28  train_loss 0.1692  design_nll 1.1193  design_acc 0.7034
+  epoch 29  train_loss 0.1596  design_nll 1.1182  design_acc 0.7032
+[cached] cifar100 s0
+[train] cifar100 seed=1 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 3.9928  design_nll 3.9053  design_acc 0.1092
+  epoch  1  train_loss 3.2884  design_nll 3.5218  design_acc 0.1694
+  epoch  2  train_loss 2.8301  design_nll 3.7661  design_acc 0.1674
+  epoch  3  train_loss 2.4735  design_nll 3.1631  design_acc 0.2626
+  epoch  4  train_loss 2.1803  design_nll 3.6128  design_acc 0.2656
+  epoch  5  train_loss 1.9675  design_nll 3.3046  design_acc 0.2956
+  epoch  6  train_loss 1.7876  design_nll 3.9371  design_acc 0.2622
+  epoch  7  train_loss 1.6376  design_nll 2.3613  design_acc 0.4012
+  epoch  8  train_loss 1.5130  design_nll 2.6815  design_acc 0.3802
+  epoch  9  train_loss 1.3968  design_nll 2.4797  design_acc 0.4334
+  epoch 10  train_loss 1.2995  design_nll 2.2475  design_acc 0.4408
+  epoch 11  train_loss 1.2136  design_nll 2.2094  design_acc 0.4586
+  epoch 12  train_loss 1.1444  design_nll 2.7183  design_acc 0.4204
+  epoch 13  train_loss 1.0787  design_nll 1.6469  design_acc 0.5574
+  epoch 14  train_loss 1.0067  design_nll 2.6002  design_acc 0.4216
+  epoch 15  train_loss 0.9542  design_nll 1.8731  design_acc 0.5276
+  epoch 16  train_loss 0.8921  design_nll 1.7274  design_acc 0.5486
+  epoch 17  train_loss 0.8346  design_nll 1.5840  design_acc 0.5880
+  epoch 18  train_loss 0.7732  design_nll 1.6884  design_acc 0.5724
+  epoch 19  train_loss 0.7120  design_nll 1.6307  design_acc 0.5974
+  epoch 20  train_loss 0.6497  design_nll 1.3949  design_acc 0.6346
+  epoch 21  train_loss 0.5942  design_nll 1.4016  design_acc 0.6380
+  epoch 22  train_loss 0.5189  design_nll 1.3485  design_acc 0.6460
+  epoch 23  train_loss 0.4395  design_nll 1.2694  design_acc 0.6714
+  epoch 24  train_loss 0.3584  design_nll 1.1973  design_acc 0.6834
+  epoch 25  train_loss 0.2847  design_nll 1.1562  design_acc 0.6950
+  epoch 26  train_loss 0.2248  design_nll 1.1358  design_acc 0.6996
+  epoch 27  train_loss 0.1856  design_nll 1.1217  design_acc 0.7090
+  epoch 28  train_loss 0.1598  design_nll 1.1005  design_acc 0.7144
+  epoch 29  train_loss 0.1493  design_nll 1.1047  design_acc 0.7138
+[cached] cifar100 s1
+[train] cifar100 seed=2 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 3.9720  design_nll 3.7322  design_acc 0.1244
+  epoch  1  train_loss 3.2613  design_nll 3.4905  design_acc 0.1982
+  epoch  2  train_loss 2.8257  design_nll 3.0069  design_acc 0.2594
+  epoch  3  train_loss 2.4943  design_nll 4.1889  design_acc 0.1922
+  epoch  4  train_loss 2.2132  design_nll 3.7046  design_acc 0.2396
+  epoch  5  train_loss 1.9937  design_nll 3.9260  design_acc 0.2200
+  epoch  6  train_loss 1.8295  design_nll 3.1226  design_acc 0.3016
+  epoch  7  train_loss 1.6709  design_nll 2.8751  design_acc 0.3432
+  epoch  8  train_loss 1.5540  design_nll 3.5515  design_acc 0.3052
+  epoch  9  train_loss 1.4439  design_nll 2.7732  design_acc 0.3960
+  epoch 10  train_loss 1.3488  design_nll 2.2792  design_acc 0.4428
+  epoch 11  train_loss 1.2697  design_nll 2.1055  design_acc 0.4644
+  epoch 12  train_loss 1.1884  design_nll 2.0611  design_acc 0.4852
+  epoch 13  train_loss 1.1154  design_nll 2.1379  design_acc 0.4766
+  epoch 14  train_loss 1.0536  design_nll 2.2697  design_acc 0.4578
+  epoch 15  train_loss 0.9886  design_nll 1.9745  design_acc 0.5230
+  epoch 16  train_loss 0.9389  design_nll 1.7415  design_acc 0.5456
+  epoch 17  train_loss 0.8778  design_nll 1.8260  design_acc 0.5386
+  epoch 18  train_loss 0.8218  design_nll 1.6867  design_acc 0.5742
+  epoch 19  train_loss 0.7629  design_nll 1.4764  design_acc 0.6180
+  epoch 20  train_loss 0.6929  design_nll 1.3773  design_acc 0.6276
+  epoch 21  train_loss 0.6120  design_nll 1.4197  design_acc 0.6342
+  epoch 22  train_loss 0.5470  design_nll 1.3046  design_acc 0.6512
+  epoch 23  train_loss 0.4702  design_nll 1.2906  design_acc 0.6642
+  epoch 24  train_loss 0.3915  design_nll 1.2480  design_acc 0.6752
+  epoch 25  train_loss 0.3175  design_nll 1.1900  design_acc 0.6938
+  epoch 26  train_loss 0.2491  design_nll 1.1323  design_acc 0.7048
+  epoch 27  train_loss 0.2039  design_nll 1.1138  design_acc 0.7176
+  epoch 28  train_loss 0.1754  design_nll 1.1119  design_acc 0.7156
+  epoch 29  train_loss 0.1627  design_nll 1.1077  design_acc 0.7178
+[cached] cifar100 s2
+[train] cifar100 seed=3 on mps (40000 train / 5000 design)

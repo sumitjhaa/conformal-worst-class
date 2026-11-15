@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trustworthy Prediction Sets</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Interactive companion to the ES 678 project on conformal prediction sets: score design, class-conditional coverage and failure under shift.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: lab notebook. Sticky section rail on wide screens, one reading column, and a two-pane
+   "set lab" (controls left, live outputs right) that is the centre of gravity of the page. */
+:root {
+  --bg: #f3f5f8; --surface: #ffffff; --surface-2: #e9edf3;
+  --ink: #11151c; --ink-2: #4a5262; --muted: #737b8b; --line: #d9dee6;
+  --accent: #2a78d6; --accent-soft: #d6e6fa; --target: #eb6834;
+  --good: #1d8a4e; --bad: #cf3a3a; --warn: #b77800;
+  --in: #2a78d6; --in-ink: #ffffff;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e1116; --surface: #161a21; --surface-2: #1f2530;
+  --ink: #eef1f5; --ink-2: #b3bac7; --muted: #8a92a1; --line: #2a313c;
+  --accent: #3987e5; --accent-soft: #1b2e47; --target: #e0703f;
+  --good: #3fb370; --bad: #ec6464; --warn: #d9a12b; --in: #3987e5; --in-ink: #ffffff; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0e1116; --surface: #161a21; --surface-2: #1f2530;
+  --ink: #eef1f5; --ink-2: #b3bac7; --muted: #8a92a1; --line: #2a313c;
+  --accent: #3987e5; --accent-soft: #1b2e47; --target: #e0703f;
+  --good: #3fb370; --bad: #ec6464; --warn: #d9a12b; --in: #3987e5; --in-ink: #ffffff; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.6 var(--body); }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 0 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.grid { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 40px }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr) } nav.rail { display: none } }
+nav.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; padding-top: 28px;
+  display: flex; flex-direction: column; gap: 2px; font-size: 13px }
+nav.rail a { color: var(--muted); text-decoration: none; padding: 4px 10px; border-left: 2px solid var(--line) }
+nav.rail a:hover, nav.rail a.on { color: var(--ink); border-left-color: var(--accent) }
+nav.rail .lbl { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 0 10px 8px }
+main { min-width: 0 }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.12 }
+h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 700; letter-spacing: -.02em }
+h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -.01em }
+h3 { font-size: 18px; font-weight: 500 }
+p { margin: 0; max-width: 68ch; color: var(--ink-2) }
+p strong, li strong { color: var(--ink); font-weight: 600 }
+.eyebrow { font: 500 11.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted) }
+section { padding-top: 64px; display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px }
+.mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums }
+code { font: 13px var(--mono); background: var(--surface-2); padding: 1px 5px; border-radius: 4px }
+.math { font-family: var(--mono); font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 12px 16px; overflow-x: auto; white-space: pre; max-width: 100% }
+a { color: var(--accent) }
+
+/* hero */
+header.hero { padding-top: 40px; display: flex; flex-direction: column; gap: 18px }
+.hero .lede { font-size: 18px; max-width: 62ch }
+.byline { font: 13px var(--mono); color: var(--muted) }
+.demo { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 14px; margin-top: 8px }
+.demo-top { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px }
+.alpha-ctl { display: flex; align-items: center; gap: 12px; flex: 1 1 280px }
+.alpha-ctl label { font: 500 13px var(--mono); white-space: nowrap }
+.strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 10px }
+.strip > .card, .gallery > .card { max-width: 96px }
+
+/* cards of images + their sets */
+.card { display: flex; flex-direction: column; gap: 5px; align-items: center; background: transparent; border: 0; padding: 0; cursor: pointer; font: inherit; color: inherit }
+.card img { width: 100%; aspect-ratio: 1; image-rendering: pixelated; border-radius: 4px; outline: 2px solid var(--good); outline-offset: 1px; background: #000 }
+.card.miss img { outline-color: var(--bad) }
+.card.nolabel img { outline-color: var(--line) }
+.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px }
+.chips { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; min-height: 20px }
+.chip { font: 500 11px/1 var(--mono); padding: 4px 5px; border-radius: 3px; background: var(--in); color: var(--in-ink) }
+.chip.true { box-shadow: 0 0 0 1.5px var(--ink) }
+.chip.empty { background: transparent; color: var(--muted); border: 1px dashed var(--muted) }
+
+/* lab */
+.lab { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 20px; align-items: start }
+@media (max-width: 1000px) { .lab { grid-template-columns: minmax(0, 1fr) } }
+.controls { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 16px;
+  position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px) }
+@media (max-width: 1000px) { .controls { position: static } }
+.ctl { display: flex; flex-direction: column; gap: 6px }
+.ctl > .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px }
+.ctl label { font-weight: 600; font-size: 13px }
+.ctl .val { font: 500 13px var(--mono); color: var(--accent) }
+.ctl .hint { font-size: 12px; color: var(--muted); line-height: 1.4 }
+.ctl.off { opacity: .45 }
+input[type=range] { width: 100%; accent-color: var(--accent) }
+select, button { font: 500 13px var(--body); color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 10px }
+button { cursor: pointer } button:hover { border-color: var(--accent) }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.seg { display: flex; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden }
+.seg button { flex: 1; white-space: nowrap; border: 0; border-radius: 0; background: transparent; padding: 7px 8px }
+.seg button[aria-pressed=true] { background: var(--accent); color: #fff }
+.outputs { display: flex; flex-direction: column; gap: 20px; min-width: 0 }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px }
+@media (max-width: 640px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0 }
+.tile .k { font-size: 12px; color: var(--muted) }
+.tile .v { font: 500 26px/1.2 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink) }
+.tile .s { font-size: 12px; color: var(--ink-2) }
+.pill { display: inline-flex; align-items: center; gap: 5px; font: 600 11.5px var(--body); padding: 2px 8px; border-radius: 99px; width: fit-content }
+.pill.ok { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent) }
+.pill.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, transparent) }
+.pill.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent) }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.panel-h { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px 14px }
+.panel-h p { font-size: 13px }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px }
+@media (max-width: 760px) { .two { grid-template-columns: minmax(0, 1fr) } }
+svg.chart { width: 100%; height: auto; display: block; overflow: visible }
+svg.chart text { fill: var(--muted); font: 11px var(--mono) }
+svg.chart .axis { stroke: var(--line) }
+svg.chart .grid line { stroke: var(--line); stroke-dasharray: 2 3 }
+svg.chart .target { stroke: var(--target); stroke-width: 2; stroke-dasharray: 5 4 }
+svg.chart .band { fill: var(--target); opacity: .14 }
+svg.chart .bar { fill: var(--accent) }
+svg.chart .bar.under { fill: var(--bad) }
+svg.chart .ghost { fill: var(--muted); opacity: .35 }
+svg.chart .line { fill: none; stroke: var(--accent); stroke-width: 2 }
+svg.chart .curve { fill: none; stroke: var(--target); stroke-width: 2 }
+svg.chart .dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2 }
+svg.chart .dot.muted { fill: var(--muted) }
+svg.chart .lbl-ink { fill: var(--ink); font-weight: 500 }
+svg.chart .hit { fill: transparent }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--ink-2) }
+.legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 6px; background: var(--accent) }
+.legend i.t { background: var(--target) } .legend i.b { height: 10px; opacity: .3; background: var(--target) } .legend i.r { background: var(--bad); height: 10px }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px }
+.detail { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; align-items: start }
+@media (max-width: 560px) { .detail { grid-template-columns: minmax(0, 1fr) } }
+.detail img { width: 150px; max-width: 100%; image-rendering: pixelated; border-radius: 6px; background: #000 }
+#tip { position: fixed; pointer-events: none; z-index: 50; background: var(--ink); color: var(--bg); font: 12px/1.4 var(--mono); padding: 6px 9px; border-radius: 5px; max-width: 260px; opacity: 0; transition: opacity .1s }
+table { border-collapse: collapse; width: 100%; font-size: 13px }
+.tbl { overflow-x: auto; max-width: 100% }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums }
+th { font: 500 11.5px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .05em }
+th:first-child, td:first-child { text-align: left }
+td { font-family: var(--mono) }
+td.best { color: var(--good); font-weight: 600 }
+tr.sel td { background: var(--accent-soft) }
+.splitbar { display: flex; height: 38px; border-radius: 6px; overflow: hidden; font: 500 12px var(--mono); color: #fff }
+.splitbar div { display: flex; align-items: center; justify-content: center; padding: 0 6px; white-space: nowrap; overflow: hidden; min-width: 0 }
+ul.clean { margin: 0; padding-left: 18px; color: var(--ink-2); max-width: 70ch; display: flex; flex-direction: column; gap: 6px }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px }
+.note { font-size: 12.5px; color: var(--muted) }
+.loading { font: 13px var(--mono); color: var(--muted) }
+.heat td { text-align: center }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important } }
+
+/* v2 additions */
+.seg { flex-wrap: wrap } .seg button { flex: 1 0 auto }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.toolbar button { display: inline-flex; align-items: center; gap: 6px }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent) }
+button.dl { font: 500 11px var(--mono); padding: 2px 7px; color: var(--muted); background: transparent }
+.panel-h .acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline }
+.kv { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px }
+.callout { border-left: 3px solid var(--target); background: color-mix(in srgb, var(--target) 7%, var(--surface)); padding: 12px 16px; border-radius: 0 8px 8px 0 }
+.callout p { max-width: none }
+.inet { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px }
+.inet .ic { background: var(--surface-2); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px; outline: 2px solid var(--good); outline-offset: -2px }
+.inet .ic.miss { outline-color: var(--bad) }
+.inet img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px }
+.inet .tl { font: 600 12px var(--body); color: var(--ink) }
+.inet .row { display: flex; justify-content: space-between; font: 11px var(--mono); color: var(--ink-2); gap: 6px }
+.inet .row.in span:first-child { color: var(--ink); font-weight: 600 }
+.inet .row.in span:first-child::before { content: "● "; color: var(--accent) }
+.inet .row:not(.in) span:first-child::before { content: "○ "; color: var(--muted) }
+.inet .sz { font: 500 11px var(--mono); color: var(--muted) }
+#tour { position: fixed; z-index: 60; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  width: min(380px, calc(100vw - 32px)); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.25); display: flex; flex-direction: column; gap: 10px }
+#tour[hidden] { display: none }
+#tour h3 { font-size: 17px } #tour p { font-size: 14px }
+#tour .tnav { display: flex; justify-content: space-between; align-items: center; gap: 8px }
+#tour .dots { font: 12px var(--mono); color: var(--muted) }
+section.tour-on > h2 { text-decoration: underline 3px var(--target); text-underline-offset: 6px }
+.chip.more { background: var(--surface-2); color: var(--ink-2) }
+.legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 6px }
+svg.chart .s1 { stroke: #2a78d6; fill: #2a78d6 } svg.chart .s2 { stroke: #eb6834; fill: #eb6834 } svg.chart .s3 { stroke: #1baf7a; fill: #1baf7a }
+svg.chart .s4 { stroke: #e34948; fill: #e34948 } svg.chart .s5 { stroke: #e87ba4; fill: #e87ba4 } svg.chart .s6 { stroke: #6250d6; fill: #6250d6 }
+svg.chart .sg { stroke: var(--muted); fill: var(--muted) }
+svg.chart path.ln { fill: none !important; stroke-width: 2 } svg.chart path.ln.dash { stroke-dasharray: 5 4 }
+svg.chart path.area { stroke: none !important; opacity: .14 }
+svg.chart line.s1, svg.chart line.s2, svg.chart line.s3, svg.chart line.s4, svg.chart line.s5, svg.chart line.s6, svg.chart line.sg { fill: none }
+svg.chart circle.hollow { fill: var(--surface) !important; stroke-width: 2 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) svg.chart .s1 { stroke: #3987e5; fill: #3987e5 }
+  :root:not([data-theme="light"]) svg.chart .s2 { stroke: #d95926; fill: #d95926 } :root:not([data-theme="light"]) svg.chart .s3 { stroke: #199e70; fill: #199e70 }
+  :root:not([data-theme="light"]) svg.chart .s4 { stroke: #e66767; fill: #e66767 } :root:not([data-theme="light"]) svg.chart .s5 { stroke: #d55181; fill: #d55181 }
+  :root:not([data-theme="light"]) svg.chart .s6 { stroke: #9085e9; fill: #9085e9 } }
+:root[data-theme="dark"] svg.chart .s1 { stroke: #3987e5; fill: #3987e5 } :root[data-theme="dark"] svg.chart .s2 { stroke: #d95926; fill: #d95926 }
+:root[data-theme="dark"] svg.chart .s3 { stroke: #199e70; fill: #199e70 } :root[data-theme="dark"] svg.chart .s4 { stroke: #e66767; fill: #e66767 }
+:root[data-theme="dark"] svg.chart .s5 { stroke: #d55181; fill: #d55181 } :root[data-theme="dark"] svg.chart .s6 { stroke: #9085e9; fill: #9085e9 }
+.sw.s1 { background: #2a78d6 } .sw.s2 { background: #eb6834 } .sw.s3 { background: #1baf7a } .sw.s4 { background: #e34948 } .sw.s5 { background: #e87ba4 } .sw.s6 { background: #6250d6 } .sw.sg { background: var(--muted) }
+.big { font: 500 clamp(28px, 4vw, 40px)/1.1 var(--mono); color: var(--ink); font-variant-numeric: tabular-nums }
+@media (max-width: 900px) { nav.rail { display: none } }  /* after the base nav.rail rule, so it wins */
+@media (max-width: 640px) { .demo-top { flex-direction: column; align-items: stretch } .alpha-ctl { flex: none } th, td { padding: 6px 7px } .panel { padding: 12px } }
+</style>
+
+</head>
+<body>
+<div id="tip" role="tooltip"></div>
+<div id="tour" hidden role="dialog" aria-label="Guided tour"><div class="eyebrow" id="tourStep"></div><h3 id="tourTitle"></h3><p id="tourText"></p>
+  <div class="tnav"><button type="button" id="tourPrev">Back</button><span class="dots" id="tourDots"></span><button type="button" class="primary" id="tourNext">Next</button></div>
+  <button type="button" id="tourClose" style="position:absolute;top:10px;right:10px;padding:2px 8px" aria-label="Close tour">✕</button></div>
+<div class="wrap">
+<div class="grid">
+<nav class="rail" aria-label="Sections">
+  <div class="lbl">ES 678 · Project</div>
+  <a href="#question">Question</a><a href="#data">Data &amp; splits</a><a href="#methods">Methods</a>
+  <a href="#lab">Set lab</a><a href="#theorem">Is the guarantee real?</a><a href="#results">Results</a>
+  <a href="#classes">Who gets covered</a><a href="#worst">The worst class, predicted</a><a href="#fix">Fixing it</a>
+  <a href="#labelshift">Label shift</a><a href="#shift">Covariate shift</a><a href="#ood">Unfamiliar inputs</a>
+  <a href="#diagnostics">Diagnostics</a><a href="#limits">Limitations</a><a href="#repro">Reproduce</a>
+</nav>
+<main>
+<header class="hero" id="top">
+  <div class="eyebrow">Conformal classification · MNIST · CIFAR-10 · CIFAR-100 · ImageNet</div>
+  <h1>How small can a trustworthy prediction set be, and who does it leave out?</h1>
+  <p class="lede">A classifier normally gives one answer. Conformal prediction makes it return a <strong>set of labels</strong> that
+    contains the truth at least <strong>1&nbsp;−&nbsp;α</strong> of the time, for any model, with a finite-sample proof. That promise is an
+    <em>average</em>. This project measures, predicts and repairs the classes it leaves behind. Drag α and watch the sets change on real test images.</p>
+  <div class="byline">Sumit Jha · 26210180 · IIT Gandhinagar · ES 678, Nov 2026</div>
+  <div class="toolbar"><button type="button" class="primary" id="tourBtn">▶ Take the 2-minute tour</button>
+    <button type="button" id="shareBtn">Copy link to this view</button><span class="note" id="shareNote"></span></div>
+  <div class="demo">
+    <div class="demo-top">
+      <div class="alpha-ctl"><label for="heroAlpha">α = <span id="heroAlphaV">0.10</span></label>
+        <input type="range" id="heroAlpha" min="0.005" max="0.4" step="0.005" value="0.1" aria-label="Error rate alpha"></div>
+      <div class="seg" role="group" aria-label="Dataset" id="heroDs"></div>
+      <div id="heroStats" class="mono" style="font-size:13px"></div>
+    </div>
+    <div class="strip" id="heroStrip"><span class="loading">Loading test images…</span></div>
+    <div class="legend"><span><span class="chip" style="font-size:10px">cat</span>&nbsp; label in the set</span>
+      <span><span class="chip true" style="font-size:10px">cat</span>&nbsp; true label (outlined)</span>
+      <span style="color:var(--good)">■ green frame: truth covered</span><span style="color:var(--bad)">■ red frame: missed</span></div>
+  </div>
+  <div class="kv" id="heroKpis"></div>
+</header>
+
+<section id="question">
+  <div class="eyebrow">1 · Question &amp; scope</div>
+  <h2>A set, a promise, and what the promise leaves out</h2>
+  <p>Take a <strong>fixed, already-trained</strong> image classifier. At prediction time we see one image and nothing else. We want a set
+    <code>C(x) ⊆ {1,…,K}</code> with <code>P(Y ∈ C(X)) ≥ 1 − α</code>. Every valid method meets that bar, so three questions remain:
+    <strong>(i) how small are the sets</strong> (efficiency), <strong>(ii) does every class get its share</strong> (class-conditional coverage),
+    and <strong>(iii) can we predict and repair the worst class</strong> when there are many classes and few calibration images per class.</p>
+  <div class="cols">
+    <div class="panel"><div class="eyebrow">Unit</div><p>One row = one image and its true class. The output is a label set, not a single prediction.</p></div>
+    <div class="panel"><div class="eyebrow">Claim</div><p>Marginal coverage ≥ 1 − α over exchangeable data; an exact law for the <em>worst class</em> under class-wise calibration; a high-probability fix and its cost.</p></div>
+    <div class="panel"><div class="eyebrow">Not claimed</div><p>Nothing causal, no accuracy race, no guarantee for one image or under shift. A bigger set is not "worse" if it is honest.</p></div>
+  </div>
+</section>
+
+<section id="data">
+  <div class="eyebrow">2 · Data &amp; preprocessing</div>
+  <h2>Five settings, four disjoint splits, one rule</h2>
+  <p>MNIST (LeNet), CIFAR-10 (small ResNet, and an ImageNet-pretrained ResNet-18 as a second architecture), CIFAR-100 (small ResNet) are
+    trained here; ImageNet uses published ResNet-152 outputs on its 50,000 validation images. The official training set is cut once per seed
+    into four disjoint parts, each with one job. The official test set is used once, for the reported numbers.</p>
+  <div class="filters"><div class="seg" role="group" aria-label="Dataset" id="splitDs"></div></div>
+  <div class="splitbar" id="splitbar" aria-label="Split sizes"></div>
+  <div class="cols">
+    <div class="panel"><div class="eyebrow">D_train · fit</div><p>Network weights, normalisation stats, class means and shared covariance for the Mahalanobis distance, feature clusters for stratified coverage.</p></div>
+    <div class="panel"><div class="eyebrow">D_design · tune</div><p>Temperature T, RAPS λ/k<sub>reg</sub>, SAPS λ, γ, the learned score, the class clusters, early stopping. Never used for q̂.</p></div>
+    <div class="panel"><div class="eyebrow">D_cal · calibrate</div><p>Only the conformal thresholds q̂. Touching it while tuning would break exchangeability and the guarantee.</p></div>
+    <div class="panel"><div class="eyebrow">D_test · report</div><p>The official test split, opened once. Shift sets (CIFAR-10.1, CIFAR-10-C, rotations, noise) are evaluation-only.</p></div>
+  </div>
+  <div class="tbl panel" id="dataTable"></div>
+  <p class="note">Quality checks: the split assertion verifies disjointness and completeness; classes are balanced (MNIST 9–11%, CIFAR exactly
+    uniform, ImageNet 50 per class); normalisation is fit on D_train only; augmentation (flip + crop) is train-only. ImageNet has no images or
+    features in the published file, so feature-based methods are skipped there; its 50k images are re-split 20/40/40 per seed. SVHN was planned
+    as an unfamiliar-input set but its host was down during the final run.</p>
+</section>
+
+<section id="methods">
+  <div class="eyebrow">3 · Baseline &amp; methods</div>
+  <h2>Every method is "pick a score, pick who shares a threshold"</h2>
+  <p>Split conformal works with any score <code>s(x, y)</code>, where smaller means "y looks right for x". Score the true label of each
+    calibration image, take an order statistic, include every label below it. Methods differ in the <strong>score</strong> and in
+    <strong>which calibration images share a threshold</strong>: all of them (marginal), one class (Mondrian), or a cluster of similar classes.</p>
+  <div class="math">k  = ⌈(n+1)(1−α)⌉            q̂ = k-th smallest calibration score   (∞ if k &gt; n)
+C(x) = { y : s(x,y) ≤ q̂ }      ⇒   1−α ≤ P(Y ∈ C(X)) ≤ 1−α + 1/(n+1)
+PAC: smallest k with P(Beta(k, n+1−k) ≥ 1−α) ≥ 1−δ_g,  δ_g = 1−(1−δ)^(1/G)  ⇒  every group ≥ 1−α at once, w.p. ≥ 1−δ</div>
+  <div class="tbl"><table id="methodTable">
+    <thead><tr><th>Method</th><th style="text-align:left">Score / grouping</th><th style="text-align:left">Why it is here</th></tr></thead>
+    <tbody>
+      <tr><td>Top-1</td><td style="text-align:left">argmax only</td><td style="text-align:left;font-family:var(--body)">Baseline: no set, no guarantee.</td></tr>
+      <tr><td>Naive (LAC)</td><td style="text-align:left">1 − p(y|x)</td><td style="text-align:left;font-family:var(--body)">Smallest sets on average (Sadinle et al., 2019).</td></tr>
+      <tr><td>Margin</td><td style="text-align:left">max<sub>y′≠y</sub> p(y′) − p(y)</td><td style="text-align:left;font-family:var(--body)">A second probability-based score.</td></tr>
+      <tr><td>APS</td><td style="text-align:left">Σ<sub>j&lt;rank(y)</sub> p<sub>(j)</sub> + u·p(y)</td><td style="text-align:left;font-family:var(--body)">Adapts set size to difficulty (Romano et al., 2020).</td></tr>
+      <tr><td>RAPS / SAPS</td><td style="text-align:left">APS + λ(rank − k<sub>reg</sub>)<sup>+</sup> · p<sub>max</sub> + (rank−2+u)λ</td><td style="text-align:left;font-family:var(--body)">Shorter tails (Angelopoulos et al., 2021; Huang et al., 2024).</td></tr>
+      <tr><td>Learned</td><td style="text-align:left">1 − softmax(h + MLP(h)), h = log p<sub>T</sub></td><td style="text-align:left;font-family:var(--body)">Score trained for small sets on D_design (conformal training, Stutz et al., 2022).</td></tr>
+      <tr><td>Distance-augmented</td><td style="text-align:left">base + γ·d̃<sub>M</sub>(x, y)</td><td style="text-align:left;font-family:var(--body)">First proposal: feature distance to class y. Reported as a diagnosed weak result.</td></tr>
+      <tr><td>Mondrian</td><td style="text-align:left">APS(T), one q̂ per class</td><td style="text-align:left;font-family:var(--body)">Per-class coverage in expectation (Vovk, 2012).</td></tr>
+      <tr><td><strong>Mondrian-PAC</strong></td><td style="text-align:left">one Beta-corrected q̂ per class</td><td style="text-align:left;font-family:var(--body)">Every class at once, with probability ≥ 1 − δ.</td></tr>
+      <tr><td>Clustered</td><td style="text-align:left">one q̂ per cluster of classes</td><td style="text-align:left;font-family:var(--body)">Pools similar classes (Ding et al., 2023).</td></tr>
+      <tr><td><strong>Clustered-PAC</strong></td><td style="text-align:left">Beta-corrected q̂ per cluster</td><td style="text-align:left;font-family:var(--body)">Proposed: the high-probability guarantee at cluster level, far cheaper with many classes.</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="lab">
+  <div class="eyebrow">4 · Interactive</div>
+  <h2>Set lab</h2>
+  <p>Everything below is recomputed in your browser from the model's real outputs: scores, the calibration quantile(s), the sets, and every
+    metric. Change a knob and the whole conformal procedure reruns. Defaults are the values tuned on D_design.</p>
+  <div class="lab">
+    <div class="controls" id="controls">
+      <div class="ctl"><label>Dataset</label><div class="seg" role="group" aria-label="Dataset" id="labDs"></div></div>
+      <div class="ctl"><label for="method">Method</label>
+        <select id="method"></select><div class="hint" id="methodHint"></div></div>
+      <div class="ctl"><div class="row"><label for="alpha">Error rate α</label><span class="val" id="alphaV"></span></div>
+        <input type="range" id="alpha" min="0.005" max="0.4" step="0.005" value="0.1"></div>
+      <div class="ctl" id="tCtl"><div class="row"><label for="temp">Temperature T</label><span class="val" id="tempV"></span></div>
+        <input type="range" id="temp" min="0.25" max="4" step="0.01" value="1">
+        <div class="hint">Fitted T = <span id="tFit"></span>. T &gt; 1 flattens probabilities, T &lt; 1 sharpens them. <button id="tReset" type="button" style="padding:2px 6px;font-size:11px">Reset</button></div></div>
+      <div class="ctl" id="gCtl"><div class="row"><label for="gamma">Distance weight γ</label><span class="val" id="gammaV"></span></div>
+        <input type="range" id="gamma" min="0" max="1" step="0.01" value="0"><div class="hint">Tuned γ = <span id="gFit"></span></div></div>
+      <div class="ctl" id="rCtl"><div class="row"><label for="lam">λ · k<sub>reg</sub></label><span class="val" id="lamV"></span></div>
+        <input type="range" id="lam" min="0" max="0.5" step="0.01" value="0.1">
+        <input type="range" id="kreg" min="0" max="9" step="1" value="1" aria-label="k_reg"></div>
+      <div class="ctl" id="dCtl"><div class="row"><label for="delta">Failure probability δ</label><span class="val" id="deltaV"></span></div>
+        <input type="range" id="delta" min="0.01" max="0.5" step="0.01" value="0.1"><div class="hint">PAC methods: all groups covered at once with probability ≥ 1 − δ.</div></div>
+      <div class="ctl"><div class="row"><label for="ncal">Calibration size n</label><span class="val" id="ncalV"></span></div>
+        <input type="range" id="ncal" min="20" max="6000" step="10" value="6000">
+        <div class="hint">Guarantee band: <span id="band" class="mono"></span></div>
+        <button id="redraw" type="button">Draw a new calibration set</button></div>
+    </div>
+    <div class="outputs">
+      <div class="tiles" id="tiles"></div>
+      <div class="two">
+        <div class="panel"><div class="panel-h"><h3>Coverage per class</h3><div class="acts"><p id="classNote">Marginal ≠ conditional</p><button class="dl" data-dl="classChart">SVG</button></div></div><div id="classChart"></div>
+          <div class="legend"><span><i class="t"></i>target 1 − α</span><span><i class="r"></i>class below target by &gt; 2 pts</span></div></div>
+        <div class="panel"><div class="panel-h"><h3>Set sizes</h3><div class="acts"><p>Share of test images</p><button class="dl" data-dl="sizeChart">SVG</button></div></div><div id="sizeChart"></div></div>
+      </div>
+      <div class="panel"><div class="panel-h"><h3>Coverage by model confidence</h3><div class="acts"><p>Deciles of max probability, least confident on the left</p><button class="dl" data-dl="decileChart">SVG</button></div></div><div id="decileChart"></div></div>
+      <div class="panel">
+        <div class="panel-h"><h3>Test images and their sets</h3>
+          <div class="filters"><div class="seg" role="group" aria-label="Filter" id="galFilter"></div></div></div>
+        <div class="gallery" id="gallery"></div>
+        <div id="detail" class="detail" hidden></div>
+        <p class="note">Click an image to see why each label is in or out: its score against the threshold q̂ (for many classes, the 10 most likely labels).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="theorem">
+  <div class="eyebrow">5 · Depth · the theorem, checked</div>
+  <h2>Is the guarantee real?</h2>
+  <p>The coverage of a single calibrated predictor is itself random: it depends on which n images landed in D_cal. Under exchangeability the
+    rank of a new score among the n calibration scores is uniform, which gives the exact law
+    <code>coverage | D_cal ~ Beta(k, n+1−k)</code>. Here we pool D_cal and D_test, re-split 400 times, and compare the histogram with that
+    exact law (convolved with the test-set binomial). Uses the Set lab's dataset, n and α.</p>
+  <div class="panel">
+    <div class="panel-h"><h3>Coverage over random re-splits</h3><div class="acts"><p id="rsSummary"></p><button class="dl" data-dl="rsChart">SVG</button></div></div>
+    <div id="rsChart"></div>
+    <div class="legend"><span><i class="b"></i>guarantee band [1−α, 1−α+1/(n+1)] for the mean</span><span><i class="t"></i>exact Beta–binomial law</span><span><i style="height:10px;opacity:.5"></i>observed re-splits</span></div>
+  </div>
+  <p>Small n gives a wide spread: the guarantee holds <em>on average over calibration sets</em>, but any one deployed predictor can sit a
+    few points below target. At the full n = <span class="num" id="nCalFull"></span>, the calibration draw alone moves coverage by about
+    ±<span class="num" id="rsSd"></span> (one Beta s.d.; the rest of the observed spread is test-set noise). Section 8 applies the same law to every class at once.</p>
+</section>
+
+<section id="results">
+  <div class="eyebrow">6 · Results · mean ± std over seeds, D_test</div>
+  <h2>Efficiency against class-level coverage</h2>
+  <div class="filters"><div class="seg" role="group" aria-label="Dataset" id="resDs"></div><div class="seg" role="group" aria-label="Alpha" id="resAlpha"></div></div>
+  <div class="tbl panel" id="resTable"></div>
+  <div class="two">
+    <div class="panel"><div class="panel-h"><h3>The frontier</h3><div class="acts"><p>Up-left is better</p><button class="dl" data-dl="frontier">SVG</button></div></div><div id="frontier"></div>
+      <p class="note">x: mean set size (log scale for many classes). y: worst class's coverage. Bars are ±1 std over seeds. Hover any dot for its name; the Set lab's method is labelled. Top-1 is left out (no guarantee).</p></div>
+    <div class="panel"><div class="panel-h"><h3>Is the difference real?</h3><div class="acts"><p>95% hierarchical bootstrap</p><button class="dl" data-dl="forest">SVG</button></div></div><div id="forest"></div>
+      <p class="note">Paired differences in worst-class coverage, resampling seeds and then test images. An interval that excludes 0 is a difference the seeds and test noise cannot explain.</p></div>
+  </div>
+  <div class="panel"><div class="panel-h"><h3>Sensitivity to γ (distance-APS)</h3><p>Rows α, columns γ · swept on D_test after the fact; γ itself was chosen on D_design</p></div><div id="heat"></div></div>
+  <div class="panel" id="findings"></div>
+</section>
+
+<section id="classes">
+  <div class="eyebrow">7 · Depth · conditional-coverage audit</div>
+  <h2>Who gets covered</h2>
+  <p>Average coverage hides classes that are systematically under-served. Pick two methods and compare their per-class coverage at the
+    tuned α, averaged over seeds. With many classes, classes are sorted from worst to best.</p>
+  <div class="filters"><div class="seg" role="group" aria-label="Dataset" id="ccDs"></div>
+    <select id="ccA" aria-label="Method A"></select><span class="note">vs</span><select id="ccB" aria-label="Method B"></select></div>
+  <div class="panel"><div class="panel-h"><h3 id="ccTitle">Per-class coverage</h3><button class="dl" data-dl="ccChart">SVG</button></div><div id="ccChart"></div><div class="legend" id="ccLegend"></div></div>
+</section>
+
+<section id="worst">
+  <div class="eyebrow">8 · Theory · the worst class, predicted</div>
+  <h2>The worst class follows an exact law</h2>
+  <p>With one threshold per class, each class's coverage is its own <code>Beta(k<sub>c</sub>, n<sub>c</sub>+1−k<sub>c</sub>)</code>, and the classes are
+    independent because their calibration images are disjoint. Measured on m test images each, the worst class is the minimum of K Beta–binomials:
+    <code>P(min ≥ t) = Π<sub>c</sub> P(cov<sub>c</sub> ≥ t)</code>. So the worst class is <em>predictable before running anything</em>, and it gets worse with K.</p>
+  <div class="lab">
+    <div class="controls">
+      <div class="ctl"><div class="row"><label for="wK">Number of classes K</label><span class="val" id="wKV"></span></div><input type="range" id="wK" min="0" max="8" step="1" value="2"></div>
+      <div class="ctl"><div class="row"><label for="wN">Calibration images per class</label><span class="val" id="wNV"></span></div><input type="range" id="wN" min="0" max="100" step="1" value="70"></div>
+      <div class="ctl"><div class="row"><label for="wM">Test images per class</label><span class="val" id="wMV"></span></div><input type="range" id="wM" min="0" max="100" step="1" value="75"></div>
+      <div class="ctl"><div class="row"><label for="wA">α</label><span class="val" id="wAV"></span></div><input type="range" id="wA" min="0.01" max="0.3" step="0.01" value="0.1"></div>
+      <div class="ctl"><div class="row"><label for="wD">δ (PAC)</label><span class="val" id="wDV"></span></div><input type="range" id="wD" min="0.01" max="0.5" step="0.01" value="0.1"></div>
+      <div class="ctl"><label>Match a run</label><div class="seg" id="wPreset"></div></div>
+    </div>
+    <div class="outputs">
+      <div class="tiles" id="wTiles"></div>
+      <div class="panel"><div class="panel-h"><h3>Distribution of the worst class's coverage</h3><div class="acts"><p>exact, no simulation</p><button class="dl" data-dl="wChart">SVG</button></div></div><div id="wChart"></div>
+        <div class="legend"><span><span class="sw s4"></span>Mondrian, observed on m test images</span><span><span class="sw s4" style="opacity:.4"></span>Mondrian, true coverage (m → ∞)</span><span><span class="sw s1"></span>Mondrian-PAC, observed</span><span><i class="t"></i>target 1 − α</span></div></div>
+      <div class="two" style="grid-template-columns:minmax(0,1fr)">
+        <div class="panel"><div class="panel-h"><h3>Prediction vs measurement</h3><p>Mondrian · α = 0.1 · all seeds</p></div><div class="tbl" id="wTable"></div>
+          <p class="note">Red: the measured worst class sits in the law's lower tail. Under exchangeable re-splits (right) the law holds everywhere; a miss on a fixed split means some classes are harder in D_test than in D_cal (CIFAR-100's separately collected test set). Hover a row for the tail probability.</p></div>
+        <div class="panel"><div class="panel-h"><h3>Re-split sweep</h3><div class="acts"><div class="seg" id="nsDs"></div><button class="dl" data-dl="nsChart">SVG</button></div></div><div id="nsChart"></div>
+          <div class="legend"><span><span class="sw s2"></span>theory mean, 10–90% band</span><span><span class="sw s1"></span>measured (30 re-splits each)</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fix">
+  <div class="eyebrow">9 · Method · fixing the worst class</div>
+  <h2>A guarantee for every class, and what it costs</h2>
+  <p>Mondrian-PAC picks a stricter order statistic per class so that <strong>all</strong> classes reach 1 − α together with probability ≥ 1 − δ.
+    With few images per class that is expensive, or impossible: below about ⌈log δ_g / log(1−α)⌉ images a class can only be covered by including its label always.
+    Pooling similar classes into M clusters gives each threshold more data. M = 1 is ordinary marginal conformal, M = K is Mondrian. The curve shows the trade-off.</p>
+  <div class="filters"><div class="seg" role="group" aria-label="Dataset" id="clDs"></div>
+    <label for="clM" class="mono" style="font-size:13px">clusters M = <span id="clMV"></span></label><input type="range" id="clM" min="0" max="10" step="1" value="3" style="max-width:240px"></div>
+  <div class="two">
+    <div class="panel"><div class="panel-h"><h3>Set size vs worst class, as M grows</h3><button class="dl" data-dl="clChart">SVG</button></div><div id="clChart"></div>
+      <div class="legend"><span><span class="sw s5"></span>Clustered</span><span><span class="sw s5" style="opacity:.5"></span>Clustered-PAC (hollow, dashed)</span><span><i class="t"></i>target</span></div></div>
+    <div class="panel"><div class="panel-h"><h3>At this M</h3><p id="clNow"></p></div><div class="kv" id="clTiles"></div><div class="callout" id="clCall"></div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><h3>ImageNet: the same images, four rules</h3><div class="filters"><div class="seg" id="inMethod"></div></div></div>
+    <div class="inet" id="inGallery"></div>
+    <p class="note">ResNet-152 on the ImageNet validation set (test split of seed 0), α = 0.1. Dots mark labels in the set among the model's top 8; the size counts every label in the set. Green frame: true label covered.</p></div>
+</section>
+
+<section id="labelshift">
+  <div class="eyebrow">10 · Depth · label shift</div>
+  <h2>When class frequencies change</h2>
+  <p>If the test set over-represents some classes, coverage becomes <code>Σ<sub>c</sub> π′<sub>c</sub> cov<sub>c</sub></code>. A marginal method can then fall
+    as low as its <strong>worst class</strong>; a class-wise method cannot. Draw a shifted class mix and watch. Uses the Set lab's dataset and α.</p>
+  <div class="filters"><label for="lsB" class="mono" style="font-size:13px">concentration β = <span id="lsBV"></span></label>
+    <input type="range" id="lsB" min="0" max="6" step="1" value="2" style="max-width:220px"><button type="button" id="lsDraw">Draw another shift</button></div>
+  <div class="two">
+    <div class="panel"><div class="panel-h"><h3>Coverage on the shifted mix</h3><button class="dl" data-dl="lsChart">SVG</button></div><div id="lsChart"></div><p class="note" id="lsNote"></p></div>
+    <div class="panel"><div class="panel-h"><h3>The drawn class mix π′</h3><button class="dl" data-dl="lsPrior">SVG</button></div><div id="lsPrior"></div></div>
+  </div>
+  <div class="panel"><div class="panel-h"><h3>Over many draws (all seeds)</h3><p>mean · worst draw, incl. label-shift–weighted conformal with estimated (BBSE) weights</p></div><div class="tbl" id="lsTable"></div></div>
+</section>
+
+<section id="shift">
+  <div class="eyebrow">11 · Depth · covariate shift</div>
+  <h2>What happens when the images change</h2>
+  <p>The guarantee assumes test images look like calibration images. We keep the labels but change the inputs: synthetic rotation/noise,
+    the CIFAR-10-C benchmark corruptions, and CIFAR-10.1, a new test set collected the way the original was. Calibration still uses clean D_cal.</p>
+  <div class="filters"><div class="seg" role="group" aria-label="Shift source" id="shiftSrc"></div>
+    <label for="sev" class="mono" style="font-size:13px">Severity <span id="sevV"></span></label><input type="range" id="sev" min="0" max="4" step="1" value="0" style="max-width:220px"></div>
+  <div class="two">
+    <div class="panel"><div class="panel-h"><h3>Coverage vs severity</h3><div class="acts"><p id="shiftNote"></p><button class="dl" data-dl="shiftChart">SVG</button></div></div><div id="shiftChart"></div></div>
+    <div class="panel"><div class="panel-h"><h3>At this severity</h3><p id="shiftNow"></p></div><div class="strip" id="shiftStrip"></div></div>
+  </div>
+  <div class="two">
+    <div class="panel"><div class="panel-h"><h3>CIFAR-10-C, all 15 corruptions</h3><div class="acts"><div class="seg" id="rsDs"></div><button class="dl" data-dl="realChart">SVG</button></div></div><div id="realChart"></div><div class="legend" id="realLegend"></div></div>
+    <div class="panel"><div class="panel-h"><h3>Repair 1: adaptive conformal (ACI)</h3><div class="acts"><div class="seg" id="aciDs"></div><button class="dl" data-dl="aciChart">SVG</button></div></div><div id="aciChart"></div>
+      <div class="legend"><span><span class="sw sg"></span>split conformal (fixed α)</span><span><span class="sw s1"></span>ACI η = 0.005</span><span><span class="sw s2"></span>ACI η = 0.02</span><span><i class="t"></i>target</span></div><p class="note" id="aciNote"></p></div>
+  </div>
+  <div class="panel"><div class="panel-h"><h3>Repair 2: weighted conformal with a domain classifier</h3><p>coverage on held-out shifted images · mean over seeds</p></div><div class="tbl" id="wtTable"></div><p class="note" id="wtNote"></p></div>
+</section>
+
+<section id="ood">
+  <div class="eyebrow">12 · Depth · unfamiliar inputs</div>
+  <h2>Shown something it has never seen</h2>
+  <p>Feed the MNIST model clothing or Japanese characters, the CIFAR-10 model CIFAR-100 photos, or the CIFAR-100 model CIFAR-10 photos. There is no correct label, so coverage is undefined. What the set
+    <em>size</em> does is the useful signal: an empty or large set says "this does not look like anything I know". Ideally it is rarely a confident singleton.</p>
+  <div class="panel"><div class="panel-h"><h3>Set-size mix: in-distribution vs OOD</h3><p>Current Set lab dataset, method and α</p></div><div id="oodChart"></div>
+    <div class="legend"><span><i style="height:10px;background:var(--muted);opacity:.5"></i>empty</span><span><i style="height:10px"></i>singleton</span><span><i style="height:10px;background:var(--target)"></i>2 or more labels</span></div></div>
+  <div id="oodStrips" class="two"></div>
+</section>
+
+<section id="diagnostics">
+  <div class="eyebrow">13 · Depth · diagnostics</div>
+  <h2>Two things explained</h2>
+  <div class="two">
+    <div class="panel"><div class="panel-h"><h3>Why empty sets appear</h3><button class="dl" data-dl="emptyChart">SVG</button></div>
+      <p>If every set has at most one label, a miss is either an empty set or a wrong top-1, so <code>P(empty) ≥ accuracy − coverage</code>. When accuracy beats 1 − α, conformal <em>must</em> hand out empty sets.</p>
+      <div id="emptyChart"></div><p class="note">Each dot: one run × seed × α where the bound applies (Naive scores). Dashed: equality.</p></div>
+    <div class="panel"><div class="panel-h"><h3>Why the distance term adds little</h3></div>
+      <p>A set grows by admitting the <em>second</em> most likely label. How well does each signal tell whether that label is the true one?</p>
+      <div class="tbl" id="ddTable"></div><p class="note" id="ddNote"></p></div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="eyebrow">14 · Errors, limitations, conclusion</div>
+  <h2>What this does and does not show</h2>
+  <ul class="clean" id="limitList"></ul>
+  <div class="panel" id="conclusion"></div>
+</section>
+
+<section id="repro">
+  <div class="eyebrow">15 · Reproduce</div>
+  <h2>Run it yourself</h2>
+  <div class="math">python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+pytest tests/                      # 22 checks: quantiles, scores, PAC, weighted/label-shift CP, ACI, theory
+python scripts/train_all.py        # trains every (run, seed), caches logits, adds CIFAR-10.1 / CIFAR-10-C
+python scripts/run_all.py          # main tables, depth analyses, figures
+python scripts/sweep.py            # α × γ grid and temperature ablation
+python scripts/research.py         # worst-class law, PAC/clusters, label shift, ACI, weighted CP, bootstrap
+python scripts/export_site.py      # writes site/data/*.json for this page
+python -m http.server -d site      # open http://localhost:8000</div>
+  <p class="note" id="reproNote">Seeds and split fractions are in configs/default.yaml. Data downloads automatically from torchvision; CIFAR-10.1 from GitHub,
+    CIFAR-10-C from Zenodo and the ImageNet outputs from the conformal-prediction tutorial archive. No credentials or private data. AI assistance (Claude)
+    was used for code, debugging and this page; every reported number is produced by the scripts above.</p>
+</section>
+</main>
+</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

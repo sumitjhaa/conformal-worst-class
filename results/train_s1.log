@@ -1,0 +1,177 @@
+[train] cifar10_r18 seed=0 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 0.8742  design_nll 0.5330  design_acc 0.8162
+  epoch  1  train_loss 0.4798  design_nll 0.5267  design_acc 0.8182
+  epoch  2  train_loss 0.4163  design_nll 0.6762  design_acc 0.7820
+  epoch  3  train_loss 0.3645  design_nll 0.4051  design_acc 0.8614
+  epoch  4  train_loss 0.3007  design_nll 0.4154  design_acc 0.8640
+  epoch  5  train_loss 0.2670  design_nll 0.3845  design_acc 0.8710
+  epoch  6  train_loss 0.2333  design_nll 0.3193  design_acc 0.8976
+  epoch  7  train_loss 0.1937  design_nll 0.2965  design_acc 0.9032
+  epoch  8  train_loss 0.1543  design_nll 0.2916  design_acc 0.9088
+  epoch  9  train_loss 0.1158  design_nll 0.2614  design_acc 0.9212
+  epoch 10  train_loss 0.0836  design_nll 0.2339  design_acc 0.9284
+  epoch 11  train_loss 0.0639  design_nll 0.2292  design_acc 0.9300
+[cached] cifar10_r18 s0
+[train] cifar10_r18 seed=1 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 0.8710  design_nll 0.5393  design_acc 0.8162
+  epoch  1  train_loss 0.4879  design_nll 0.5380  design_acc 0.8238
+  epoch  2  train_loss 0.4130  design_nll 0.5740  design_acc 0.8148
+  epoch  3  train_loss 0.3567  design_nll 0.4441  design_acc 0.8564
+  epoch  4  train_loss 0.3095  design_nll 0.4794  design_acc 0.8438
+  epoch  5  train_loss 0.2666  design_nll 0.4041  design_acc 0.8688
+  epoch  6  train_loss 0.2381  design_nll 0.3236  design_acc 0.8944
+  epoch  7  train_loss 0.1962  design_nll 0.3432  design_acc 0.8866
+  epoch  8  train_loss 0.1566  design_nll 0.3052  design_acc 0.9068
+  epoch  9  train_loss 0.1156  design_nll 0.2859  design_acc 0.9116
+  epoch 10  train_loss 0.0827  design_nll 0.2634  design_acc 0.9220
+  epoch 11  train_loss 0.0634  design_nll 0.2617  design_acc 0.9216
+[cached] cifar10_r18 s1
+[train] cifar10_r18 seed=2 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 0.8966  design_nll 0.5248  design_acc 0.8182
+  epoch  1  train_loss 0.4904  design_nll 0.4423  design_acc 0.8508
+  epoch  2  train_loss 0.4180  design_nll 0.4797  design_acc 0.8398
+  epoch  3  train_loss 0.3676  design_nll 0.3954  design_acc 0.8704
+  epoch  4  train_loss 0.3084  design_nll 0.3654  design_acc 0.8772
+  epoch  5  train_loss 0.2730  design_nll 0.3654  design_acc 0.8764
+  epoch  6  train_loss 0.2365  design_nll 0.3142  design_acc 0.8922
+  epoch  7  train_loss 0.1963  design_nll 0.3058  design_acc 0.9036
+  epoch  8  train_loss 0.1640  design_nll 0.2891  design_acc 0.9078
+  epoch  9  train_loss 0.1179  design_nll 0.2665  design_acc 0.9172
+  epoch 10  train_loss 0.0835  design_nll 0.2363  design_acc 0.9242
+  epoch 11  train_loss 0.0667  design_nll 0.2343  design_acc 0.9260
+[cached] cifar10_r18 s2
+[train] cifar10_r18 seed=3 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 0.8734  design_nll 0.4988  design_acc 0.8280
+  epoch  1  train_loss 0.4824  design_nll 0.5677  design_acc 0.8172
+  epoch  2  train_loss 0.4214  design_nll 0.5106  design_acc 0.8388
+  epoch  3  train_loss 0.3625  design_nll 0.3825  design_acc 0.8700
+  epoch  4  train_loss 0.3044  design_nll 0.4344  design_acc 0.8634
+  epoch  5  train_loss 0.2734  design_nll 0.3789  design_acc 0.8816
+  epoch  6  train_loss 0.2348  design_nll 0.3702  design_acc 0.8778
+  epoch  7  train_loss 0.1989  design_nll 0.3128  design_acc 0.8966
+  epoch  8  train_loss 0.1575  design_nll 0.2768  design_acc 0.9096
+  epoch  9  train_loss 0.1198  design_nll 0.2660  design_acc 0.9168
+  epoch 10  train_loss 0.0875  design_nll 0.2480  design_acc 0.9226
+  epoch 11  train_loss 0.0654  design_nll 0.2480  design_acc 0.9236
+[cached] cifar10_r18 s3
+[train] cifar10_r18 seed=4 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 0.8795  design_nll 0.4634  design_acc 0.8426
+  epoch  1  train_loss 0.4787  design_nll 0.4965  design_acc 0.8316
+  epoch  2  train_loss 0.4135  design_nll 0.4510  design_acc 0.8502
+  epoch  3  train_loss 0.3627  design_nll 0.4203  design_acc 0.8644
+  epoch  4  train_loss 0.3131  design_nll 0.4898  design_acc 0.8384
+  epoch  5  train_loss 0.2702  design_nll 0.3719  design_acc 0.8752
+  epoch  6  train_loss 0.2298  design_nll 0.3442  design_acc 0.8906
+  epoch  7  train_loss 0.1913  design_nll 0.3012  design_acc 0.9032
+  epoch  8  train_loss 0.1561  design_nll 0.3059  design_acc 0.9032
+  epoch  9  train_loss 0.1138  design_nll 0.2584  design_acc 0.9160
+  epoch 10  train_loss 0.0850  design_nll 0.2447  design_acc 0.9264
+  epoch 11  train_loss 0.0643  design_nll 0.2420  design_acc 0.9270
+[cached] cifar10_r18 s4
+[extend] cifar10_r18 s0: +76 sets
+[extend] cifar10_r18 s1: +76 sets
+[extend] cifar10_r18 s2: +76 sets
+[extend] cifar10_r18 s3: +76 sets
+[extend] cifar10_r18 s4: +76 sets
+[train] cifar10 seed=3 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 1.5339  design_nll 1.7301  design_acc 0.4784
+  epoch  1  train_loss 1.0345  design_nll 1.5324  design_acc 0.5144
+  epoch  2  train_loss 0.8437  design_nll 3.6763  design_acc 0.3528
+  epoch  3  train_loss 0.7085  design_nll 2.2584  design_acc 0.4984
+  epoch  4  train_loss 0.6192  design_nll 1.2386  design_acc 0.6248
+  epoch  5  train_loss 0.5552  design_nll 1.1359  design_acc 0.6754
+  epoch  6  train_loss 0.4952  design_nll 2.2786  design_acc 0.5506
+  epoch  7  train_loss 0.4541  design_nll 0.8546  design_acc 0.7366
+  epoch  8  train_loss 0.4148  design_nll 1.1014  design_acc 0.6904
+  epoch  9  train_loss 0.3835  design_nll 2.0560  design_acc 0.6068
+  epoch 10  train_loss 0.3521  design_nll 0.8931  design_acc 0.7498
+  epoch 11  train_loss 0.3252  design_nll 0.7258  design_acc 0.7704
+  epoch 12  train_loss 0.3088  design_nll 0.8078  design_acc 0.7752
+  epoch 13  train_loss 0.2880  design_nll 0.5718  design_acc 0.8192
+  epoch 14  train_loss 0.2634  design_nll 0.3855  design_acc 0.8762
+  epoch 15  train_loss 0.2484  design_nll 0.7130  design_acc 0.7942
+  epoch 16  train_loss 0.2333  design_nll 0.4558  design_acc 0.8606
+  epoch 17  train_loss 0.2178  design_nll 0.6469  design_acc 0.8112
+  epoch 18  train_loss 0.1990  design_nll 0.6510  design_acc 0.8350
+  epoch 19  train_loss 0.1827  design_nll 0.3321  design_acc 0.8916
+  epoch 20  train_loss 0.1624  design_nll 0.4051  design_acc 0.8688
+  epoch 21  train_loss 0.1441  design_nll 0.5832  design_acc 0.8342
+  epoch 22  train_loss 0.1289  design_nll 0.3645  design_acc 0.8876
+  epoch 23  train_loss 0.1062  design_nll 0.2935  design_acc 0.9104
+  epoch 24  train_loss 0.0809  design_nll 0.2807  design_acc 0.9172
+  epoch 25  train_loss 0.0622  design_nll 0.2626  design_acc 0.9178
+  epoch 26  train_loss 0.0435  design_nll 0.2580  design_acc 0.9240
+  epoch 27  train_loss 0.0345  design_nll 0.2502  design_acc 0.9274
+  epoch 28  train_loss 0.0268  design_nll 0.2477  design_acc 0.9280
+  epoch 29  train_loss 0.0243  design_nll 0.2479  design_acc 0.9276
+[warn] skipping OOD set svhn: <urlopen error [Errno 61] Connection refused>
+[cached] cifar10 s3
+[train] cifar10 seed=4 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 1.5460  design_nll 1.5439  design_acc 0.4818
+  epoch  1  train_loss 1.0291  design_nll 1.5050  design_acc 0.5464
+  epoch  2  train_loss 0.8353  design_nll 1.2284  design_acc 0.5968
+  epoch  3  train_loss 0.7015  design_nll 0.8710  design_acc 0.6918
+  epoch  4  train_loss 0.6148  design_nll 1.8333  design_acc 0.5442
+  epoch  5  train_loss 0.5487  design_nll 0.9465  design_acc 0.6986
+  epoch  6  train_loss 0.4958  design_nll 1.3200  design_acc 0.6228
+  epoch  7  train_loss 0.4530  design_nll 1.0888  design_acc 0.6682
+  epoch  8  train_loss 0.4168  design_nll 0.8432  design_acc 0.7294
+  epoch  9  train_loss 0.3836  design_nll 1.3350  design_acc 0.6506
+  epoch 10  train_loss 0.3465  design_nll 0.7152  design_acc 0.7770
+  epoch 11  train_loss 0.3297  design_nll 0.8396  design_acc 0.7456
+  epoch 12  train_loss 0.3080  design_nll 0.5754  design_acc 0.8150
+  epoch 13  train_loss 0.2853  design_nll 0.6141  design_acc 0.8080
+  epoch 14  train_loss 0.2669  design_nll 0.8849  design_acc 0.7634
+  epoch 15  train_loss 0.2491  design_nll 0.6945  design_acc 0.7910
+  epoch 16  train_loss 0.2334  design_nll 0.5173  design_acc 0.8394
+  epoch 17  train_loss 0.2158  design_nll 0.4724  design_acc 0.8540
+  epoch 18  train_loss 0.2018  design_nll 0.6134  design_acc 0.8140
+  epoch 19  train_loss 0.1874  design_nll 0.3989  design_acc 0.8708
+  epoch 20  train_loss 0.1695  design_nll 0.4218  design_acc 0.8664
+  epoch 21  train_loss 0.1468  design_nll 0.3987  design_acc 0.8756
+  epoch 22  train_loss 0.1274  design_nll 0.3486  design_acc 0.8876
+  epoch 23  train_loss 0.1007  design_nll 0.3891  design_acc 0.8836
+  epoch 24  train_loss 0.0814  design_nll 0.2934  design_acc 0.9074
+  epoch 25  train_loss 0.0597  design_nll 0.2973  design_acc 0.9104
+  epoch 26  train_loss 0.0429  design_nll 0.2690  design_acc 0.9202
+  epoch 27  train_loss 0.0319  design_nll 0.2590  design_acc 0.9202
+  epoch 28  train_loss 0.0263  design_nll 0.2562  design_acc 0.9208
+  epoch 29  train_loss 0.0245  design_nll 0.2557  design_acc 0.9206
+[warn] skipping OOD set svhn: <urlopen error [Errno 61] Connection refused>
+[cached] cifar10 s4
+[train] cifar10 seed=5 on mps (40000 train / 5000 design)
+  epoch  0  train_loss 1.5443  design_nll 1.7411  design_acc 0.4250
+  epoch  1  train_loss 1.0472  design_nll 1.3079  design_acc 0.5884
+  epoch  2  train_loss 0.8276  design_nll 1.2667  design_acc 0.6146
+  epoch  3  train_loss 0.6987  design_nll 1.0637  design_acc 0.6688
+  epoch  4  train_loss 0.6104  design_nll 4.4966  design_acc 0.4022
+  epoch  5  train_loss 0.5517  design_nll 1.9640  design_acc 0.5386
+  epoch  6  train_loss 0.4943  design_nll 1.2265  design_acc 0.6690
+  epoch  7  train_loss 0.4534  design_nll 1.6372  design_acc 0.5824
+  epoch  8  train_loss 0.4141  design_nll 1.1820  design_acc 0.6446
+  epoch  9  train_loss 0.3769  design_nll 0.9043  design_acc 0.7480
+  epoch 10  train_loss 0.3495  design_nll 0.5732  design_acc 0.8150
+  epoch 11  train_loss 0.3233  design_nll 0.7224  design_acc 0.7838
+  epoch 12  train_loss 0.3047  design_nll 0.7528  design_acc 0.7674
+  epoch 13  train_loss 0.2880  design_nll 0.4444  design_acc 0.8512
+  epoch 14  train_loss 0.2630  design_nll 0.9825  design_acc 0.7482
+  epoch 15  train_loss 0.2496  design_nll 0.4780  design_acc 0.8524
+  epoch 16  train_loss 0.2279  design_nll 0.5083  design_acc 0.8382
+  epoch 17  train_loss 0.2162  design_nll 0.6554  design_acc 0.8068
+  epoch 18  train_loss 0.1993  design_nll 0.4200  design_acc 0.8630
+  epoch 19  train_loss 0.1853  design_nll 0.3660  design_acc 0.8864
+  epoch 20  train_loss 0.1622  design_nll 0.3336  design_acc 0.8950
+  epoch 21  train_loss 0.1413  design_nll 0.4079  design_acc 0.8808
+  epoch 22  train_loss 0.1230  design_nll 0.3539  design_acc 0.8922
+  epoch 23  train_loss 0.1042  design_nll 0.2875  design_acc 0.9072
+  epoch 24  train_loss 0.0809  design_nll 0.2750  design_acc 0.9138
+  epoch 25  train_loss 0.0607  design_nll 0.2585  design_acc 0.9260
+  epoch 26  train_loss 0.0422  design_nll 0.2428  design_acc 0.9276
+  epoch 27  train_loss 0.0324  design_nll 0.2350  design_acc 0.9322
+  epoch 28  train_loss 0.0278  design_nll 0.2360  design_acc 0.9314
+  epoch 29  train_loss 0.0241  design_nll 0.2341  design_acc 0.9332
+[warn] skipping OOD set svhn: <urlopen error [Errno 61] Connection refused>
+[cached] cifar10 s5
+[extend] cifar10 s3: +76 sets
+[extend] cifar10 s4: +76 sets
+[extend] cifar10 s5: +76 sets

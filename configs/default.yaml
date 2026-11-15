@@ -1,0 +1,94 @@
+# Experiment configuration for conformal prediction sets.
+# Rule: T, lambda, k_reg, gamma and method selection use D_design only.
+#       gamma rule: best min-class coverage on D_design halves s.t. mean size <= 1.10x the gamma=0 size.
+#       The conformal quantile q_hat uses D_cal only. D_test is opened once.
+
+# A "run" is a (dataset, model) pair. cifar10_r18 = CIFAR-10 with a fine-tuned ImageNet-pretrained ResNet-18;
+# imagenet = published ResNet-152 outputs on the 50k ImageNet validation images (no training).
+datasets: [mnist, cifar10, cifar100, cifar10_r18, imagenet]
+seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+run_seeds:                    # runs that cost more to train use fewer seeds
+  cifar100: [0, 1, 2]
+  cifar10_r18: [0, 1, 2, 3, 4]
+
+split:
+  train: 0.80
+  design: 0.10
+  calib: 0.10
+
+alphas: [0.01, 0.05, 0.10, 0.20]
+
+scores:
+  - naive
+  - aps
+  - raps
+  - temp_naive
+  - temp_aps
+  - dist_naive        # s(x,y) = (1 - p_T(y|x)) + gamma * d_M
+  - dist_aps          # s(x,y) = s_APS(p_T)     + gamma * d_M
+  - margin            # s = max_{y' != y} p_T(y') - p_T(y)
+  - saps              # sorted APS (Huang et al., 2024), lambda tuned on D_design
+  - conftr            # learned score: residual head trained for small sets on D_design (src/learned.py)
+  - mondrian          # class-conditional conformal on the temp_aps score
+  - mondrian_pac      # every class >= 1-alpha simultaneously with prob >= 1-delta (Beta correction)
+  - clustered         # clustered conformal (Ding et al., 2023), sqrt(K) clusters fit on D_design
+  - clustered_pac     # clustered + the same simultaneous high-probability correction over clusters
+  - top1              # baseline: single argmax label, no guarantee
+
+skip_methods:
+  imagenet: [dist_naive, dist_aps]   # published outputs have no penultimate features
+
+pac_delta: 0.10               # failure probability for the *_pac methods
+saps:
+  lambda_grid: [0.01, 0.05, 0.1, 0.2, 0.4]
+
+gamma_grid: [0.0, 0.01, 0.1, 0.3, 1.0]
+temperature: auto             # fit on D_design by NLL (LBFGS)
+raps:
+  lambda_grid: [0.01, 0.05, 0.1]
+  k_reg_grid: [1, 2, 5]
+
+model:                        # mnist -> LeNet, cifar10 -> SmallResNet (src/models.py)
+  mnist:   {epochs: 10, batch_size: 128, lr: 0.001, optimizer: adam}
+  cifar10: {epochs: 30, batch_size: 256, lr: 0.1,   optimizer: sgd}   # OneCycle schedule
+  cifar100: {epochs: 30, batch_size: 256, lr: 0.1,  optimizer: sgd}
+  cifar10_r18: {epochs: 12, batch_size: 128, lr: 0.02, optimizer: sgd}  # fine-tuning a pretrained net
+
+imagenet:                     # fractions of the 50k validation images, re-drawn per seed
+  design: 0.20                # 10 images per class: clusters, T, RAPS/SAPS and the learned score
+  calib: 0.40                 # 20 calibration images per class
+  # the remaining 0.40 (20 per class) is D_test
+
+main_alpha: 0.10              # alpha used for tuning (on D_design) and for the depth figures
+
+# Labelled covariate shift (labels kept, so coverage is measurable):
+#   mnist: rotation in degrees;  cifar10: Gaussian pixel-noise std (pixels in [0,1])
+shift:
+  mnist: [15, 30, 45, 60]
+  cifar10: [0.02, 0.05, 0.1, 0.2]
+  cifar100: [0.02, 0.05, 0.1, 0.2]
+  cifar10_r18: [0.02, 0.05, 0.1, 0.2]
+
+# Benchmark / natural shift for CIFAR-10 models (scripts/extend_cache.py adds these to the cache)
+real_shift:
+  cifar10_c:
+    corruptions: [gaussian_noise, shot_noise, impulse_noise, defocus_blur, glass_blur, motion_blur, zoom_blur,
+                  snow, frost, fog, brightness, contrast, elastic_transform, pixelate, jpeg_compression]
+    severities: [1, 2, 3, 4, 5]
+    n: 1000                   # fixed random subset of the 10k test images per (corruption, severity)
+
+# Theorem check: pool D_cal + D_test, re-split at random, record coverage each time
+resplit:
+  reps: 200
+  n_cal: [100, 500, 1000]     # plus the full |D_cal|
+
+ood:
+  mnist: [fashion_mnist, kmnist]
+  cifar10: [svhn, cifar100]   # SVHN host was unreachable in the final run; skipped automatically
+  cifar100: [cifar10]
+  cifar10_r18: [cifar100]
+
+outputs:
+  dir: results
+  save_figures: true
+  save_tables: true

@@ -1,0 +1,25 @@
+\begin{tabular}{lccc}
+\toprule
+ & \multicolumn{3}{c}{ImageNet} \\
+\cmidrule(lr){2-4}
+Method & Cov. & Size & Worst \\
+\midrule
+Naive & 0.899 & 1.76\,{\scriptsize$\pm$0.04} & 0.390 \\
+APS & 0.899 & 6.27\,{\scriptsize$\pm$0.21} & 0.500 \\
+RAPS & 0.900 & 1.92\,{\scriptsize$\pm$0.06} & 0.389 \\
+Naive(T) & 0.899 & 1.75\,{\scriptsize$\pm$0.04} & 0.379 \\
+APS(T) & 0.900 & 10.27\,{\scriptsize$\pm$0.37} & 0.529 \\
+Naive(T)+dist & -- & -- & -- \\
+APS(T)+dist & -- & -- & -- \\
+\addlinespace[2pt]
+Margin & 0.901 & 99.90\,{\scriptsize$\pm$4.66} & 0.420 \\
+SAPS & 0.899 & 1.98\,{\scriptsize$\pm$0.02} & 0.396 \\
+Learned & 0.899 & 1.76\,{\scriptsize$\pm$0.03} & 0.392 \\
+\addlinespace[2pt]
+Mondrian & 0.923 & 34.96\,{\scriptsize$\pm$2.21} & 0.477 \\
+Mondrian-PAC & 1.000 & 1000\,{\scriptsize$\pm$0.00} & 1.000 \\
+Clustered & 0.901 & 10.74\,{\scriptsize$\pm$0.34} & 0.529 \\
+Clustered-PAC & 0.929 & 17.18\,{\scriptsize$\pm$1.09} & 0.607 \\
+Top-1 & 0.784 & 1.00\,{\scriptsize$\pm$0.00} & 0.133 \\
+\bottomrule
+\end{tabular}
