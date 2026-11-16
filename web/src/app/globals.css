@@ -633,7 +633,8 @@ table.t tr[aria-current="true"] { background: var(--accent-soft) }
 @media (max-width: 760px) { .xdraw { grid-template-columns: minmax(0, 1fr) } }
 .xcanvas { width: min(280px, 100%); aspect-ratio: 1; border-radius: 14px; background: #000; touch-action: none; cursor: crosshair; outline: 1px solid var(--line) }
 .xthumb { width: 56px; height: 56px; image-rendering: pixelated; border-radius: 6px; outline: 1px solid var(--line) }
-.ch-explore { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--muted) }
+/* .ch-explore { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--muted) } */
+.ch-explore { display: none }
 .ch-explore a { font-weight: 500; text-decoration: none } .ch-explore a:hover { text-decoration: underline }
 /* charts are drawn at 560 units wide: cap the height so a full-width figure does not blow its text up to twice the size */
 .xfig .chart { max-height: 380px }
