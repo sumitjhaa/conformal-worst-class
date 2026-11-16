@@ -1,9 +1,12 @@
 \documentclass{article}
+% numbered citations [1], [2,3]; the reference list follows order of first citation
+\PassOptionsToPackage{numbers,sort&compress}{natbib}
 \usepackage[preprint]{neurips_2026}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
+\hypersetup{hidelinks} % links stay clickable, without coloured boxes around citation numbers
 \usepackage{url}
 \usepackage{booktabs}
 \usepackage{amsfonts}
@@ -35,7 +38,8 @@
 \author{%
   Sumit Kumar Jha \\
   Roll Number: 26210180 \\
-  Indian Institute of Technology Gandhinagar
+  ES 678, Indian Institute of Technology Gandhinagar \\
+  \texttt{sumitjha@iitgn.ac.in}
 }
 
 \begin{document}
@@ -327,7 +331,7 @@ the worst class and the empty-set rate next to marginal coverage, and sizing cal
 every number in this paper as a LaTeX macro, so no result is typed by hand, and 22 unit tests cover the maths. An interactive
 companion site re-runs the conformal procedure in the browser. AI assistance (Claude) helped organise the code, build parts of the interactive site and explorers, and edit the report's wording and structure. The experiments, analysis and results are my own.
 
-\bibliographystyle{plainnat}
+\bibliographystyle{unsrtnat}
 \bibliography{refs}
 
 % =====================================================================================================================
