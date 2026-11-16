@@ -45,7 +45,7 @@ export default function Aci({ p }: { p: string }) {
         <Seg label="Dataset" value={ds} onChange={(v) => { setDs(v); setT(Infinity); }} options={dsets.map((d) => [d, dsName(d)])} />
         <div className="row" data-tour="play">
           <button type="button" className="btn primary" onClick={() => { if (now >= S.T) setT(0); setPlay(!play); }}>{play ? <><Pause /> Pause</> : <><Play /> Play the stream</>}</button>
-          <Slider label="Time step" value={now} display={`${Math.round(now)} / ${S.T}`} min={0} max={S.T} step={1} onChange={(v) => { setPlay(false); setT(v); }} />
+          <Slider label="Time step" value={now} display={`${Math.round(now)} / ${S.T}`} min={0} max={S.T} step={1} marks={[0, 1, 2, 3, 4].map((i) => Math.round((S.T * i) / 4))} onChange={(v) => { setPlay(false); setT(v); }} />
         </div>
         <p className="small">A stream starting with “{S.seg0}” pictures, then segments of growing shift (grey lines). <Term t="aci">ACI</Term> updates α after every picture with learning rate lr.</p>
         <div className="legend">{S.by.map((s) => <span key={s.lr}><i style={{ background: LR_COLOR[String(s.lr)] ?? "var(--violet)" }} />{lrName(s.lr)}</span>)}</div>

@@ -24,7 +24,8 @@ export default function Ood({ p }: { p: string }) {
     const b = extraBlock(d, "ood", on) as Block, C = predictSets(b, out.P, out.cal);
     return { b, C, ood: sizeStats(C, b.n, d.K), ind: sizeStats(out.C, d.test.n, d.K) };
   }, [d, out, o]);
-  const table = rows(R, "ood").filter((r) => r.dataset === L.ds).sort((a, b) => Number(b.auroc_not_singleton) - Number(a.auroc_not_singleton));
+  const oodRows = rows(R, "ood").filter((r) => r.dataset === L.ds), atA = oodRows.filter((r) => Math.abs(Number(r.alpha) - L.alpha) < 1e-9);
+  const table = (atA.length ? atA : oodRows.filter((r) => Math.abs(Number(r.alpha) - 0.1) < 1e-9)).sort((a, b) => Number(b.auroc_not_singleton) - Number(a.auroc_not_singleton));
 
   return (
     <div className="stack" style={{ gap: 28 }}>

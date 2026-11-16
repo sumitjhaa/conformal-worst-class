@@ -52,7 +52,8 @@ def main() -> None:
 
     for name, fn in (("worst_class", lambda d: plots.plot_worst_class_theory(d, FIG / "worst_class_theory.pdf")),
                      ("ncal_sweep", lambda d: plots.plot_ncal_sweep(d, a0, FIG / "ncal_sweep.pdf")),
-                     ("clusters", lambda d: plots.plot_clusters(d, a0, FIG / "clusters.pdf")),
+                     ("clusters", lambda d: (plots.plot_clusters(d, a0, FIG / "clusters.pdf"),
+                                              plots.plot_clusters(d, a0, FIG / "clusters_main.pdf", ["cifar10", "cifar100", "imagenet"]))),
                      ("label_shift", lambda d: plots.plot_label_shift(d, a0, FIG / "label_shift.pdf")),
                      ("aci_series", lambda d: plots.plot_aci(d, a0, FIG / "aci.pdf")),
                      ("real_shift", lambda d: plots.plot_real_shift(d, a0, FIG / "real_shift.pdf")),

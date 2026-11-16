@@ -24,7 +24,7 @@ const STEPS = [
 ];
 export function Method() {
   return (
-    <Chapter id="method" no={10} eyebrow="How we did it" title="The whole pipeline, step by step"
+    <Chapter id="method" no={11} eyebrow="How I did it" title="The whole pipeline, step by step"
       lead={<>Every number on this page and in the paper is produced by scripts and written into the paper automatically, so nothing is typed by hand.</>}>
       <Reveal>
         <div className="card stack">
@@ -74,7 +74,7 @@ export function Method() {
 
 export function Glossary() {
   return (
-    <Chapter id="glossary" no={11} eyebrow="Words used" title="Glossary">
+    <Chapter id="glossary" no={12} eyebrow="Words used" title="Glossary">
       <Reveal>
         <table className="gl-table">
           <thead><tr><th scope="col">Word</th><th scope="col">Meaning</th></tr></thead>

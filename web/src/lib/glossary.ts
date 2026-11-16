@@ -2,8 +2,8 @@
 export const GLOSSARY: [string, string][] = [
   ["Classifier", "A program that looks at an input (here, a picture) and picks a label from a fixed list."],
   ["Prediction set", "A list of possible labels instead of a single answer. Bigger list = more doubt."],
-  ["Coverage", "The fraction of pictures whose true label is inside the set. We target 90%."],
-  ["α (alpha)", "The error rate we accept. α = 0.1 means the set may miss the truth 10% of the time."],
+  ["Coverage", "The fraction of pictures whose true label is inside the set. I target 90%."],
+  ["α (alpha)", "The error rate I accept. α = 0.1 means the set may miss the truth 10% of the time."],
   ["Calibration set", "Fresh labelled pictures, never used for training, used only to choose the cut-off."],
   ["Surprise (nonconformity) score", "How badly a label fits a picture, according to the model. For the simple rule: 1 − probability."],
   ["Cut-off q̂ (quantile)", "The score below which 90% of calibration scores fall. Labels scoring under it go into the set."],
@@ -11,7 +11,7 @@ export const GLOSSARY: [string, string][] = [
   ["Class-conditional coverage", "Coverage measured for one class at a time (only cats, only dogs…). The average can hide a low one."],
   ["Mondrian / per-class", "Using a separate cut-off for each class so each class aims for 90%."],
   ["PAC (safety margin)", "“Probably approximately correct”: choose a stricter cut-off so the target is met with high probability, not just on average."],
-  ["Beta distribution", "The exact law for how coverage varies from one calibration set to another. Our worst-class formula is built from it."],
+  ["Beta distribution", "The exact law for how coverage varies from one calibration set to another. My worst-class formula is built from it."],
   ["Temperature scaling", "Dividing the model’s raw scores by a number T so its probabilities are less over-confident."],
   ["Distribution shift", "When new data differs from the training/calibration data (noise, fog, a different mix of classes)."],
 ];

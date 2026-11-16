@@ -275,24 +275,28 @@ def plot_n_needed(table: pd.DataFrame, out_path: str) -> None:
     _save(fig, out_path)
 
 
-def plot_clusters(cl: pd.DataFrame, alpha: float, out_path: str) -> None:
-    """Number of class clusters M from 1 (marginal) to K (Mondrian): mean size vs worst-class coverage."""
-    runs = _runs(cl)
+def plot_clusters(cl: pd.DataFrame, alpha: float, out_path: str, runs: list[str] | None = None) -> None:
+    """Number of class clusters M from 1 (marginal) to K (one cluster per class): mean size vs worst-class coverage."""
+    runs = [r for r in _runs(cl) if runs is None or r in runs]
     fig, axes = _fig(len(runs), 2.0)
     for ax, ds in zip(axes, runs):
         d = cl[cl.dataset == ds].groupby(["method", "M"]).mean(numeric_only=True)
         for m in ("clustered", "clustered_pac"):
             g = d.loc[m]
-            ax.plot(g.mean_size, g.min_class_cov, lw=1.0, ls="--" if m in HOLLOW else "-", ms=3.5, label=LABELS[m], **_mk(m))
+            # two colours as well as solid/dashed, so the pair is readable in greyscale and at small size
+            c = BLUE if m in HOLLOW else COLORS[m]
+            ax.plot(g.mean_size, g.min_class_cov, lw=1.0, ls="--" if m in HOLLOW else "-", ms=3.5, label=LABELS[m] if ax is axes[0] else None,
+                    **{**_mk(m), "color": c, "mec": c, "mfc": "white" if m in HOLLOW else c})
             for M in (1, g.index.max()):
                 ax.annotate(f"M={M}", (g.mean_size[M], g.min_class_cov[M]), fontsize=5, color=MUTED,
                             xytext=(3, -7 if m == "clustered" else 4), textcoords="offset points")
         _target(ax, alpha)
+        ax.margins(y=0.12)  # room for the M= labels under the lowest point
         if d.mean_size.max() > 5:
             ax.set_xscale("log")
         ax.set(title=RUN_LABEL[ds], xlabel="mean set size")
     axes[0].set_ylabel("worst-class coverage")
-    axes[-1].legend(loc="lower right")
+    fig.legend(loc="upper center", ncol=2, bbox_to_anchor=(0.5, 1.08), frameon=False)  # outside the panels: never covers data
     _save(fig, out_path)
 
 

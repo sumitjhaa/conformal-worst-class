@@ -33,6 +33,20 @@ export default function Leaderboard({ p }: { p: string }) {
   const boot = rows(R, "bootstrap").filter((r) => r.dataset === ds && `${r.a}|${r.b}` === cur);
   const tuned = rows(R, "tuned").filter((r) => r.dataset === ds);
 
+  // Every seed is scored on the same fixed test set, so its sampling noise never averages out: the tolerance adds the test set's
+  // binomial standard error to the seed standard error, and only a shortfall beyond 2 of those is flagged (the baseline has no target).
+  const wc = rows(R, "worst_class").find((r) => r.dataset === ds);
+  const nTest = wc ? Number(wc.n_test_per_class) * Number(wc.K) : 10000;
+  const gap = (t: (typeof table)[number]) => {
+    const se = Math.sqrt(t.sd.coverage ** 2 / Math.max(1, t.n) + (alpha * (1 - alpha)) / nTest);
+    return t.m !== "top1" && t.mean.coverage < 1 - alpha - 2 * se ? (1 - alpha - t.mean.coverage) * 100 : 0;
+  };
+  // bars and the best-value highlight only where "better" is unambiguous: smaller sets, higher worst class
+  const BARS = new Set(["mean_size", "min_class_cov"]), BEST = new Set(["mean_size", "singleton_rate", "min_class_cov", "sscv"]);
+  const range = Object.fromEntries(COLS.map(([k, , f, up]) => {
+    const v = table.filter((t) => t.m !== "top1").map((t) => t.mean[k]);
+    return [k, { lo: Math.min(...v), hi: Math.max(...v), best: f(up ? Math.max(...v) : Math.min(...v)) }];
+  }));
   if (!R) return <Loading error={error} what="results" />;
   const head = (k: string, label: string) => (
     <th key={k} scope="col" className="n" style={{ padding: 0 }} aria-sort={sort === k ? (dir > 0 ? "ascending" : "descending") : "none"}>
@@ -48,7 +62,7 @@ export default function Leaderboard({ p }: { p: string }) {
       </div>
       <div data-tour="table" className="stack">
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <h3>{table.length} methods · {dsName(ds)} · target {Math.round((1 - alpha) * 100)}%</h3>
+          <h3>{table.length} rules · {dsName(ds)} · target {Math.round((1 - alpha) * 100)}%</h3>
           <button type="button" className="xbtn" onClick={() => downloadCsv(`leaderboard-${ds}-${alpha}`, csv)}>CSV</button>
         </div>
         <div className="scroll-x">
@@ -56,16 +70,19 @@ export default function Leaderboard({ p }: { p: string }) {
             <thead><tr><th scope="col">Method</th><th scope="col" className="n">Seeds</th>{COLS.map(([k, l]) => head(k, l))}</tr></thead>
             <tbody>
               {table.map((t) => (
-                <tr key={t.m} className={t.mean.coverage < 1 - alpha - 0.005 ? "under" : ""}>
-                  <th scope="row">{mname(t.m)}{t.mean.coverage < 1 - alpha - 0.005 && <span className="xflag">under target</span>}</th>
+                <tr key={t.m}>
+                  <th scope="row">{mname(t.m)}{t.m === "top1" && <span className="xtag">baseline</span>}{gap(t) > 0 && <span className="xwarn" title="Coverage is below target by more than seed noise plus the test set's own sampling noise. CIFAR's official test set was collected separately from the training pool, so a small shortfall is expected (see the paper).">−{gap(t).toFixed(1)} pt</span>}</th>
                   <td className="n">{t.n}</td>
-                  {COLS.map(([k, , f]) => <td key={k} className="n">{f(t.mean[k])}<span className="xsd"> ±{k === "mean_size" || k === "sscv" ? t.sd[k].toFixed(2) : (t.sd[k] * 100).toFixed(1)}</span></td>)}
+                  {COLS.map(([k, , f]) => {
+                    const r = range[k], w = r.hi > r.lo ? (t.mean[k] - r.lo) / (r.hi - r.lo) : 1, best = BEST.has(k) && t.m !== "top1" && f(t.mean[k]) === r.best;
+                    return <td key={k} className={`n${BARS.has(k) ? " xbar" : ""}${best ? " best" : ""}`} style={BARS.has(k) ? ({ "--w": `${Math.max(4, w * 100)}%` } as React.CSSProperties) : undefined}>{f(t.mean[k])}<span className="xsd"> ±{k === "mean_size" || k === "sscv" ? t.sd[k].toFixed(2) : (t.sd[k] * 100).toFixed(1)}</span></td>;
+                  })}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="small muted">Means over seeds ± one standard deviation. <Term t="sscv">SSCV</Term>: size-stratified coverage violation, the largest coverage gap across set sizes (lower is better).</p>
+        <p className="small muted">Means over seeds ± one standard deviation. In the size and worst-class columns a faint bar places each rule between the column’s lowest and highest value; the best values are highlighted (the one-guess baseline is left out). An orange “−x pt” marks coverage below target by more than seed noise plus the fixed test set’s own sampling noise. “Raw” rows skip temperature scaling. <Term t="sscv">SSCV</Term>: size-stratified coverage violation, the largest coverage gap across set sizes (lower is better).</p>
       </div>
       <div className="stack" data-tour="pair">
         <h3>Is the difference real? <span className="small muted">· paired <Term t="bootstrap ci">bootstrap</Term> over seeds</span></h3>

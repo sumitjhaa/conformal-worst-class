@@ -6,7 +6,7 @@ import { at, avg, loadResults, SHORT_NAMES, useLoad } from "@/lib/data";
 import { Box, Chapter, Reveal, Seg } from "./ui";
 import Gif from "./Gif";
 
-const RULES: [string, string][] = [["temp_naive", "Simple sets"], ["temp_aps", "Adaptive sets"], ["mondrian", "Cut-off per class"], ["clustered_pac", "Our fix"]];
+const RULES: [string, string][] = [["temp_naive", "Simple sets"], ["temp_aps", "Adaptive sets"], ["mondrian", "Cut-off per class"], ["clustered_pac", "My fix"]];
 
 export default function Fairness() {
   const { data: R } = useLoad(loadResults);
@@ -25,7 +25,7 @@ export default function Fairness() {
       lead={<>The promise is about <strong>all pictures mixed together</strong>. It says nothing about each kind of picture. Some classes can be covered far less than 90% while others are covered more, and the average still looks perfect.</>}>
       <Box kind="analogy" tag="Everyday analogy">
         <p>A school says “our students average 90% attendance”. That can be true even if one class section attends only 70% and another 100%. The
-          average hides who is left out. Our project measures the section with the worst attendance: the <strong>worst-covered class</strong>.</p>
+          average hides who is left out. My project measures the section with the worst attendance: the <strong>worst-covered class</strong>.</p>
       </Box>
 
       <Gif name="worst" fig="Fig. 5a · per-class coverage" title="Some class is always left behind" alt="Animation: per-class coverage bars for the ten CIFAR-10 classes change with every random calibration draw; the average stays near 90 percent while the worst class, often cat, falls well below.">
@@ -45,7 +45,7 @@ export default function Fairness() {
                 const bad = v < 0.88;
                 return (
                   <g key={i}>
-                    <motion.rect x={m.l + i * bw + 6} width={bw - 12} rx={6} animate={{ y: Y(v), height: H - m.b - Y(v), fill: bad ? "var(--bad)" : "var(--s1)" }} initial={false} transition={{ type: "spring", stiffness: 120, damping: 18, delay: i * 0.03 }} />
+                    <motion.rect x={m.l + i * bw + 6} width={bw - 12} rx={6} fill={bad ? "var(--bad)" : "var(--s1)"} style={{ transition: "fill .3s" }} animate={{ y: Y(v), height: H - m.b - Y(v) }} initial={false} transition={{ type: "spring", stiffness: 120, damping: 18, delay: i * 0.03 }} />
                     <motion.text x={m.l + (i + 0.5) * bw} animate={{ y: Y(v) - 6 }} initial={false} textAnchor="middle" style={{ fill: bad ? "var(--bad)" : "var(--ink)", fontWeight: 600 }}>{Math.round(v * 100)}</motion.text>
                     <text x={m.l + (i + 0.5) * bw} y={H - m.b + 17} textAnchor="middle">{names[i]}</text>
                   </g>
@@ -58,7 +58,7 @@ export default function Fairness() {
             {rule === "temp_naive" && <> With <strong>Simple sets</strong>, cats are covered only about {pct(Math.min(...vals), 0)} of the time, while the best class gets {pct(Math.max(...vals), 0)}.</>}
             {rule === "temp_aps" && <> Adaptive sets spread the coverage more evenly, at the cost of slightly bigger sets.</>}
             {rule === "mondrian" && <> One cut-off per class targets 90% for every class, but each class only gets about 500 calibration pictures, so some still land a bit low by chance.</>}
-            {rule === "clustered_pac" && <> Our fix adds a safety margin, so classes land at or above target.</>}
+            {rule === "clustered_pac" && <> My fix adds a safety margin, so classes land at or above target.</>}
           </p>
         </div>
       </Reveal>
@@ -74,7 +74,7 @@ export default function Fairness() {
 
       <Box kind="keyidea" tag="The research question">
         <p>So the real question of this project is not “does the 90% promise hold?” (it does, on average) but: <strong>which class gets the worst
-          deal, can we predict how bad it will be before running anything, and can we fix it cheaply?</strong></p>
+          deal, can I predict how bad it will be before running anything, and can I fix it cheaply?</strong></p>
       </Box>
     </Chapter>
   );

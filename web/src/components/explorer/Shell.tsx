@@ -6,6 +6,7 @@ import { asset } from "@/lib/data";
 import { Check, Copy, Menu, Palette } from "../icons";
 import { ThemePanel } from "../Sidebar";
 import { useQuery } from "./kit";
+import { Guard } from "../Guard";
 
 /** Left rail (desktop) / bottom sheet (mobile) listing every explorer, plus the theme panel. */
 function Nav({ current }: { current?: string }) {
@@ -68,6 +69,28 @@ function TourBox({ info, onClose }: { info: ExplorerInfo; onClose: () => void })
   );
 }
 
+/** What this explorer teaches, how to read it, and the project's finding: the same three notes on every explorer. */
+function Lesson({ info }: { info: ExplorerInfo }) {
+  return (
+    <section className="xlesson" aria-label="About this explorer">
+      <div><span className="xlesson-k">What you’ll learn</span><p>{info.learn}</p></div>
+      <div><span className="xlesson-k">How to read it</span><p>{info.read}</p></div>
+      <div className="found"><span className="xlesson-k">What I found</span><p>{info.found}</p></div>
+    </section>
+  );
+}
+
+/** Previous / next explorer, so the list reads as one path from the basics to the advanced material. */
+function PrevNext({ info }: { info: ExplorerInfo }) {
+  const i = EXPLORERS.indexOf(info), prev = EXPLORERS[i - 1], next = EXPLORERS[i + 1];
+  return (
+    <nav className="xpath" aria-label="Learning path">
+      {prev ? <Link href={`/explorer/${prev.slug}/`} className="xpath-l"><span className="small muted">← Previous</span><strong>{prev.short}</strong></Link> : <a href={asset("#basics")} className="xpath-l"><span className="small muted">← Before this</span><strong>The basics chapter</strong></a>}
+      {next ? <Link href={`/explorer/${next.slug}/`} className="xpath-r"><span className="small muted">Next →</span><strong>{next.short}</strong></Link> : <a href={asset("#deep")} className="xpath-r"><span className="small muted">Finish with →</span><strong>The maths chapter</strong></a>}
+    </nav>
+  );
+}
+
 /** Frame for one explorer: header, tools (compare / tour / link) and the view, once or side by side. */
 export function Shell({ info, view: View }: { info: ExplorerInfo; view: ComponentType<{ p: string }> }) {
   const [cmp, setCmp] = useQuery<number>("cmp", 0), [tour, setTour] = useState(false);
@@ -88,12 +111,14 @@ export function Shell({ info, view: View }: { info: ExplorerInfo; view: Componen
               {info.chapter && <a className="xbtn" href={asset(`#${info.chapter}`)}>Read the chapter</a>}
             </div>
           </header>
+          <Lesson info={info} />
           {cmp ? (
             <div className="xcompare">
-              <section aria-label="Left configuration"><span className="xpin">A</span><View p="" /></section>
-              <section aria-label="Right configuration"><span className="xpin">B</span><View p="b." /></section>
+              <section aria-label="Left configuration"><span className="xpin">A</span><Guard what="the left view"><View p="" /></Guard></section>
+              <section aria-label="Right configuration"><span className="xpin">B</span><Guard what="the right view"><View p="b." /></Guard></section>
             </div>
-          ) : <View p="" />}
+          ) : <Guard what="this explorer"><View p="" /></Guard>}
+          <PrevNext info={info} />
         </div>
       </main>
       {tour && <TourBox info={info} onClose={() => setTour(false)} />}

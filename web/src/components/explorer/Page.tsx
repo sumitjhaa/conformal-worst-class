@@ -1,12 +1,14 @@
 "use client";
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
+import type { DynamicOptionsLoadingProps } from "next/dynamic";
+import { LoadFailed } from "../Guard";
 import { explorer } from "@/lib/explorers";
 import { Loading } from "./kit";
 import { Shell } from "./Shell";
 
 type View = ComponentType<{ p: string }>;
-const wait = () => <Loading what="explorer" />;
+const wait = ({ error }: DynamicOptionsLoadingProps) => (error ? <LoadFailed what="this explorer" error={error} /> : <Loading what="explorer" />);
 // one chunk per explorer, so a page only downloads its own view (next/dynamic needs the options inline)
 const VIEWS: Record<string, View> = {
   "set-lab": dynamic(() => import("./views/SetLabX"), { loading: wait, ssr: false }),

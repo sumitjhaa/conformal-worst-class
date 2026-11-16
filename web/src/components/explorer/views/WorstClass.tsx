@@ -25,9 +25,9 @@ export default function WorstClass({ p }: { p: string }) {
       <section className="stack" data-tour="law">
         <h2 className="xh2">The law, for any setting</h2>
         <p>With <b>K</b> classes and <b>n</b> calibration pictures per class, each class’s true coverage follows a <Term t="beta distribution">Beta</Term> law; the worst class is the lowest of K such draws. No test pictures needed.</p>
-        <div className="row" style={{ gap: 28 }}>
-          <StepSlider label="Classes K" index={ki} onChange={setKi} display={String(K)} stops={KS.map(String)} width={380} />
-          <StepSlider label="Calibration pictures per class n" index={ni} onChange={setNi} display={String(n)} stops={NS.map(String)} width={380} />
+        <div className="stack xcontrols">
+          <StepSlider label="Classes K" index={ki} onChange={setKi} display={String(K)} stops={KS.map(String)} />
+          <StepSlider label="Calibration pictures per class n" index={ni} onChange={setNi} display={String(n)} stops={NS.map(String)} />
           <Seg label="α" value={String(la)} onChange={(v) => setLa(+v)} options={[["0.05", "α 0.05"], ["0.1", "α 0.1"], ["0.2", "α 0.2"]]} />
         </div>
         {law ? (
@@ -39,7 +39,7 @@ export default function WorstClass({ p }: { p: string }) {
               <Stat k="Total calibration pictures" value={K * n} format={(v) => Math.round(v).toLocaleString()} color="var(--violet)" />
             </div>
             <Figure title="Where the worst class will land" name={`worst-law-K${K}-n${n}`} table={{ cols: ["coverage", "density"], rows: law.pts.map(([x, y]) => [x, y]) }}>
-              <LineChart label="Density of the worst-class coverage" xDom={[law.pts[0][0], 1]} yDom={[0, Math.max(...law.pts.map((q) => q[1])) * 1.1]} yFmt={(v) => v.toFixed(0)} xFmt={(v) => pct(v, 0)}
+              <LineChart label="Density of the worst-class coverage" xDom={[law.pts[0][0], 1]} yDom={[0, Math.max(...law.pts.map((q) => q[1])) * 1.1]} yFmt={() => ""} xFmt={(v) => pct(v, 0)}
                 series={[{ pts: law.pts, color: "var(--accent)", dots: false, area: true }]} vlines={[{ x: 1 - la, color: "var(--target)", label: "target" }, { x: law.mean, color: "var(--bad)", label: "expected", end: true }]} />
             </Figure>
           </>
@@ -50,7 +50,7 @@ export default function WorstClass({ p }: { p: string }) {
         <>
           <section className="stack" data-tour="seeds">
             <h2 className="xh2">Checked against every run</h2>
-            <div className="row">
+            <div className="stack xcontrols">
               <Seg label="Dataset" value={ds} onChange={setDs} options={dsets.map((d) => [d, dsName(d)])} />
               <Seg label="α" value={String(a)} onChange={(v) => setA(+v)} options={[["0.05", "α 0.05"], ["0.1", "α 0.1"]]} />
               <Select label="Rule" value={m} onChange={setM} options={methods.map((x) => [x, mname(x)])} />

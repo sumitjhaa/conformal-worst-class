@@ -83,7 +83,7 @@ export default function Shift() {
       </div>
 
       <div className="stack" style={{ gap: 28 }}>
-        <Box kind="warnbox" tag="What we found">
+        <Box kind="warnbox" tag="What I found">
           {R && <div className="drops">
             <div><span className="n good">{pct(clean("temp_aps"))}</span><span>clean pictures</span></div><span className="arr" aria-hidden>→</span>
             <div><span className="n bad">{pct(curve("temp_aps")[4][1])}</span><span>Adaptive, heavy corruption</span></div>

@@ -25,7 +25,7 @@
 \title{Who Does a Conformal Guarantee Leave Out?\\ Predicting and Repairing the Worst Class}
 
 \author{%
-  Sumit Jha \\
+  Sumit Kumar Jha \\
   Roll Number: 26210180 \\
   ES 678 \\
   Indian Institute of Technology Gandhinagar
@@ -35,53 +35,60 @@
 \maketitle
 
 \begin{abstract}
-Conformal prediction returns label sets that contain the truth with probability $\ge 1-\alpha$ for any classifier, but the
-guarantee averages over classes and over calibration draws. On MNIST, CIFAR-10 (two architectures), CIFAR-100 and ImageNet we
-compare 13 methods under a leakage-free four-way split. Every method is marginally valid, yet the worst class is far below target:
-\WorstINetNaiveT\% on ImageNet for the smallest-set score. We derive an exact law for the worst class under class-wise calibration;
-it matches exchangeable re-splits to within \NsMaxErr\ points from 10 to 1{,}000 classes, flags a per-class shift in CIFAR-100's
-official test set, and shows per-class guarantees need thousands of images per class at ImageNet scale. A high-probability correction shared across clusters of similar classes (Clustered-PAC) lifts
-ImageNet's worst class to \WorstINetClusPAC\% with \SizeINetClusPAC\ labels per set, where the per-class version must return all 1{,}000.
+Conformal prediction turns any classifier into one that returns a set of labels, and the set contains the true label with
+probability at least $1-\alpha$. That promise is an average, over classes and over calibration draws. I test 13 methods on MNIST,
+CIFAR-10 (two architectures), CIFAR-100 and ImageNet, with a four-way split that keeps tuning, calibration and testing apart. Every
+method meets the average. The worst class does not: the smallest-set score covers it only \WorstINetNaiveT\% of the time on ImageNet.
+I derive an exact law for the worst class under class-wise calibration. It matches re-split experiments to within \NsMaxErr\ points
+from 10 to 1{,}000 classes, it picked up a per-class shift in CIFAR-100's official test set, and it says per-class guarantees at
+ImageNet scale need thousands of images per class. Sharing a high-probability correction across clusters of similar classes
+(Clustered-PAC) lifts ImageNet's worst class to \WorstINetClusPAC\% with \SizeINetClusPAC\ labels per set. The per-class version has
+to return all 1{,}000.
 \end{abstract}
 
 \section{Problem and Motivation}
-We take a \textbf{fixed, trained} image classifier $\hat p(y\mid x)$ over $K$ classes. Only the image is seen at prediction time. We
-want a set $C(x)\subseteq\{1,\dots,K\}$ with $P(Y\in C(X))\ge1-\alpha$; one row is one image with its label, and the target is the set.
-All valid methods meet this bar, so we ask: (i) how small are the sets; (ii) how far does \textbf{class-conditional} coverage
-$P(Y\in C\mid Y=c)$ fall below $1-\alpha$, given that the marginal guarantee does not control it; (iii) can the worst class be
-predicted, and repaired at what cost? We claim nothing for a single image, under shift, or about causes.
+I start from a \textbf{fixed, trained} image classifier $\hat p(y\mid x)$ over $K$ classes. At prediction time it sees only the image.
+I want a set $C(x)\subseteq\{1,\dots,K\}$ with $P(Y\in C(X))\ge1-\alpha$. One row is one image with its label, and the target is the
+set. Every valid method clears that bar, so I ask three other questions. How small are the sets? How
+far does \textbf{class-conditional} coverage $P(Y\in C\mid Y=c)$ fall below $1-\alpha$, given that the marginal guarantee doesn't control
+it? And can the worst class be predicted in advance, and repaired, at what cost? I claim no guarantee for a single image or under
+shift (my shift results are empirical), and nothing about causes.
 
 \section{Data and Preparation}
-MNIST (LeNet), CIFAR-10 (small ResNet; and an ImageNet-pretrained ResNet-18 as a second architecture), CIFAR-100 (small ResNet), all
-from \texttt{torchvision}; ImageNet via published ResNet-152 softmax outputs on its 50k validation images
-\citep{angelopoulos2021uncertainty}. Per seed the official training set is split into disjoint $D_\text{train}/D_\text{design}/D_\text{cal}$
-(80/10/10\%) and the official test set is $D_\text{test}$, used once; ImageNet is re-split 20/40/40\% (about 20 calibration images per
-class). An assertion checks disjointness. Normalisation, weights and class Gaussians are fit on $D_\text{train}$; every tuned quantity
-uses $D_\text{design}$ only; augmentation is train-only. Classes are balanced and no values are missing; the main quality issue is that CIFAR's test sets were collected
-separately from the training pool \citep{recht2018cifar}, which \S\ref{sec:depth} detects as per-class shift. Shift sets: rotation/noise, CIFAR-10.1
-\citep{recht2018cifar}, CIFAR-10-C \citep{hendrycks2019benchmarking}; unfamiliar inputs: FashionMNIST/KMNIST, CIFAR-100, CIFAR-10. SVHN was
-unreachable and dropped. Seeds: \SeedsMNIST/\SeedsCTen/\SeedsCTenR/\SeedsCHun/\SeedsINet; test accuracy \AccMNIST, \AccCTen, \AccCTenR,
-\AccCHun\ and \AccINet\%.
+I use MNIST with a LeNet, CIFAR-10 with a small ResNet (plus an ImageNet-pretrained ResNet-18 as a second architecture), and CIFAR-100
+with a small ResNet, all from \texttt{torchvision}. For ImageNet I use published ResNet-152 softmax outputs on the 50k validation
+images \citep{angelopoulos2021uncertainty}. For each seed, the official training set is split into disjoint $D_\text{train}$,
+$D_\text{design}$ and $D_\text{cal}$ (80/10/10\%). The official test set is $D_\text{test}$, and I open it once. ImageNet is re-split
+20/40/40\%, which leaves about 20 calibration images per class. An assertion in the code checks that no image appears twice.
+Normalisation, network weights and class Gaussians are fit on $D_\text{train}$. Every tuned quantity uses $D_\text{design}$ only, and
+augmentation is used in training only. Classes are close to balanced and no values are missing. The main quality issue is that
+CIFAR's test sets were collected separately from the training pool \citep{recht2018cifar}, and \S\ref{sec:depth} picks this up as a
+per-class shift. For shift I use rotation and pixel noise, CIFAR-10.1 \citep{recht2018cifar} and CIFAR-10-C
+\citep{hendrycks2019benchmarking}. For unfamiliar inputs I use FashionMNIST, KMNIST, CIFAR-100 and CIFAR-10. SVHN's host was
+unreachable, so I dropped it. Seeds: \SeedsMNIST/\SeedsCTen/\SeedsCTenR/\SeedsCHun/\SeedsINet. Test accuracy: \AccMNIST, \AccCTen,
+\AccCTenR, \AccCHun\ and \AccINet\%.
 
 \section{Methods}
-\textbf{Baseline:} the top-1 label (no guarantee). \textbf{Split conformal:} for a score $s$, $k=\lceil(n+1)(1-\alpha)\rceil$,
-$\hat q=S_{(k)}$ ($\infty$ if $k>n$), $C(x)=\{y:s(x,y)\le\hat q\}$ \citep{vovk2005algorithmic,lei2018distribution}.
-\textbf{Scores:} naive $1-\hat p$ (smallest sets, \citealp{sadinle2019least}), margin, APS \citep{romano2020classification}, RAPS
-\citep{angelopoulos2021uncertainty}, SAPS \citep{huang2024saps}, a score learned for small sets \citep{stutz2022learning}, temperature
-scaling \citep{guo2017calibration}, and our first proposal, $s+\gamma\tilde d_M$ with the Mahalanobis feature distance \citep{lee2018simple}.
-\textbf{Grouping:} Mondrian (one $\hat q_c$ per class, \citealp{vovk2012conditional}); Clustered (one $\hat q$ per cluster of classes with
-similar $D_\text{design}$ score quantiles, \citealp{ding2023class}); and their \textbf{PAC} versions, which use the smallest $k$ with
-$P(\mathrm{Beta}(k,n_g{+}1{-}k)\ge1-\alpha)\ge1-\delta_g$, $\delta_g=1-(1-\delta)^{1/G}$, so that all $G$ groups are covered at once with
-probability $\ge1-\delta$ ($\delta=0.1$). Clustered-PAC is our proposed repair. \textbf{Shift repairs:} ACI \citep{gibbs2021adaptive},
-covariate-shift weighting \citep{tibshirani2019conformal} and label-shift weighting with BBSE weights
-\citep{podkopaev2021distribution,lipton2018detecting}. \textbf{Tuning} ($T$, $\lambda$, $\gamma$, the learned score, clusters) uses
-$D_\text{design}$ only, so every score is fixed before $D_\text{cal}$ and keeps the guarantee.
+The \textbf{baseline} is the top-1 label, which carries no guarantee. \textbf{Split conformal} takes a score $s$, sets
+$k=\lceil(n+1)(1-\alpha)\rceil$ and $\hat q=S_{(k)}$ ($\infty$ if $k>n$), and returns $C(x)=\{y:s(x,y)\le\hat q\}$
+\citep{vovk2005algorithmic,lei2018distribution}. The \textbf{scores} are naive $1-\hat p$, which gives the smallest sets
+\citep{sadinle2019least}, margin, APS \citep{romano2020classification}, RAPS \citep{angelopoulos2021uncertainty}, SAPS
+\citep{huang2024saps}, a score learned for small sets \citep{stutz2022learning}, temperature scaling \citep{guo2017calibration}, and my
+first proposal, $s+\gamma\tilde d_M$ with the Mahalanobis feature distance \citep{lee2018simple}. For \textbf{grouping}, Mondrian gives
+each class its own $\hat q_c$ \citep{vovk2012conditional}, and Clustered gives one $\hat q$ per cluster of classes with similar
+$D_\text{design}$ score quantiles \citep{ding2023class}. Each has a \textbf{PAC} version. It uses the smallest $k$ with
+$P(\mathrm{Beta}(k,n_g{+}1{-}k)\ge1-\alpha)\ge1-\delta_g$, where $\delta_g=1-(1-\delta)^{1/G}$, so all $G$ groups are covered at once
+with probability at least $1-\delta$ ($\delta=0.1$). Clustered-PAC is the repair I propose. For shift I add ACI
+\citep{gibbs2021adaptive}, covariate-shift weighting \citep{tibshirani2019conformal}, and label-shift weighting with BBSE weights
+\citep{podkopaev2021distribution,lipton2018detecting}. Everything tuned ($T$, $\lambda$, $\gamma$, the learned score, the clusters)
+uses $D_\text{design}$ only. Every score is fixed before $D_\text{cal}$ is touched, so the guarantee holds.
 
 \section{Evaluation Design}
-On $D_\text{test}$ for $\alpha\in\{0.01,0.05,0.1,0.2\}$, mean over seeds: coverage (validity); mean/90th-percentile size, singleton and
-empty rates (efficiency); worst-class coverage, size-stratified violation and the worst of 10 feature clusters (conditional validity);
-coverage by confidence decile, under label shift and covariate shift; set-size mix on unfamiliar inputs. Paired differences carry 95\%
-hierarchical bootstrap intervals (seeds, then test images). Accuracy is context only.
+I report on $D_\text{test}$ for $\alpha\in\{0.01,0.05,0.1,0.2\}$, averaged over seeds. Validity is marginal coverage. Efficiency is
+mean and 90th-percentile set size, and the rates of single-label and empty sets. Conditional validity is the worst class, the
+size-stratified violation, and the worst of 10 clusters of test features. I also measure coverage by confidence decile, under label and
+covariate shift, and the mix of set sizes on unfamiliar inputs. Paired differences come with 95\% hierarchical bootstrap intervals
+(resampling seeds, then test images). Accuracy is there for context, not as a target.
 
 \section{Results and Error Analysis}
 \begin{table}[t]
@@ -93,59 +100,70 @@ hierarchical bootstrap intervals (seeds, then test images). Accuracy is context 
 \begin{figure}[t]
 \centering
 \includegraphics[width=.3\linewidth]{worst_class_theory.pdf}\hfill
-\includegraphics[width=.68\linewidth]{clusters.pdf}
+\includegraphics[width=.68\linewidth]{clusters_main.pdf}
 \caption{Left: measured vs predicted worst-class coverage (Prop.~1), every run, seed and $\alpha$; filled Mondrian, hollow PAC.
-Right: cluster count $M$ from 1 (marginal) to $K$ (Mondrian), size vs worst class, without (solid) and with (dashed) the PAC correction.}
+Right: cluster count $M$ from 1 (marginal) to $K$, size vs worst class, without (solid) and with (dashed) the PAC correction. At $M{=}K$, $k$-means still merges a few classes, so the dashed end point is not Mondrian-PAC.}
 \label{fig:main}
 \end{figure}
-\textbf{Validity.} Every in-expectation method covers \CovLo--\CovHi\% at $\alpha=0.1$ (Table~\ref{tab:main}); PAC variants over-cover by design.
-\textbf{Who is left out.} The smallest-set score, Naive($T$), covers its worst class \WorstCTenNaiveT\% on CIFAR-10, \WorstCHunNaiveT\% on
-CIFAR-100 and \WorstINetNaiveT\% on ImageNet. A representative error: CIFAR-10's worst class is \ErrCTenCls\ (\ErrCTenCov\%);
-\ErrCTenConfShare\% of its misclassified images are called \ErrCTenConf, a visually similar class. Its worst feature cluster on CIFAR-10 is \FscCTenNaiveT\%. APS($T$) trades size for balance
-(\WorstCTenAPST, \WorstCHunAPST, \WorstINetAPST\%). On MNIST, accuracy above $1-\alpha$ forces \EmptyMNISTNaive\% empty sets.
-\textbf{Mondrian is not enough.} Per-class calibration guarantees each class only on average over calibration draws; with about 20
-images per class its ImageNet worst class is \WorstINetMond\% at \SizeINetMond\ labels. \textbf{Repair.} Mondrian-PAC lifts CIFAR-10's
-worst class to \WorstCTenMondPAC\% (+\BsCTenPacVsMondW\ points, CI [\BsCTenPacVsMondWLo, \BsCTenPacVsMondWHi]) at size \SizeCTenMondPAC, but on
-ImageNet it is infeasible and returns all labels. Clustered-PAC reaches \WorstINetClusPAC\% with \SizeINetClusPAC\ labels, beating Mondrian on
-both axes; on CIFAR-100 it reaches \WorstCHunClusPAC\% at \SizeCHunClusPAC\ labels where Mondrian-PAC needs \SizeCHunMondPAC\ (Figure~\ref{fig:main}).
-\textbf{Weak results.} The distance term adds \BsCTenDistVsNaiveW\ points to CIFAR-10's worst class (CI [\BsCTenDistVsNaiveWLo,
-\BsCTenDistVsNaiveWHi]), far less than APS($T$), and none on CIFAR-100 (\WorstCHunDist\ vs \WorstCHunNaiveT\%); the learned score does not shrink sets
-(\SizeCTenLearned\ vs \SizeCTenNaiveT) and lowers the worst class. The pretrained ResNet-18 shows the same pattern (worst class \WorstCTenRNaiveT, \WorstCTenRAPST,
-\WorstCTenRClusPAC, \WorstCTenRMondPAC\% for Naive($T$), APS($T$), Clustered-PAC, Mondrian-PAC).
+\textbf{Validity.} Every in-expectation method covers \CovLo--\CovHi\% at $\alpha=0.1$ (Table~\ref{tab:main}). The PAC variants
+over-cover, as they should.
+\textbf{Who is left out.} Naive($T$), the smallest-set score, covers its worst class \WorstCTenNaiveT\% of the time on CIFAR-10,
+\WorstCHunNaiveT\% on CIFAR-100 and \WorstINetNaiveT\% on ImageNet. That gap is large. On CIFAR-10 the worst class is \ErrCTenCls\
+(\ErrCTenCov\%), and \ErrCTenConfShare\% of its misclassified images are called \ErrCTenConf. The worst cluster of test features fares no
+better (\FscCTenNaiveT\%). APS($T$) buys balance with bigger sets: its worst class is \WorstCTenAPST, \WorstCHunAPST\ and
+\WorstINetAPST\%. MNIST shows a different failure. Accuracy is above $1-\alpha$, so the method can only hit the target by leaving
+\EmptyMNISTNaive\% of sets empty.
+\textbf{Per-class calibration is not enough.} Mondrian protects each class only on average over calibration draws. With about 20
+images per class, its worst ImageNet class is \WorstINetMond\% at \SizeINetMond\ labels.
+\textbf{Repair.} Mondrian-PAC lifts CIFAR-10's worst class to \WorstCTenMondPAC\% at size \SizeCTenMondPAC\ (bootstrap gain
++\BsCTenPacVsMondW\ points, CI [\BsCTenPacVsMondWLo, \BsCTenPacVsMondWHi]). On ImageNet it can't work at all and returns every label.
+Clustered-PAC reaches \WorstINetClusPAC\% with \SizeINetClusPAC\ labels, which beats Mondrian on both counts. On CIFAR-100 it reaches
+\WorstCHunClusPAC\% at \SizeCHunClusPAC\ labels, where Mondrian-PAC needs \SizeCHunMondPAC\ (Figure~\ref{fig:main}).
+\textbf{Weak results.} My first idea, the distance term, adds only \BsCTenDistVsNaiveW\ points to CIFAR-10's worst class (CI
+[\BsCTenDistVsNaiveWLo, \BsCTenDistVsNaiveWHi]). APS($T$) does far better, and on CIFAR-100 the distance term does nothing
+(\WorstCHunDist\ vs \WorstCHunNaiveT\%). The learned score doesn't shrink sets (\SizeCTenLearned\ vs \SizeCTenNaiveT) and lowers the
+worst class. The pretrained ResNet-18 tells the same story: its worst class is \WorstCTenRNaiveT, \WorstCTenRAPST, \WorstCTenRClusPAC\
+and \WorstCTenRMondPAC\% for Naive($T$), APS($T$), Clustered-PAC and Mondrian-PAC.
 
 \section{Graduate Depth Analysis}\label{sec:depth}
-\textbf{Derivation.} With exchangeable, a.s.\ distinct scores the test score's rank among $n{+}1$ is uniform, so
-$P(Y\in C)=k/(n{+}1)\in[1-\alpha,1-\alpha+\tfrac1{n+1})$; given $D_\text{cal}$, coverage is $F(S_{(k)})\sim\mathrm{Beta}(k,n{+}1{-}k)$
-\citep{angelopoulos2021gentle}. At $n=100$, \BelowHundred\% of 200 re-splits fall below $1-\alpha$.
-\textbf{Proposition 1 (worst-class law).} Under class-wise calibration the calibration sets of different classes are disjoint, so per-class
-coverages are independent $\mathrm{Beta}(k_c,n_c{+}1{-}k_c)$, observed on $m_c$ test images as Beta--binomials, and
-$P(\min_c\widehat{\mathrm{cov}}_c\ge t)=\prod_cP(\widehat{\mathrm{cov}}_c\ge t)$. Predicted vs measured Mondrian worst class: CIFAR-10
-\PredCTenMond/\MeasCTenMond, CIFAR-100 \PredCHunMond/\MeasCHunMond, ImageNet \PredINetMond/\MeasINetMond\%. On pooled re-splits
-(exchangeable by construction) it is within \NsMaxErr\ points everywhere; CIFAR-100's official test set sits \MissPtsCHun\ points
-below it (Fisher $p=\FisherCHun$ over seeds), a per-class train/test shift \citep{recht2018cifar} that the law detects. Requiring every class within 2 points w.p.\ 0.9 needs \NeedTen, \NeedHun\ and \NeedThou\ images per class
-for $K=10,100,1000$. The same independence makes the PAC level $\delta_g$ exact (no union bound) and gives the feasibility limit
-$n_g\ge\lceil\log\delta_g/\log(1-\alpha)\rceil$ (\PacMinINet\ on ImageNet).
-\textbf{Marginal $\ne$ conditional, and label shift.} Coverage is $\sum_c\pi_c\mathrm{cov}_c$, so under a new class prior $\pi'$ it can fall
-to $\min_c\mathrm{cov}_c$. Under strong Dirichlet label shift on CIFAR-10, Naive($T$)'s worst draw is \LsCTenNaiveMin\% while Mondrian-PAC's is
-\LsCTenMondPACMin\%. Exact object-conditional coverage is impossible with informative sets \citep{vovk2012conditional,barber2021limits}.
-\textbf{Failure audit.} On CIFAR-10.1 APS($T$) covers \TenCTenAPST\%; at CIFAR-10-C severity 5, \CcCTenAPSTSFive\%. ACI restores the most
-severe segment of a drifting stream from \AciCTenFixCov\% to \AciCTenAciCov\% by growing sets (\AciCTenFixSize$\to$\AciCTenAciSize\ labels);
-covariate-shift weighting lifts coverage from \WtCovStdCTen\% to \WtCovWCTen\%, but only by returning every label for \WtInfCTen\% of images, because shifted and clean images barely overlap. The distance score helps little because
-the softmax already ranks the deciding (second) label better (AUROC \DdSoftCTen\ vs \DdDistCTen).
+\textbf{Derivation.} If scores are exchangeable and almost surely distinct, the test score is equally likely to take any rank among the
+$n{+}1$ scores. So $P(Y\in C)=k/(n{+}1)\in[1-\alpha,1-\alpha+\tfrac1{n+1})$. For one fixed $D_\text{cal}$, coverage is
+$F(S_{(k)})\sim\mathrm{Beta}(k,n{+}1{-}k)$ \citep{angelopoulos2021gentle}. At $n=100$, \BelowHundred\% of 200 re-splits land below
+$1-\alpha$.
+\textbf{Proposition 1 (worst-class law).} Under class-wise calibration, different classes use disjoint calibration sets. Their coverages
+are therefore independent, each $\mathrm{Beta}(k_c,n_c{+}1{-}k_c)$, and Beta--binomial when measured on $m_c$ test images. Hence
+$P(\min_c\widehat{\mathrm{cov}}_c\ge t)=\prod_cP(\widehat{\mathrm{cov}}_c\ge t)$. Predicted and measured Mondrian worst class: CIFAR-10
+\PredCTenMond/\MeasCTenMond, CIFAR-100 \PredCHunMond/\MeasCHunMond, ImageNet \PredINetMond/\MeasINetMond\%. On pooled re-splits, which
+are exchangeable by construction, the law is within \NsMaxErr\ points everywhere. CIFAR-100's official test set sits \MissPtsCHun\
+points below it (Fisher $p=\FisherCHun$ over seeds). I read this as the per-class train/test shift that \citet{recht2018cifar} report,
+and the law catches it. To keep every class within 2 points with probability 0.9, you need \NeedTen, \NeedHun\ and \NeedThou\ images
+per class for $K=10$, 100 and 1000. The same independence makes the PAC level $\delta_g$ exact, with no union bound. It also sets a
+floor: a finite threshold needs $n_g\ge\lceil\log\delta_g/\log(1-\alpha)\rceil$, which is \PacMinINet\ on ImageNet.
+\textbf{Marginal $\ne$ conditional, and label shift.} Coverage is $\sum_c\pi_c\mathrm{cov}_c$. Under a new class prior $\pi'$ it can
+fall all the way to $\min_c\mathrm{cov}_c$. Under strong Dirichlet label shift on CIFAR-10, Naive($T$)'s worst draw is
+\LsCTenNaiveMin\%, while Mondrian-PAC's is \LsCTenMondPACMin\%. Exact object-conditional coverage is impossible with informative sets
+\citep{vovk2012conditional,barber2021limits}.
+\textbf{Failure audit.} On CIFAR-10.1, APS($T$) covers \TenCTenAPST\%. At CIFAR-10-C severity 5 it drops to \CcCTenAPSTSFive\%. On a
+stream that drifts into corruption, ACI lifts the worst segment from \AciCTenFixCov\% to \AciCTenAciCov\%, by growing sets from
+\AciCTenFixSize\ to \AciCTenAciSize\ labels. Covariate-shift weighting lifts coverage from \WtCovStdCTen\% to \WtCovWCTen\%, but only
+by returning every label for \WtInfCTen\% of images: shifted and clean images barely overlap. As for the distance score, it helps little
+because the softmax already ranks the deciding second label better (AUROC \DdSoftCTen\ vs \DdDistCTen).
 
 \section{Limitations and Conclusion}
-The worst-class law covers class-wise calibration under class-wise exchangeability; Clustered-PAC protects clusters, not individual classes,
-and its clusters come from a small design split. ImageNet seeds re-split one model's outputs; shifts are synthetic or benchmark corruptions.
-\textbf{Conclusion.} The score decides who is covered and the grouping decides which classes are protected. The worst class is predictable
-in advance, needs thousands of images per class to guarantee individually, and is cheaply protected with high probability by sharing
-corrected thresholds across similar classes. Report the worst class and the empty-set rate next to marginal coverage.
+The worst-class law covers class-wise calibration and assumes the images of each class are exchangeable between calibration and test.
+Clustered-PAC protects clusters, not single classes, and its clusters come from a small design split. The ImageNet seeds re-split one
+model's outputs, and my shifts are synthetic or benchmark corruptions, not a real deployment.
+\textbf{Conclusion.} The score decides who gets covered. The grouping decides which classes are protected. The worst class can be
+predicted before deployment from the class counts alone. Guaranteeing it class by class takes thousands of images per class, but
+sharing corrected thresholds across similar classes protects it with high probability at a fraction of that cost (\SizeINetClusPAC\
+labels per set on ImageNet, not 1{,}000). I think papers should report the worst class and the empty-set rate next to marginal coverage.
 
 \section{Reproducibility and AI-Use Disclosure}
-\texttt{scripts/train\_all.py} trains and caches each (run, seed); \texttt{run\_all.py}, \texttt{sweep.py} and \texttt{research.py}
-regenerate every table and figure; \texttt{paper\_numbers.py} writes every number in this paper as a macro, so none is typed by hand;
-\texttt{pytest tests/} runs 22 checks. Seeds, splits and grids are in \texttt{configs/default.yaml}. An interactive site (\texttt{sumitjhaa.github.io/conformal-worst-class})
-re-runs conformal prediction in the browser. An extended version with proofs and all tables accompanies this paper. AI assistance (Claude)
-was used for code, debugging, plotting, the site and editing; all numbers come from the scripts.
+\texttt{scripts/train\_all.py} trains and caches each (run, seed). \texttt{run\_all.py}, \texttt{sweep.py} and \texttt{research.py}
+regenerate every table and figure. \texttt{paper\_numbers.py} writes every number in this paper as a macro, so none is typed by hand,
+and \texttt{pytest tests/} runs 22 checks. Seeds, splits and grids are in \texttt{configs/default.yaml}. An interactive site
+(\texttt{sumitjhaa.github.io/conformal-worst-class}) re-runs conformal prediction in the browser, and an extended version with proofs
+and all tables accompanies this paper. AI assistance (Claude) helped organise the code, build parts of the interactive site and explorers, and edit the report's wording and structure. The experiments, analysis and results are the author's own.
 
 {\small\setlength{\bibsep}{1.5pt}
 \bibliographystyle{plainnat}

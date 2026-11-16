@@ -1,12 +1,19 @@
 "use client";
-import { animate, AnimatePresence, motion, MotionConfig, useInView, useMotionValue, useReducedMotion, useTransform } from "motion/react";
+import { animate, AnimatePresence, motion, MotionConfig, useInView, useMotionValue, useTransform } from "motion/react";
 import Link from "next/link";
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { EXPLORERS } from "@/lib/explorers";
 
 /** Respect the OS "reduce motion" setting for every motion animation on the page. */
 export function MotionRoot({ children }: { children: ReactNode }) {
   return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+}
+
+const motionQuery = () => matchMedia("(prefers-reduced-motion: reduce)");
+/** The OS "reduce motion" setting. The server can't know it, so the first (hydration) render always says false and the real value
+ *  follows straight after; reading it during render directly made server and browser HTML differ. */
+export function useStill() {
+  return useSyncExternalStore((cb) => { const m = motionQuery(); m.addEventListener("change", cb); return () => m.removeEventListener("change", cb); }, () => motionQuery().matches, () => false);
 }
 
 /** Content is always rendered visible; supporting browsers animate it in with a CSS scroll timeline (see .reveal). */
@@ -51,20 +58,22 @@ export function Seg<T extends string>({ options, value, onChange, label }: { opt
   );
 }
 
-export function Slider({ label, value, display, min, max, step, onChange }: { label: string; value: number; display: string; min: number; max: number; step: number; onChange: (v: number) => void }) {
+/** marks: labels drawn evenly from min to max under the track, so the scale is readable without dragging. */
+export function Slider({ label, value, display, min, max, step, onChange, marks }: { label: string; value: number; display: string; min: number; max: number; step: number; onChange: (v: number) => void; marks?: ReactNode[] }) {
   return (
     <div className="slider">
       <label>{label} <b>{display}</b></label>
       <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(+e.target.value)} aria-label={label} />
+      {marks && marks.length > 1 && <div className="ticks" aria-hidden>{marks.map((t, i) => <span key={i} style={{ "--p": i / (marks.length - 1) } as React.CSSProperties}>{t}</span>)}</div>}
     </div>
   );
 }
 
 /** Slider over a few named stops, with clickable labels centred under each stop. */
-export function StepSlider({ label, stops, index, display, onChange, width = 480 }: { label: string; stops: ReactNode[]; index: number; display: string; onChange: (i: number) => void; width?: number }) {
+export function StepSlider({ label, stops, index, display, onChange }: { label: string; stops: ReactNode[]; index: number; display: string; onChange: (i: number) => void }) {
   const last = stops.length - 1;
   return (
-    <div className="stepslider" style={{ width, maxWidth: "100%", flex: "none" }}>
+    <div className="stepslider">
       <Slider label={label} value={index} display={display} min={0} max={last} step={1} onChange={onChange} />
       <div className="ticks">{stops.map((t, i) => <button key={i} type="button" style={{ "--p": i / last } as React.CSSProperties} aria-pressed={i === index} onClick={() => onChange(i)}>{t}</button>)}</div>
     </div>
@@ -73,8 +82,8 @@ export function StepSlider({ label, stops, index, display, onChange, width = 480
 
 /** A number that counts to its new value. format turns the animated value into text. */
 export function Count({ value, format }: { value: number; format: (v: number) => string }) {
-  const ref = useRef<HTMLSpanElement>(null), inView = useInView(ref, { once: true }), still = useReducedMotion();
-  const mv = useMotionValue(still ? value : 0), text = useTransform(mv, (v) => (Number.isFinite(value) ? format(v) : "—"));
+  const ref = useRef<HTMLSpanElement>(null), inView = useInView(ref, { once: true }), still = useStill();
+  const mv = useMotionValue(0), text = useTransform(mv, (v) => (Number.isFinite(value) ? format(v) : "—"));
   useEffect(() => {
     if (!Number.isFinite(value)) return;
     if (still) { mv.set(value); return; }
@@ -112,6 +121,18 @@ export function ImgCard({ img, labels, trueName, covered }: { img: string; label
 }
 
 // ---------------------------------------------------------------- tiny SVG charts
+/** About n round tick values inside [a, b] (steps of 1, 2, 2.5 or 5 × 10^k), so axes read 70%, 80%… not 65%, 74%…. */
+export function niceTicks(a: number, b: number, n = 5): number[] {
+  if (!(b > a)) return [a];
+  const raw = (b - a) / Math.max(1, n - 1), mag = 10 ** Math.floor(Math.log10(raw));
+  // the round step whose tick count lands closest to n
+  const count = (s: number) => Math.floor(b / s + 1e-9) - Math.ceil(a / s - 1e-9) + 1;
+  const step = [0.5, 1, 2, 2.5, 5, 10].map((m) => m * mag).reduce((best, s) => (Math.abs(count(s) - n) < Math.abs(count(best) - n) ? s : best));
+  const out: number[] = [];
+  for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + step * 1e-9; v += step) out.push(Math.round(v / step) * step);
+  return out;
+}
+
 export const lin = (d0: number, d1: number, r0: number, r1: number) => (v: number) => r0 + ((v - d0) / (d1 - d0 || 1)) * (r1 - r0);
 export const logs = (d0: number, d1: number, r0: number, r1: number) => { const a = Math.log(d0), b = Math.log(d1); return (v: number) => r0 + ((Math.log(Math.max(v, 1e-9)) - a) / (b - a || 1)) * (r1 - r0); };
 
@@ -122,8 +143,8 @@ export function LineChart({ series, xDom, yDom, w = 560, h = 280, xTicks, xFmt =
   // round to 0.01px: Node and the browser differ in the last float digits, which breaks hydration
   const sx = (xlog ? logs : lin)(xDom[0], xDom[1], m.l, w - m.r), sy = lin(yDom[0], yDom[1], h - m.b, m.t);
   const X = (v: number) => Math.round(sx(v) * 100) / 100, Y = (v: number) => Math.round(sy(v) * 100) / 100;
-  const yt = [0, 1, 2, 3, 4].map((i) => yDom[0] + ((yDom[1] - yDom[0]) * i) / 4);
-  const xt = xTicks || [0, 1, 2, 3, 4].map((i) => xDom[0] + ((xDom[1] - xDom[0]) * i) / 4);
+  const yt = niceTicks(yDom[0], yDom[1]);
+  const xt = xTicks || (xlog ? [0, 1, 2, 3, 4].map((i) => Math.exp(Math.log(xDom[0]) + ((Math.log(xDom[1]) - Math.log(xDom[0])) * i) / 4)) : niceTicks(xDom[0], xDom[1]));
   const path = (pts: [number, number][]) => "M" + pts.map(([x, y]) => `${X(x).toFixed(1)},${Y(y).toFixed(1)}`).join("L");
   return (
     <svg className="chart" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label}>
@@ -157,7 +178,7 @@ export function HBars({ items, max, fmt, target, label }: { items: { name: strin
   return (
     <div role="list" aria-label={label} className="hbars">
       {items.map((it, i) => (
-        <div role="listitem" key={it.name} className="hbar">
+        <div role="listitem" key={`${i}-${it.name}`} className="hbar">
           <span className="hbar-name">{it.name}</span>
           <span className="hbar-track">
             <motion.span className="hbar-fill" style={{ background: it.color }} initial={{ width: 0 }} whileInView={{ width: pc(it.value) }} viewport={{ once: true }} transition={{ duration: 0.9, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }} />

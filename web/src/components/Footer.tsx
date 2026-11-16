@@ -2,7 +2,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { asset } from "@/lib/data";
-import { ArrowRight, Check, Compass, Copy, FileText, Globe, Hash, Mail, School } from "./icons";
+import { Check, Compass, Copy, FileText, Globe, Hash, Mail, School } from "./icons";
 import { Tech, TECH } from "./tech";
 
 const EMAIL = "sumitjha@iitgn.ac.in";
@@ -46,10 +46,9 @@ export default function Footer() {
         <div className="foot-cta">
           <div className="stack" style={{ gap: 14 }}>
             <h2>Who does a conformal guarantee <em>leave out?</em></h2>
-            <p>The full story, with proofs, every table and every number, is in the papers. The explorer has every method and chart from the project.</p>
+            <p>The full story, with the derivation and every number, is in the paper. The explorer has every method and chart from the project.</p>
             <div className="row">
               <a className="btn primary" href={asset("papers/es678_conformal.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> Course paper</a>
-              <a className="btn" href={asset("papers/conformal_worst_class.pdf")} target="_blank" rel="noopener noreferrer">Extended paper <ArrowRight /></a>
             </div>
           </div>
           <SetLoop />
@@ -65,7 +64,6 @@ export default function Footer() {
             <h4>Read</h4>
             <ul>
               <li><a href={asset("papers/es678_conformal.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> 4-page paper</a></li>
-              <li><a href={asset("papers/conformal_worst_class.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> Extended paper</a></li>
               <li><a href={asset("explorer/")}><Compass /> Explorers</a></li>
               <li><a href="#glossary"><Hash /> Glossary</a></li>
             </ul>
@@ -83,7 +81,7 @@ export default function Footer() {
         <div className="wordmark" aria-hidden>conformal</div>
 
         <div className="foot-bottom">
-          <span>© 2026 Sumit Kumar Jha · Live demos use exported outputs for 5,000 test pictures (3,000 for CIFAR-100). AI assistance (Claude) was used for code and writing.</span>
+          <span>© 2026 Sumit Kumar Jha · Live demos use exported outputs for 5,000 test pictures (3,000 for CIFAR-100). Built with AI assistance; see the paper’s disclosure.</span>
         </div>
       </div>
     </footer>

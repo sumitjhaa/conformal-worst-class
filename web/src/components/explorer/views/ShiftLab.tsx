@@ -22,8 +22,10 @@ function Live({ p }: { p: string }) {
   const cur = res.find((r) => r.name === pick) ?? res[1] ?? res[0];
   return (
     <div className="stack" style={{ gap: 24 }} data-tour="live">
-      <div className="row" style={{ justifyContent: "space-between" }}><DsPick value={L.ds} onChange={(v) => { L.setDs(v); setPick(""); }} /><AlphaPick value={L.alpha} onChange={L.setAlpha} /></div>
-      <Seg label="Rule" value={L.method} onChange={L.setMethod} options={LIVE_METHODS} />
+      <div className="stack xcontrols">
+        <div className="row" style={{ justifyContent: "space-between" }}><DsPick value={L.ds} onChange={(v) => { L.setDs(v); setPick(""); }} /><AlphaPick value={L.alpha} onChange={L.setAlpha} /></div>
+        <Seg label="Rule" value={L.method} onChange={L.setMethod} options={LIVE_METHODS} />
+      </div>
       <p className="small">The cut-off is calibrated on clean pictures, then applied unchanged to shifted ones: <Term t="exchangeable">exchangeability</Term> no longer holds, so the 90% promise can break.</p>
       <Figure title="Coverage on each kind of picture" name={`shift-live-${L.ds}-${L.method}`}
         table={{ cols: ["set", "n", "accuracy", "coverage", "mean_size"], rows: res.map((r) => [r.name, r.b.n, r.acc, r.m.cov, r.m.mean]) }}>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ACCENTS, FLAVORS, setTheme, useTheme } from "@/lib/theme";
 import { Check, Menu, Palette } from "./icons";
 
-export const CHAPTERS = [["idea", "Problem"], ["how", "How it works"], ["try", "Try it"], ["promise", "Check"], ["fair", "Catch"], ["predict", "Predict"], ["fix", "Fix"], ["shift", "Shift"], ["results", "Results"], ["method", "Method"], ["glossary", "Glossary"]] as const;
+export const CHAPTERS = [["basics", "Basics"], ["idea", "Problem"], ["how", "How it works"], ["try", "Try it"], ["promise", "Check"], ["fair", "Catch"], ["predict", "Predict"], ["fix", "Fix"], ["shift", "Shift"], ["results", "Results"], ["deep", "Maths"], ["method", "Method"], ["glossary", "Glossary"]] as const;
 const IDS = CHAPTERS.map(([id]) => id);
 
 /** The chapter whose top has most recently passed the upper third of the viewport. */

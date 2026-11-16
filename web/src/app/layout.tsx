@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { MotionRoot } from "@/components/ui";
 import { THEME_INIT } from "@/lib/theme";
 import "./globals.css";
+import LoadToast from "@/components/LoadToast";
 
 const sans = Geist({ variable: "--font-sans", subsets: ["latin"] });
 const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable} ${serif.variable}`} suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: THEME_INIT }} /></head>
-      <body><MotionRoot>{children}</MotionRoot></body>
+      <body><MotionRoot>{children}<LoadToast /></MotionRoot></body>
     </html>
   );
 }

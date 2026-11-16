@@ -24,7 +24,7 @@ export default function Calibration({ p }: { p: string }) {
     <div className="stack" style={{ gap: 28 }}>
       <div className="stack xcontrols" data-tour="temp">
         <DsPick value={L.ds} onChange={(v) => { L.setDs(v); setLt(NaN); }} />
-        <Slider label="Temperature T" value={Math.log2(T)} display={`T = ${T.toFixed(2)}${Math.abs(T - d.tuned.T) < 0.01 ? " (tuned)" : ""}`} min={-2} max={2} step={0.02} onChange={setLt} />
+        <Slider label="Temperature T" value={Math.log2(T)} display={`T = ${T.toFixed(2)}${Math.abs(T - d.tuned.T) < 0.01 ? " (tuned)" : ""}`} min={-2} max={2} step={0.02} marks={["0.25", "0.5", "1", "2", "4"]} onChange={setLt} />
         <div className="row"><button type="button" className="xbtn" onClick={() => setLt(0)}>T = 1 (raw model)</button><button type="button" className="xbtn" onClick={() => setLt(Math.log2(d.tuned.T))}>Tuned T = {d.tuned.T.toFixed(2)}</button></div>
         <p className="small"><Term t="temperature scaling">Temperature</Term> divides the model’s raw scores by T before turning them into probabilities. It never changes which label is most likely, only how sure the model claims to be.</p>
       </div>

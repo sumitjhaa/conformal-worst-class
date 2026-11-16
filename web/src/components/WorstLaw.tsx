@@ -27,7 +27,7 @@ export default function WorstLaw() {
   const ymax = Math.max(...(law ? law.pts.map((p) => p[1]) : [1]), ...(one ? one.pts.map((p) => p[1]) : [1]));
 
   return (
-    <Chapter id="predict" no={6} eyebrow="Our first result" title="We can predict the worst class before running anything"
+    <Chapter id="predict" no={6} eyebrow="My first result" title="I can predict the worst class before running anything"
       lead={<>Give every class its own cut-off (the “cut-off per class” rule). Each class’s coverage then wobbles randomly around 90%, like the histogram in chapter 4, and the classes wobble <strong>independently</strong>. The worst class is the unluckiest of K coin-flippers, and that has an exact formula.</>}>
       <Box kind="analogy" tag="Everyday analogy">
         <p>One student’s exam score varies a bit from day to day. In a class of 10, the lowest score is a little below average. In a school of 1,000
@@ -60,7 +60,7 @@ export default function WorstLaw() {
 
       <Reveal>
         <div className="card stack">
-          <h3>Did the formula work? Predicted vs measured on our real models</h3>
+          <h3>Did the formula work? Predicted vs measured on my real models</h3>
           {!R ? <p className="loading">loading…</p> : (() => {
             // main plot on the left (PW wide), zoom panel for the crowded 10-class runs on the right
             const lo0 = 0.38, hi0 = 0.95, PW = 600, W = 930, H = 500, m = { l: 52, r: 20, t: 18, b: 46 };
@@ -142,10 +142,10 @@ export default function WorstLaw() {
       <div className="stack" style={{ gap: 28 }}>
         <Box kind="keyidea" tag="Why this is useful">
           <p>The formula needs only <strong>how many pictures per class</strong> you have, not the pictures themselves. So before collecting any data you
-            can say: “with 20 pictures per class and 1,000 classes, expect some class at about 49%.” On ImageNet we predicted 48.7% and measured 47.7%.</p>
+            can say: “with 20 pictures per class and 1,000 classes, expect some class at about 49%.” On ImageNet I predicted 48.7% and measured 47.7%.</p>
         </Box>
-        <Box kind="warnbox" tag="The one miss, and what it taught us">
-          <p>On CIFAR-100 the prediction was 75% but we measured 70%. When we reshuffled the data randomly, the formula matched exactly. So the official
+        <Box kind="warnbox" tag="The one miss, and what it taught me">
+          <p>On CIFAR-100 the prediction was 75% but I measured 70%. When I reshuffled the data randomly, the formula matched exactly. So the official
             CIFAR-100 test pictures are <strong>slightly different</strong> from the training pictures for some classes. The formula ended up working as a
             detector for that kind of hidden difference.</p>
         </Box>

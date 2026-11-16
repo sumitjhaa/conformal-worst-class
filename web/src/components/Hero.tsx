@@ -1,9 +1,9 @@
 "use client";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { asset, SHORT_NAMES } from "@/lib/data";
 import { ArrowRight, Compass, FileText } from "./icons";
-import { Count } from "./ui";
+import { Count, useStill } from "./ui";
 
 // Three illustrative pictures with made-up but realistic probabilities over the 10 CIFAR-10 classes.
 // Every demo further down uses the real model outputs; this one only shows the idea.
@@ -20,7 +20,7 @@ const STATS: [number, string, string][] = [[5, "", "settings, digits to ImageNet
 export default function Hero() {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
-  const still = useReducedMotion();
+  const still = useStill();
   useEffect(() => {
     if (paused || still) return;
     const t = setInterval(() => setI((v) => (v + 1) % EXAMPLES.length), 4800);
@@ -71,7 +71,7 @@ export default function Hero() {
           </div>
           <div className="hbars-v" role="img" aria-label={`Model probabilities for ${ex.name}. Labels above the cut-off: ${NAMES.filter((_, k) => inSet[k]).join(", ")}.`}>
             {ex.p.map((v, k) => (
-              <motion.div key={k} className="bar" initial={false} animate={{ height: `${Math.max(v, 0.008) * 100}%`, backgroundColor: inSet[k] ? "var(--accent)" : "var(--surface-2)" }}
+              <motion.div key={k} className="bar" initial={false} style={{ backgroundColor: inSet[k] ? "var(--accent)" : "var(--surface-2)", transition: "background-color .4s" }} animate={{ height: `${Math.max(v, 0.008) * 100}%` }}
                 transition={{ type: "spring", stiffness: 140, damping: 20, delay: k * 0.02 }} />
             ))}
             <div className="cut" style={{ bottom: `${CUT * 100}%` }}><span>cut-off</span></div>

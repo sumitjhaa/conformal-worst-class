@@ -19,12 +19,12 @@ export default function Idea() {
       <Box kind="analogy" tag="Everyday analogy">
         <p>Think of a <strong>weather forecaster</strong>. “It will rain tomorrow” is a single guess. “Tomorrow the temperature will be between
           24°C and 29°C” is a <strong>range</strong>. A good forecaster’s ranges are right about 9 times out of 10, and on hard days the range gets
-          wider. We want the same from an image classifier: instead of one label, a <strong>set of labels</strong> that is usually right and grows when the picture is hard.</p>
+          wider. I want the same from an image classifier: instead of one label, a <strong>set of labels</strong> that is usually right and grows when the picture is hard.</p>
       </Box>
 
       <Reveal>
         <div className="card">
-          <h3>What we want, in one line</h3>
+          <h3>What I want, in one line</h3>
           <p style={{ font: "500 18px/1.55 var(--display)", letterSpacing: "-.01em", marginTop: 6 }}>
             For any new picture, give a set of labels such that <strong>the true label is inside the set at least 90% of the time</strong>, and make
             the sets as <strong>small</strong> as possible.
@@ -32,7 +32,7 @@ export default function Idea() {
           <dl className="defs">
             <div style={{ "--tone": "var(--good)" } as React.CSSProperties}><dt><CircleCheck />Coverage</dt><dd>How often the true label is in the set. Target: 90%.</dd></div>
             <div style={{ "--tone": "var(--s2)" } as React.CSSProperties}><dt><Layers />Set size</dt><dd>How many labels the set has. Smaller is more useful. Size 1 is a normal answer.</dd></div>
-            <div style={{ "--tone": "var(--violet)" } as React.CSSProperties}><dt><Percent />α (alpha)</dt><dd>The error we allow. α = 0.1 means “wrong at most 10% of the time”.</dd></div>
+            <div style={{ "--tone": "var(--violet)" } as React.CSSProperties}><dt><Percent />α (alpha)</dt><dd>The error I allow. α = 0.1 means “wrong at most 10% of the time”.</dd></div>
           </dl>
         </div>
       </Reveal>

@@ -85,5 +85,5 @@ covariate shift, ImageNet gallery, draw-a-digit). Its data comes from `site/data
   Settings → Pages → Source: **GitHub Actions**.
 
 ## AI-use disclosure
-AI assistance (Claude) was used for code, debugging, plotting, the websites and editing. Every number was produced by the
-scripts above and checked by the author. External datasets and methods are cited in `paper/refs.bib`.
+AI assistance (Claude) helped organise the code, build parts of the interactive site and explorers, and edit the report's
+wording and structure. The experiments, analysis and results are the author's own. External datasets and methods are cited in `paper/refs.bib`.

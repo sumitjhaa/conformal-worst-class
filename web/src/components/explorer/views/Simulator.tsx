@@ -27,8 +27,8 @@ export default function Simulator({ p }: { p: string }) {
       <div className="stack xcontrols" data-tour="controls">
         <div className="row" style={{ justifyContent: "space-between" }}><DsPick value={L.ds} onChange={L.setDs} /><AlphaPick value={a} onChange={L.setAlpha} /></div>
         <div className="row" style={{ gap: 28 }}>
-          <StepSlider label="Calibration pictures per run" index={ni} onChange={setNi} display={String(nCal)} stops={NCAL.map(String)} width={420} />
-          <StepSlider label="Reshuffles" index={ri} onChange={setRi} display={String(reps)} stops={REPS.map(String)} width={220} />
+          <StepSlider label="Calibration pictures per run" index={ni} onChange={setNi} display={String(nCal)} stops={NCAL.map(String)} />
+          <StepSlider label="Reshuffles" index={ri} onChange={setRi} display={String(reps)} stops={REPS.map(String)} />
           <button type="button" className="btn primary" onClick={() => setSeed(seed + 1)}>Run again (new shuffles)</button>
         </div>
         <p className="small muted">Each run pools the {pool.toLocaleString()} calibration + test pictures, shuffles them, calibrates the simple rule on the first {nCal} and measures coverage on the rest.</p>

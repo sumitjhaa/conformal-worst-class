@@ -33,7 +33,7 @@ export default function PromiseCheck() {
 
   return (
     <Chapter id="promise" no={4} eyebrow="Checking the promise" title="Is the 90% promise real? Let’s test it 300 times"
-      lead={<>A promise is only worth something if it holds up. We re-shuffle which pictures are used for calibration and which for testing, rebuild the sets, and measure coverage again. And again. 300 times.</>}>
+      lead={<>A promise is only worth something if it holds up. I re-shuffle which pictures are used for calibration and which for testing, rebuild the sets, and measure coverage again. And again. 300 times.</>}>
       <Gif name="resplit" flip fig="Fig. 4a · 160 re-splits" title="One promise, many calibration draws" alt="Animation: a histogram of coverage over 160 random calibration re-splits builds up and matches the exact Beta-law curve centred near 90 percent.">
         <p>Every re-split draws a fresh calibration set of 200 pictures and measures coverage on the rest. The bars pile up into the exact shape the maths predicts (orange curve): 90% on average, with a known spread around it.</p>
       </Gif>

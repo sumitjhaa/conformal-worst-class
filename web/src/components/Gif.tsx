@@ -1,5 +1,5 @@
 "use client";
-import { useReducedMotion } from "motion/react";
+import { useStill } from "./ui";
 import { useState, type ReactNode } from "react";
 import { asset } from "@/lib/data";
 import { Expand, Pause, Play } from "./icons";
@@ -7,7 +7,7 @@ import { Expand, Pause, Play } from "./icons";
 /** An animated GIF rendered from the project's data (scripts/make_gifs.py). Click or press the button to pause;
  *  a still poster is shown instead when the reader prefers reduced motion. Tilts slightly toward the pointer. */
 export default function Gif({ name, fig, title, alt, flip, children }: { name: string; fig: string; title: string; alt: string; flip?: boolean; children: ReactNode }) {
-  const still = useReducedMotion();
+  const still = useStill();
   const [paused, setPaused] = useState<boolean | null>(null);
   const playing = paused === null ? !still : !paused;
   const src = asset(`gifs/${name}.${playing ? "gif" : "png"}`);

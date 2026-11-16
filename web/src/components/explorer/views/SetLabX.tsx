@@ -10,7 +10,7 @@ const SINGLE: Method[] = ["naive", "aps", "raps"]; // one shared cut-off, so it 
 export default function SetLabX({ p }: { p: string }) {
   const L = useLab(p), { d, out, alpha } = L;
   const [manual, setManual] = useQuery<number>(`${p}q`, -1);
-  const canDrag = SINGLE.includes(L.method) && !!out?.cal?.q;
+  const canDrag = SINGLE.includes(L.method) && Number.isFinite(out?.cal?.q);
 
   // manual cut-off: same scores, user-chosen q
   const shown = useMemo(() => {
@@ -46,7 +46,7 @@ export default function SetLabX({ p }: { p: string }) {
           <div data-tour="cutoff" className="stack">
             {canDrag ? (
               <>
-                <Slider label={manual < 0 ? "Cut-off q̂ (calibrated)" : "Cut-off q̂ (your choice)"} value={shown.q} display={shown.q.toFixed(3)} min={0} max={qMax} step={0.001} onChange={setManual} />
+                <Slider label={manual < 0 ? "Cut-off q̂ (calibrated)" : "Cut-off q̂ (your choice)"} value={shown.q} display={shown.q.toFixed(3)} min={0} max={qMax} step={0.001} marks={[0, 1, 2, 3, 4].map((i) => ((qMax * i) / 4).toFixed(2))} onChange={setManual} />
                 <p className="small">Labels whose <Term t="surprise (nonconformity) score">score</Term> is at or below the cut-off join the set. The calibrated value is <b className="mono">{out!.cal!.q!.toFixed(3)}</b>{manual >= 0 && <> · <button type="button" className="xbtn" onClick={() => setManual(-1)}>reset to calibrated</button></>}</p>
               </>
             ) : <p className="small muted">{L.method === "top1" ? "One guess has no cut-off: it always returns the top label." : "This rule has one cut-off per class or group, so it cannot be dragged as one number. Pick Simple, APS or RAPS to drag it."}</p>}

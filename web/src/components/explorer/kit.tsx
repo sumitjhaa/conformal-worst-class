@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { calibrate, metrics, predictSets, type Method, type Params } from "@/lib/conformal";
-import { DS_LABEL, loadDataset, SHORT_NAMES, useLoad, type Dataset, type DsName } from "@/lib/data";
+import { DS_LABEL, loadDataset, retryLoads, SHORT_NAMES, useLoad, type Dataset, type DsName } from "@/lib/data";
 import { TERMS } from "@/lib/glossary";
-import { lin, Seg, StepSlider } from "../ui";
+import { lin, niceTicks, Seg, StepSlider } from "../ui";
 
 // ---------------------------------------------------------------- URL state
 // Each explorer keeps its controls in the query string, so a view is a shareable link. `p` prefixes the keys:
@@ -101,7 +101,7 @@ const r2 = (v: number) => Math.round(v * 100) / 100;
 /** Vertical bars over categories. */
 export function VBars({ bars, yDom, label, h = 240, w = 560, yFmt = (v: number) => String(v), target }: { bars: { x: string; v: number; color?: string }[]; yDom: [number, number]; label: string; h?: number; w?: number; yFmt?: (v: number) => string; target?: number }) {
   const n = bars.length || 1, bw = (w - M.l - M.r) / n, Y = (v: number) => r2(lin(yDom[0], yDom[1], h - M.b, M.t)(v));
-  const every = Math.ceil(n / 14), yt = [0, 1, 2, 3, 4].map((i) => yDom[0] + ((yDom[1] - yDom[0]) * i) / 4);
+  const every = Math.ceil(n / 14), yt = niceTicks(yDom[0], yDom[1]);
   return (
     <svg className="chart" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label}>
       <g className="grid">{yt.map((t) => <line key={t} x1={M.l} x2={w - M.r} y1={Y(t)} y2={Y(t)} />)}</g>
@@ -121,7 +121,7 @@ export function VBars({ bars, yDom, label, h = 240, w = 560, yFmt = (v: number) 
 /** Dots only, for many points (no per-point animation). */
 export function Scatter({ groups, xDom, yDom, label, xFmt = String, yFmt = String, w = 560, h = 320, target }: { groups: { color: string; pts: [number, number][]; r?: number; label?: string }[]; xDom: [number, number]; yDom: [number, number]; label: string; xFmt?: (v: number) => string; yFmt?: (v: number) => string; w?: number; h?: number; target?: number }) {
   const X = (v: number) => r2(lin(xDom[0], xDom[1], M.l, w - M.r)(v)), Y = (v: number) => r2(lin(yDom[0], yDom[1], h - M.b, M.t)(v));
-  const t5 = (d: [number, number]) => [0, 1, 2, 3, 4].map((i) => d[0] + ((d[1] - d[0]) * i) / 4);
+  const t5 = (d: [number, number]) => niceTicks(d[0], d[1]);
   return (
     <svg className="chart" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={label}>
       <g className="grid">{t5(yDom).map((t) => <line key={t} x1={M.l} x2={w - M.r} y1={Y(t)} y2={Y(t)} />)}</g>
@@ -172,7 +172,7 @@ export function Select({ label, value, onChange, options }: { label: string; val
 }
 export function AlphaPick({ value, onChange, alphas = ALPHAS }: { value: number; onChange: (v: number) => void; alphas?: number[] }) {
   const i = Math.max(0, alphas.findIndex((a) => Math.abs(a - value) < 1e-9));
-  return <StepSlider label="α (allowed error)" index={i} onChange={(j) => onChange(alphas[j])} display={`${value.toFixed(2)} → target ${Math.round((1 - value) * 100)}%`} stops={alphas.map((v) => v.toFixed(2))} width={420} />;
+  return <StepSlider label="α (allowed error)" index={i} onChange={(j) => onChange(alphas[j])} display={`${value.toFixed(2)} → target ${Math.round((1 - value) * 100)}%`} stops={alphas.map((v) => v.toFixed(2))} />;
 }
 
 /** Dataset + method + α from the URL, the dataset loaded, and the calibrated sets on its test block. */
@@ -192,5 +192,11 @@ export const params = (d: Dataset, method: Method, alpha: number): Params => ({ 
 export const names = (d: Dataset) => SHORT_NAMES[d.ds] || d.classes;
 
 export function Loading({ error, what = "data" }: { error?: string | null; what?: string }) {
-  return error ? <p className="loading" role="alert">Could not load {what}: {error}</p> : <p className="loading">loading {what}…</p>;
+  if (!error) return <p className="loading">loading {what}…</p>;
+  return (
+    <div className="xerror" role="alert">
+      <p>Could not load {what}. <span className="small muted">({error})</span></p>
+      <div className="row" style={{ gap: 8 }}><button type="button" className="btn primary" onClick={retryLoads}>Try again</button><button type="button" className="xbtn" onClick={() => location.reload()}>Reload page</button></div>
+    </div>
+  );
 }

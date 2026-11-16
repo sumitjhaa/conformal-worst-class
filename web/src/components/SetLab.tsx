@@ -16,7 +16,7 @@ const METHODS: [Method, string, string][] = [
   ["naive", "Simple sets", "Keep every label whose surprise score is under the cut-off (the rule from chapter 2). Smallest sets."],
   ["aps", "Adaptive sets", "Add labels from most to least likely until enough probability is covered (APS). Larger, but fairer across classes."],
   ["mondrian", "Cut-off per class", "A separate cut-off for each class, each set from that class’s own calibration pictures (Mondrian)."],
-  ["clustered_pac", "Our fix", "Group similar classes and give each group a safety-margin cut-off (Clustered-PAC, chapter 6)."],
+  ["clustered_pac", "My fix", "Group similar classes and give each group a safety-margin cut-off (Clustered-PAC, chapter 6)."],
 ];
 
 export default function SetLab() {
@@ -90,7 +90,7 @@ export default function SetLab() {
           <p>Move α towards 0.01 (99% target). Sets grow: being almost never wrong costs a lot of labels. Move it to 0.3: sets shrink, even to empty.</p>
         </Box>
         <Box kind="warnbox" tag="Surprise">
-          <p>On handwritten digits the model is 99% accurate, more than the 90% we asked for. So the rule <strong>returns empty sets</strong> about 9% of the time to “use up” its allowed error. Being too good also has odd effects.</p>
+          <p>On handwritten digits the model is 99% accurate, more than the 90% I asked for. So the rule <strong>returns empty sets</strong> about 9% of the time to “use up” its allowed error. Being too good also has odd effects.</p>
         </Box>
       </div>
     </Chapter>

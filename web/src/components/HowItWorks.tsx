@@ -9,7 +9,7 @@ const N = 40; // calibration dots shown; small so every dot is visible
 const ALPHAS = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3];
 const BIN = 0.05; // dot-histogram bin width on the score axis
 const STEPS = [
-  { t: "Collect fresh examples", d: "Take pictures the model never saw during training, where we know the right answer. This is the calibration set." },
+  { t: "Collect fresh examples", d: "Take pictures the model never saw during training, where I know the right answer. This is the calibration set." },
   { t: "Score how surprised the model is", d: "For each picture, the surprise score is 1 − (probability the model gave to the right label). Sure and right → near 0. Fooled → near 1." },
   { t: "Line them up and draw a cut-off", d: "Sort the scores. Put a line so that 90% of the dots sit to its left. That line is the threshold q̂." },
   { t: "Answer a new picture", d: "For a new picture, compute the surprise score of every possible label. Every label left of the line goes into the set." },
@@ -50,7 +50,7 @@ export default function HowItWorks() {
 
   return (
     <Chapter id="how" no={2} eyebrow="How it works" title="Four steps, no magic"
-      lead={<>Below are <strong>real numbers</strong> from our CIFAR-10 model (it recognises 10 kinds of photo). Click through the steps.</>}>
+      lead={<>Below are <strong>real numbers</strong> from my CIFAR-10 model (it recognises 10 kinds of photo). Click through the steps.</>}>
       <div className="stack" style={{ gap: 16 }}>
         <div className="stepper" role="list">
           {STEPS.map((s, i) => (
@@ -81,7 +81,7 @@ export default function HowItWorks() {
                     const cx = sorted ? X(b * BIN) + bw / 2 + ((j % 2) - 0.5) * 9.6 : L + ((i + 0.5) / N) * (W - L - R);
                     const cy = sorted ? base - 7 - Math.floor(j / 2) * 9.4 : 40 + ((i * 7) % 6) * 24;
                     const left = step >= 2 && s <= q;
-                    return <motion.circle key={i} r={sorted ? 4.6 : 6.2} initial={{ cx, cy: -10, opacity: 0 }} animate={{ cx, cy, opacity: 1, fill: step >= 2 ? (left ? "var(--s1)" : "var(--s2)") : "var(--muted)" }}
+                    return <motion.circle key={i} r={sorted ? 4.6 : 6.2} initial={{ cx, cy: -10, opacity: 0 }} fill={step >= 2 ? (left ? "var(--s1)" : "var(--s2)") : "var(--muted)"} style={{ transition: "fill .3s" }} animate={{ cx, cy, opacity: 1 }}
                       transition={{ delay: step === 0 ? i * 0.03 : 0, type: "spring", stiffness: 120, damping: 16 }} stroke="var(--surface)" strokeWidth={sorted ? 1.2 : 2} />;
                   })}
                   <AnimatePresence>
@@ -101,7 +101,7 @@ export default function HowItWorks() {
                 {step >= 2 && <p><strong style={{ color: "var(--s1)" }}>{covered} of {N}</strong> dots are left of the line ({Math.round((covered / N) * 100)}%). The rule picks the {k}th smallest score, where {k} = ⌈({N}+1)×(1−α)⌉. Move α and watch the line.</p>}
               </motion.div>
             </AnimatePresence>
-            {step >= 2 && <StepSlider label="α (allowed error)" index={ai} onChange={setAi} width={640} display={`${alpha.toFixed(2)} → aim for ${Math.round((1 - alpha) * 100)}% coverage`} stops={ALPHAS.map((v) => v.toFixed(2))} />}
+            {step >= 2 && <StepSlider label="α (allowed error)" index={ai} onChange={setAi} display={`${alpha.toFixed(2)} → aim for ${Math.round((1 - alpha) * 100)}% coverage`} stops={ALPHAS.map((v) => v.toFixed(2))} />}
           </div>
 
           <div className={`card stack ${step < 3 ? "panel-wait" : ""}`}>

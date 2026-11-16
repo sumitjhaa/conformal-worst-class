@@ -5,10 +5,11 @@ import { useSyncExternalStore } from "react";
 // layout.tsx applies the saved choice before first paint; this module reads and changes it.
 export const FLAVORS = [
   { id: "latte", name: "Latte", sub: "light", sw: ["#eff1f5", "#4c4f69", "#8839ef", "#40a02b", "#fe640b", "#1e66f5"] },
-  { id: "frappe", name: "Frappé", sub: "dim", sw: ["#303446", "#c6d0f5", "#ca9ee6", "#a6d189", "#ef9f76", "#8caaee"] },
+  { id: "dawn", name: "Rosé Pine Dawn", sub: "light", sw: ["#faf4ed", "#575279", "#907aa9", "#518a5a", "#d7704a", "#286983"] },
+  { id: "gruvlight", name: "Gruvbox Light", sub: "light", sw: ["#fbf1c7", "#3c3836", "#8f3f71", "#79740e", "#af3a03", "#076678"] },
+  { id: "tokyoday", name: "Tokyo Night Day", sub: "light", sw: ["#e1e2e7", "#3760bf", "#7847bd", "#587539", "#b15c00", "#2e7de9"] },
   { id: "macchiato", name: "Macchiato", sub: "dark", sw: ["#24273a", "#cad3f5", "#c6a0f6", "#a6da95", "#f5a97f", "#8aadf4"] },
   { id: "mocha", name: "Mocha", sub: "darkest", sw: ["#1e1e2e", "#cdd6f4", "#cba6f7", "#a6e3a1", "#fab387", "#89b4fa"] },
-  { id: "dawn", name: "Rosé Pine Dawn", sub: "light", sw: ["#faf4ed", "#575279", "#907aa9", "#518a5a", "#d7704a", "#286983"] },
   { id: "rosepine", name: "Rosé Pine", sub: "dark", sw: ["#191724", "#e0def4", "#c4a7e7", "#a6d0a0", "#f0a274", "#9ccfd8"] },
   { id: "nord", name: "Nord", sub: "dark", sw: ["#2e3440", "#eceff4", "#b48ead", "#a3be8c", "#d08770", "#88c0d0"] },
   { id: "gruvbox", name: "Gruvbox", sub: "dark", sw: ["#282828", "#ebdbb2", "#d3869b", "#b8bb26", "#fe8019", "#83a598"] },
@@ -41,5 +42,5 @@ export function setTheme(next: { flavor?: Flavor; accent?: Accent }) {
   if (next.flavor && d.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) d.startViewTransition(apply); else apply();
 }
 
-/** Inline script for <head>: saved choice, else Latte or Mocha from the OS setting. */
-export const THEME_INIT = `try{var s=JSON.parse(localStorage.getItem("ctp")||"{}"),e=document.documentElement;e.dataset.flavor=s.flavor||(matchMedia("(prefers-color-scheme: dark)").matches?"mocha":"latte");e.dataset.accent=s.accent||"mauve"}catch(x){document.documentElement.dataset.flavor="latte"}`;
+/** Inline script for <head>: saved choice (if it still exists), else Latte or Mocha from the OS setting. */
+export const THEME_INIT = `try{var s=JSON.parse(localStorage.getItem("ctp")||"{}"),e=document.documentElement;var ok=["latte","dawn","gruvlight","tokyoday","macchiato","mocha","rosepine","nord","gruvbox","tokyo"];e.dataset.flavor=ok.indexOf(s.flavor)>=0?s.flavor:(matchMedia("(prefers-color-scheme: dark)").matches?"mocha":"latte");e.dataset.accent=s.accent||"mauve"}catch(x){document.documentElement.dataset.flavor="latte"}`;

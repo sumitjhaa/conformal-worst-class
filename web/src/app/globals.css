@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------ Catppuccin
-   Four flavours (latte, frappe, macchiato, mocha) set the raw --ctp-* palette on <html data-flavor>.
+   Ten palettes (4 light: latte, dawn, gruvlight, tokyoday; 6 dark) set the raw --ctp-* slots on <html data-flavor>.
    <html data-accent> picks one of the 14 accent colours. Everything else is derived from these. */
 :root, [data-flavor="latte"] {
   --ctp-rosewater: #dc8a78; --ctp-flamingo: #dd7878; --ctp-pink: #ea76cb; --ctp-mauve: #8839ef; --ctp-red: #d20f39; --ctp-maroon: #e64553; --ctp-peach: #fe640b;
@@ -7,13 +7,6 @@
   --ctp-text: #4c4f69; --ctp-subtext1: #5c5f77; --ctp-subtext0: #6c6f85; --ctp-overlay2: #7c7f93; --ctp-overlay1: #8c8fa1; --ctp-overlay0: #9ca0b0;
   --ctp-surface2: #acb0be; --ctp-surface1: #bcc0cc; --ctp-surface0: #ccd0da; --ctp-base: #eff1f5; --ctp-mantle: #e6e9ef; --ctp-crust: #dce0e8;
   --on-accent: #eff1f5; --shadow-c: 76 79 105; color-scheme: light;
-}
-[data-flavor="frappe"] {
-  --ctp-rosewater: #f2d5cf; --ctp-flamingo: #eebebe; --ctp-pink: #f4b8e4; --ctp-mauve: #ca9ee6; --ctp-red: #e78284; --ctp-maroon: #ea999c; --ctp-peach: #ef9f76;
-  --ctp-yellow: #e5c890; --ctp-green: #a6d189; --ctp-teal: #81c8be; --ctp-sky: #99d1db; --ctp-sapphire: #85c1dc; --ctp-blue: #8caaee; --ctp-lavender: #babbf1;
-  --ctp-text: #c6d0f5; --ctp-subtext1: #b5bfe2; --ctp-subtext0: #a5adce; --ctp-overlay2: #949cbb; --ctp-overlay1: #838ba7; --ctp-overlay0: #737994;
-  --ctp-surface2: #626880; --ctp-surface1: #51576d; --ctp-surface0: #414559; --ctp-base: #303446; --ctp-mantle: #292c3c; --ctp-crust: #232634;
-  --on-accent: #232634; --shadow-c: 0 0 0; color-scheme: dark;
 }
 [data-flavor="macchiato"] {
   --ctp-rosewater: #f4dbd6; --ctp-flamingo: #f0c6c6; --ctp-pink: #f5bde6; --ctp-mauve: #c6a0f6; --ctp-red: #ed8796; --ctp-maroon: #ee99a0; --ctp-peach: #f5a97f;
@@ -33,6 +26,20 @@
   --ctp-rosewater: #d7827e; --ctp-flamingo: #c86f6f; --ctp-pink: #b4637a; --ctp-mauve: #907aa9; --ctp-red: #b4475f; --ctp-maroon: #a8576c; --ctp-peach: #d7704a; --ctp-yellow: #ea9d34; --ctp-green: #518a5a; --ctp-teal: #286983; --ctp-sky: #56949f; --ctp-sapphire: #3e7f91; --ctp-blue: #4a6fb0; --ctp-lavender: #7e7bc4;
   --ctp-text: #575279; --ctp-subtext1: #625e82; --ctp-subtext0: #6e6a86; --ctp-overlay2: #86829c; --ctp-overlay1: #9893a5; --ctp-overlay0: #a8a4b6; --ctp-surface2: #cecacd; --ctp-surface1: #dfdad9; --ctp-surface0: #ebe3dc; --ctp-base: #faf4ed; --ctp-mantle: #f4ede8; --ctp-crust: #f2e9e1;
   --on-accent: #faf4ed; --shadow-c: 87 82 121; color-scheme: light;
+}
+[data-flavor="gruvlight"] {
+  --ctp-rosewater: #b16a5a; --ctp-flamingo: #c4544a; --ctp-pink: #b33f7c; --ctp-mauve: #8f3f71; --ctp-red: #9d0006; --ctp-maroon: #b4232c; --ctp-peach: #af3a03;
+  --ctp-yellow: #b57614; --ctp-green: #79740e; --ctp-teal: #427b58; --ctp-sky: #3f7f8f; --ctp-sapphire: #076678; --ctp-blue: #076678; --ctp-lavender: #6b5fa8;
+  --ctp-text: #3c3836; --ctp-subtext1: #504945; --ctp-subtext0: #665c54; --ctp-overlay2: #7c6f64; --ctp-overlay1: #928374; --ctp-overlay0: #a89984;
+  --ctp-surface2: #bdae93; --ctp-surface1: #d5c4a1; --ctp-surface0: #ebdbb2; --ctp-base: #fbf1c7; --ctp-mantle: #f2e5bc; --ctp-crust: #ebdbb2;
+  --on-accent: #fbf1c7; --shadow-c: 60 56 54; color-scheme: light;
+}
+[data-flavor="tokyoday"] {
+  --ctp-rosewater: #b55a6a; --ctp-flamingo: #c64343; --ctp-pink: #d20065; --ctp-mauve: #7847bd; --ctp-red: #c64343; --ctp-maroon: #b4335c; --ctp-peach: #b15c00;
+  --ctp-yellow: #8c6c3e; --ctp-green: #587539; --ctp-teal: #387068; --ctp-sky: #007197; --ctp-sapphire: #006a83; --ctp-blue: #2e7de9; --ctp-lavender: #6172b0;
+  --ctp-text: #3760bf; --ctp-subtext1: #4f5b93; --ctp-subtext0: #55639f; --ctp-overlay2: #737a9e; --ctp-overlay1: #848cb5; --ctp-overlay0: #9699a3;
+  --ctp-surface2: #a8aecb; --ctp-surface1: #c4c8da; --ctp-surface0: #d0d5e3; --ctp-base: #e1e2e7; --ctp-mantle: #d5d6db; --ctp-crust: #c8cbd5;
+  --on-accent: #e1e2e7; --shadow-c: 55 96 191; color-scheme: light;
 }
 [data-flavor="rosepine"] {
   --ctp-rosewater: #ebbcba; --ctp-flamingo: #e8a0a8; --ctp-pink: #f0a3c0; --ctp-mauve: #c4a7e7; --ctp-red: #eb6f92; --ctp-maroon: #e0849b; --ctp-peach: #f0a274; --ctp-yellow: #f6c177; --ctp-green: #a6d0a0; --ctp-teal: #9ccfd8; --ctp-sky: #a7dbe6; --ctp-sapphire: #7fb8c9; --ctp-blue: #8fa8e8; --ctp-lavender: #b9b6f0;
@@ -65,7 +72,9 @@
 
 /* semantic tokens used by every component */
 :root {
-  --bg: var(--ctp-base); --surface: var(--ctp-mantle); --surface-2: var(--ctp-surface0); --line: color-mix(in srgb, var(--ctp-surface0) 60%, var(--ctp-surface1));
+  --bg: var(--ctp-base);
+  /* cards sit a step above the page (measured 1.03-1.12:1 before, cards blended in); borders a full palette step stronger (were 1.2-1.5:1) */
+  --surface: color-mix(in oklab, var(--ctp-base) 45%, var(--ctp-surface0)); --surface-2: var(--ctp-surface0); --line: var(--ctp-surface1);
   --ink: var(--ctp-text); --ink-2: var(--ctp-subtext1); --muted: var(--ctp-subtext0);
   --accent: var(--ctp-accent); --accent-soft: color-mix(in srgb, var(--accent) 16%, var(--bg));
   --target: var(--ctp-peach); --target-soft: color-mix(in srgb, var(--ctp-peach) 16%, var(--bg));
@@ -80,8 +89,19 @@
   --r: 12px;
   --shadow: 0 1px 0 rgb(var(--shadow-c) / 4%), 0 12px 32px -16px rgb(var(--shadow-c) / 22%);
 }
+/* dark themes */
+:root:is([data-flavor="macchiato"], [data-flavor="mocha"], [data-flavor="rosepine"], [data-flavor="nord"], [data-flavor="gruvbox"], [data-flavor="tokyo"]) {
+  --surface: color-mix(in oklab, var(--ctp-base) 60%, var(--ctp-surface0)); --line: color-mix(in oklab, var(--ctp-surface1) 50%, var(--ctp-surface2));
+  --bad: color-mix(in oklab, var(--ctp-red) 82%, #fff); --s1: color-mix(in oklab, var(--ctp-blue) 85%, #fff); --accent: color-mix(in oklab, var(--ctp-accent) 88%, #fff);
+}
+/* palettes whose stock steps sit too close together */
+:root[data-flavor="nord"] { --line: color-mix(in oklab, var(--ctp-surface2) 65%, var(--ctp-overlay0)) }
+:root[data-flavor="rosepine"] { --surface: color-mix(in oklab, var(--ctp-base) 35%, var(--ctp-surface0)) }
 /* light themes: raw hues are pastel-on-white (2.3-3:1), so darken every hue used as text to clear WCAG AA 4.5:1 */
-:root:not([data-flavor]), :root[data-flavor="latte"], :root[data-flavor="dawn"] {
+:root:not([data-flavor]), :root:is([data-flavor="latte"], [data-flavor="dawn"], [data-flavor="gruvlight"], [data-flavor="tokyoday"]) {
+  /* light: the page sits one shade down, cards are near-white on top of it; borders and text a step darker */
+  --bg: var(--ctp-mantle); --surface: color-mix(in oklab, var(--ctp-base) 35%, #fff); --line: color-mix(in oklab, var(--ctp-surface2) 55%, var(--ctp-overlay0));
+  --ink: color-mix(in oklab, var(--ctp-text) 72%, #000); --ink-2: color-mix(in oklab, var(--ctp-subtext1) 82%, #000);
   --accent: color-mix(in oklab, var(--ctp-accent) 70%, #000); --muted: color-mix(in oklab, var(--ctp-subtext0) 88%, #000); --target: color-mix(in oklab, var(--ctp-peach) 75%, #000);
   --good: color-mix(in oklab, var(--ctp-green) 75%, #000);
   --s1: color-mix(in oklab, var(--ctp-blue) 80%, #000); --s2: color-mix(in oklab, var(--ctp-peach) 72%, #000); --s5: color-mix(in oklab, var(--ctp-mauve) 85%, #000); --bad: color-mix(in oklab, var(--ctp-red) 80%, #000); --violet: color-mix(in oklab, var(--ctp-mauve) 80%, #000);
@@ -105,7 +125,7 @@ h1 { font-size: clamp(32px, 4.3vw, 54px); letter-spacing: -.035em; line-height: 
 h2 { font-size: clamp(25px, 2.9vw, 36px); letter-spacing: -.03em }
 h3 { font-size: 17px; letter-spacing: -.012em }
 h1 em, h2 em, .serif-i { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; color: var(--accent) }
-p { margin: 0; color: var(--ink-2); max-width: 68ch; text-wrap: pretty }
+p { margin: 0; color: var(--ink-2); text-wrap: pretty }
 strong { color: var(--ink); font-weight: 600 }
 code, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums }
 code { font-size: .86em; background: var(--surface-2); padding: 1px 5px; border-radius: 5px }
@@ -158,7 +178,7 @@ kbd { font: 500 11px var(--mono); padding: 1px 5px; border: 1px solid var(--line
 .sheet-nav a[aria-current="true"] { color: var(--accent); font-weight: 600 }
 
 /* reading progress, pinned to the bottom of the viewport */
-.progress { position: fixed; left: 0; right: 0; bottom: 0; height: 3px; background: var(--accent); transform-origin: 0 50%; z-index: 40 }
+.progress { position: fixed; left: 0; right: 0; bottom: 0; height: 6px; background: var(--accent); opacity: .3; transform-origin: 0 50%; z-index: 40; pointer-events: none } /* 70% transparent: a hint, not a stripe */
 
 /* ------------------------------------------------------------------ chapters */
 section.chapter { padding: 104px 0 16px; scroll-margin-top: 24px }
@@ -223,7 +243,6 @@ input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.25) }
 .stat .s { font-size: 12.5px; color: var(--ink-2) }
 .stat.good .v { color: var(--good) } .stat.bad .v { color: var(--bad) }
 /* Results chapter: big outlined numbers, label below the number */
-#idea p, #idea .lead, #results p, #fix p, #fair p, #promise p, #try p, #how p, #predict .lead, #predict .note p, #shift .lead, #shift .note p { max-width: none }
 :is(#results, #shift, #predict, #promise, #try) .stat { --tone: var(--accent) } :is(#results, #shift, #predict, #promise, #try) .stat.good { --tone: var(--good) } :is(#results, #shift, #predict, #promise, #try) .stat.bad { --tone: var(--bad) }
 :is(#results, #shift, #predict, #promise, #try) .stat .v { order: -1; font: 800 clamp(48px, 7vw, 68px)/1 var(--display); color: color-mix(in srgb, var(--tone) 28%, transparent); -webkit-text-stroke: 1.8px var(--tone); letter-spacing: -.02em; margin-bottom: 8px }
 /* what worked / what didn't: icon + text rows, outlined headings */
@@ -273,7 +292,6 @@ table.t td.n, table.t th.n { text-align: right; font-family: var(--mono) }
 .step:hover .node { scale: 1.15 }
 .step .node svg { width: 30px; height: 30px }
 .step h3 { font-size: 16px; margin: 6px 0 3px } .step p { font-size: 14px; line-height: 1.55; max-width: none }
-#method .lead { max-width: none }
 @media (max-width: 520px) { .step { grid-template-columns: 24px 28px minmax(0, 1fr); gap: 12px } .step .no { font-size: 17px } .pipeline::before, .pipe-line { left: calc(24px + 12px + 14px) } .step .node svg { width: 24px; height: 24px } }
 
 /* method split: treemap tiles */
@@ -338,7 +356,7 @@ table.t td.n, table.t th.n { text-align: right; font-family: var(--mono) }
   .aurora i { animation: drift 18s ease-in-out infinite alternate } .aurora i:nth-child(2) { animation-duration: 23s } .aurora i:nth-child(3) { animation-duration: 15s }
   @keyframes drift { to { translate: 60px 40px; scale: 1.15 } }
 }
-[data-flavor="latte"] .aurora, [data-flavor="dawn"] .aurora { opacity: .25 }
+:is([data-flavor="latte"], [data-flavor="dawn"], [data-flavor="gruvlight"], [data-flavor="tokyoday"]) .aurora { opacity: .25 }
 .hero { padding: 88px 0 24px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: center }
 @media (max-width: 920px) { .hero { grid-template-columns: 1fr; gap: 36px; padding-top: 48px } }
 .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); width: fit-content; text-decoration: none }
@@ -454,6 +472,10 @@ dl.defs dd { margin: 0; color: var(--ink-2); font-size: 14px; flex: 1 1 260px }
 /* thumb is 18px wide: stop v sits at 9px + (100% - 18px) * v/5 */
 .ticks { position: relative; height: 20px; margin-top: -3px }
 .ticks button { position: absolute; top: 0; left: calc(9px + (100% - 18px) * var(--p)); transform: translateX(-50%); border: 0; background: none; padding: 2px 4px; font: 500 11.5px var(--mono); color: var(--muted); border-radius: 6px }
+.ticks span { position: absolute; top: 0; left: calc(9px + (100% - 18px) * var(--p)); transform: translateX(-50%); padding: 2px 4px; font: 500 11.5px var(--mono); color: var(--muted); white-space: nowrap }
+.ticks span:first-child { transform: translateX(-9px) } .ticks span:last-child { transform: translateX(calc(-100% + 9px)) }
+/* sliders fill their row; side by side they share it, and wrap below 220px each */
+.stepslider { min-width: min(220px, 100%) } .row > .stepslider { flex: 1 1 220px }
 .ticks button:hover { color: var(--ink) } .ticks button[aria-pressed="true"] { color: var(--accent); font-weight: 700 }
 .drops { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-bottom: 12px }
 .drops > div { display: flex; flex-direction: column; font-size: 12px; color: var(--ink-2) }
@@ -506,7 +528,13 @@ dl.defs dd { margin: 0; color: var(--ink-2); font-size: 14px; flex: 1 1 260px }
 .xbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent) }
 .xbtn svg { width: 14px; height: 14px }
 .xh2 { font-size: clamp(21px, 2.2vw, 26px) }
-.xcontrols { gap: 14px }
+/* explorer controls: one wrapping row, each control only as wide as it needs, every control captioned the same way */
+.xcontrols { flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 22px 28px }
+.xcontrols > p, .xcontrols > .small { flex-basis: 100% }
+.xcontrols > .row { flex: 1 1 auto; align-items: flex-end; gap: 20px }
+.xcontrols > .stepslider, .xcontrols > .slider, .xcontrols .row > .stepslider { flex: 1 1 260px }
+.xmain .seg { position: relative; flex: none; background: var(--bg); margin-top: 20px }
+.xmain .seg::before { content: attr(aria-label); position: absolute; left: 2px; bottom: calc(100% + 6px); font: 500 11.5px var(--mono); color: var(--muted); white-space: nowrap; letter-spacing: .02em }
 .xcompare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px }
 .xcompare > section { position: relative; min-width: 0; padding-top: 30px; border-top: 2px solid var(--line) }
 .xpin { position: absolute; top: -13px; left: 0; width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; font: 700 12px var(--mono); background: var(--accent); color: var(--on-accent) }
@@ -518,15 +546,22 @@ dl.defs dd { margin: 0; color: var(--ink-2); font-size: 14px; flex: 1 1 260px }
 .xfig-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap }
 .xfig-h h3 { font-size: 15.5px }
 .xfig-tools { display: inline-flex; gap: 6px }
-.xsel { display: inline-flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted) }
-.xsel select { font: 500 14px var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; min-width: 200px; max-width: 100% }
+.xsel { display: inline-flex; flex-direction: column; gap: 6px; font: 500 11.5px var(--mono); color: var(--muted); letter-spacing: .02em }
+.xsel select { appearance: none; font: 500 13.5px var(--body); color: var(--ink); background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23888' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E") right 10px center / 14px no-repeat; border: 1px solid var(--line); border-radius: 11px; padding: 9px 36px 9px 12px; min-width: 180px; max-width: 100%; cursor: pointer; transition: border-color .15s }
+.xsel select:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)) }
+.xsel select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
 .xsort { border: 0; background: none; padding: 8px 10px; font: inherit; color: inherit; width: 100%; text-align: right; white-space: nowrap }
 .xsort:hover { color: var(--accent) }
 .xsd { color: var(--muted); font-size: 11px }
 .xflag { margin-left: 8px; font: 600 10.5px var(--mono); color: var(--bad); background: var(--bad-soft); padding: 1px 6px; border-radius: 5px }
 table.t tbody th { text-align: left; font-weight: 600; color: var(--ink); padding: 9px 10px; border-bottom: 1px solid var(--line); white-space: nowrap }
 table.t tr[aria-current="true"] { background: var(--accent-soft) }
-.xdetails summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 6px 0 }
+.xdetails summary { cursor: pointer; font-weight: 600; color: var(--ink); padding: 6px 0; list-style: none; display: flex; align-items: center; gap: 10px }
+.xdetails summary::-webkit-details-marker { display: none }
+/* same chevron as the maths accordion */
+.xdetails summary::before { content: ""; flex: none; width: 7px; height: 7px; border-right: 1.8px solid var(--muted); border-bottom: 1.8px solid var(--muted); rotate: -45deg; transition: rotate .2s }
+.xdetails[open] summary::before { rotate: 45deg; border-color: var(--accent) }
+.xdetails summary:hover { color: var(--accent) }
 .xdetails[open] summary { margin-bottom: 8px }
 .xlinkbtn { border: 0; background: none; padding: 0; font: inherit; color: inherit; text-align: left }
 
@@ -602,3 +637,77 @@ table.t tr[aria-current="true"] { background: var(--accent-soft) }
 .ch-explore a { font-weight: 500; text-decoration: none } .ch-explore a:hover { text-decoration: underline }
 /* charts are drawn at 560 units wide: cap the height so a full-width figure does not blow its text up to twice the size */
 .xfig .chart { max-height: 380px }
+
+/* Maths chapter accordion: a plain list with hairline dividers; chevron on the left turns when a row opens */
+.acc-list { display: flex; flex-direction: column; border-top: 1px solid var(--line) }
+.acc-tools { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.acc { border-bottom: 1px solid var(--line) }
+.acc summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 18px 26px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 14px 4px; border-radius: 6px }
+.acc summary::-webkit-details-marker { display: none }
+.acc summary:hover .acc-t, .acc[open] .acc-t { color: var(--accent) }
+.acc summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.acc .acc-chev { width: 16px; height: 16px; color: var(--muted); transition: rotate .2s ease }
+.acc[open] .acc-chev { rotate: 90deg; color: var(--accent) }
+.acc .acc-no { font: 500 12px var(--mono); color: var(--muted) }
+.acc .acc-t { font: 500 15.5px/1.4 var(--body); color: var(--ink); transition: color .15s }
+.acc .acc-ch { font: 400 12px var(--mono); color: var(--muted); white-space: nowrap }
+.acc .acc-body { padding: 0 4px 18px 54px; display: flex; flex-direction: column; gap: 10px }
+.acc .acc-body ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; color: var(--ink-2) }
+.acc .acc-body .eq { font: 500 14.5px var(--mono); color: var(--ink); border-left: 2px solid var(--accent); padding: 4px 0 4px 12px; overflow-x: auto }
+@media (max-width: 640px) { .acc summary { grid-template-columns: 16px minmax(0, 1fr) } .acc .acc-no, .acc .acc-ch { display: none } .acc .acc-body { padding: 0 4px 16px 26px } }
+@media (prefers-reduced-motion: reduce) { .acc .acc-chev, .acc .acc-t { transition: none } }
+
+/* ---- explorer: lesson panel, level badges, learning path, surfaces */
+.xmain { position: relative; isolation: isolate }
+.xmain::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 520px; z-index: -1; pointer-events: none;
+  background: radial-gradient(60% 70% at 18% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%), radial-gradient(40% 50% at 85% 10%, color-mix(in srgb, var(--s2) 10%, transparent), transparent 70%) }
+.xlesson { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 32px }
+.xlesson > div { background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 6px }
+.xlesson > div.found { background: color-mix(in srgb, var(--accent) 7%, var(--surface)) }
+.xlesson-k { font: 600 11.5px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted) }
+.xlesson .found .xlesson-k { color: var(--accent) }
+.xlesson p { font-size: 14.5px; line-height: 1.55; color: var(--ink) }
+@media (max-width: 860px) { .xlesson { grid-template-columns: 1fr } }
+.xfig { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px }
+/* explorer stats: no box, the number itself carries the colour */
+.xmain .stat .v { color: var(--tone, var(--accent)); font: 700 clamp(30px, 3.2vw, 38px)/1.1 var(--display); letter-spacing: -.03em }
+.xmain .stat.good .v { --tone: var(--good) } .xmain .stat.bad .v { --tone: var(--bad) }
+.xmain .stat .k { font-weight: 500; color: var(--ink-2) }
+.xpath { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line) }
+.xpath a { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s, translate .15s }
+.xpath a:hover { border-color: var(--accent); translate: 0 -2px }
+.xpath .xpath-r { text-align: right; grid-column: 2 }
+@media (max-width: 640px) { .xpath { grid-template-columns: 1fr } .xpath .xpath-r { grid-column: auto } }
+.xtag { margin-left: 8px; font: 600 10.5px var(--mono); color: var(--muted); background: var(--surface-2); padding: 1px 6px; border-radius: 5px }
+td.xbar { background: linear-gradient(to right, color-mix(in srgb, var(--accent) 55%, transparent) var(--w), color-mix(in srgb, var(--line) 60%, transparent) var(--w)) left calc(100% - 4px) / calc(100% - 20px) 3px no-repeat; background-position: 10px calc(100% - 4px) }
+td.best { color: var(--accent); font-weight: 700 }
+.xwarn { margin-left: 8px; font: 600 10.5px var(--mono); color: var(--warn, var(--target)); background: color-mix(in srgb, var(--target) 14%, transparent); padding: 1px 6px; border-radius: 5px; cursor: help }
+@media (prefers-reduced-motion: reduce) { .xpath a { transition: none } }
+.xstart { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 8px }
+.xstart-card { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); text-decoration: none }
+a.xstart-card:hover { border-color: var(--accent) }
+.xcards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px }
+.xcard { height: 100%; display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); text-decoration: none; transition: border-color .15s, translate .15s, box-shadow .15s }
+.xcard:hover { border-color: var(--accent); translate: 0 -2px; box-shadow: 0 10px 28px -18px color-mix(in srgb, var(--accent) 60%, transparent) }
+.xcard-top { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px }
+.xcard strong { font: 600 17px/1.3 var(--display) }
+.xcard-d { font-size: 13.5px; color: var(--ink-2); line-height: 1.5 }
+.xcard-f { margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 12.5px; color: var(--ink-2); line-height: 1.5 }
+.xcard-f .xlesson-k { color: var(--accent); margin-right: 4px }
+@media (max-width: 860px) { .xstart { grid-template-columns: 1fr } }
+@media (prefers-reduced-motion: reduce) { .xcard { transition: none } }
+.xerror { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border: 1px solid color-mix(in srgb, var(--bad) 45%, var(--line)); border-left: 3px solid var(--bad); border-radius: 12px; background: color-mix(in srgb, var(--bad) 6%, var(--surface)) }
+.xerror p { color: var(--ink) }
+.xtoast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); translate: -50% 0; z-index: 60; width: min(440px, calc(100vw - 32px)); display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px solid color-mix(in srgb, var(--bad) 45%, var(--line)); border-left: 3px solid var(--bad); box-shadow: 0 14px 40px -16px rgb(0 0 0 / .5) }
+.xtoast p { color: var(--ink); font-size: 14px }
+/* level colours: a tinted card on the index, coloured text in an explorer's header */
+.lv-beginner { --lv: var(--good) } .lv-intermediate { --lv: var(--s2) } .lv-advanced { --lv: var(--violet) }
+.xcard[class*="lv-"] { background: linear-gradient(160deg, color-mix(in srgb, var(--lv) 16%, var(--surface)), color-mix(in srgb, var(--lv) 4%, var(--surface)) 70%); border-color: color-mix(in srgb, var(--lv) 30%, var(--line)) }
+.xcard[class*="lv-"]:hover { border-color: var(--lv) }
+.xcard-no { font: 700 22px/1 var(--display); color: var(--lv, var(--muted)); letter-spacing: -.02em }
+.xlegend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin: 0 4px 0 6px; background: var(--lv); vertical-align: -1px }
+.xlegend i:first-child { margin-left: 0 }
+/* tabs and dropdowns outside the control panel also keep their own width */
+.xmain .stack > .seg, .xmain .stack > .xsel, .xmain .row > .seg { align-self: flex-start; flex: none; max-width: 100%; }
+/* slider labels match the tab and dropdown captions */
+.xmain .slider label { font: 500 11.5px var(--mono); color: var(--muted); letter-spacing: .02em }
