@@ -16,7 +16,7 @@ cpSync(join(root, "site", "data"), join(pub, "data"), { recursive: true });
 // the old standalone explorer (site/index.html + app.js) is replaced by the Next routes under src/app/explorer
 if (existsSync(join(root, "site", "gifs"))) cpSync(join(root, "site", "gifs"), join(pub, "gifs"), { recursive: true }); // python scripts/make_gifs.py
 mkdirSync(join(pub, "papers"), { recursive: true });
-for (const f of ["es678_conformal.pdf", "conformal_worst_class.pdf"]) {
+for (const f of ["26210180_Sumit_Jha.pdf", "conformal_worst_class.pdf"]) {
   const p = join(root, "paper", f);
   if (existsSync(p)) cpSync(p, join(pub, "papers", f));
 }

@@ -180,7 +180,7 @@ export default function DeepDive() {
       </TopicList>
 
       <Box kind="keyidea" tag="Where to read more">
-        <p>The <a href={asset("papers/es678_conformal.pdf")}>4-page paper</a> has the full argument, with every number produced by the project’s scripts.</p>
+        <p>The <a href={asset("papers/26210180_Sumit_Jha.pdf")}>4-page paper</a> has the full argument, with every number produced by the project’s scripts.</p>
       </Box>
     </Chapter>
   );

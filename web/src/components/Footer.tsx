@@ -48,7 +48,7 @@ export default function Footer() {
             <h2>Who does a conformal guarantee <em>leave out?</em></h2>
             <p>The full story, with the derivation and every number, is in the paper. The explorer has every method and chart from the project.</p>
             <div className="row">
-              <a className="btn primary" href={asset("papers/es678_conformal.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> Course paper</a>
+              <a className="btn primary" href={asset("papers/26210180_Sumit_Jha.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> Course paper</a>
             </div>
           </div>
           <SetLoop />
@@ -63,7 +63,7 @@ export default function Footer() {
           <div>
             <h4>Read</h4>
             <ul>
-              <li><a href={asset("papers/es678_conformal.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> 4-page paper</a></li>
+              <li><a href={asset("papers/26210180_Sumit_Jha.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> 4-page paper</a></li>
               <li><a href={asset("explorer/")}><Compass /> Explorers</a></li>
               <li><a href="#glossary"><Hash /> Glossary</a></li>
             </ul>

@@ -51,7 +51,7 @@ export default function Hero() {
           </p>
           <div className="row">
             <a className="btn primary" href="#idea">Start reading <ArrowRight /></a>
-            <a className="btn" href={asset("papers/es678_conformal.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> Paper</a>
+            <a className="btn" href={asset("papers/26210180_Sumit_Jha.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> Paper</a>
             <a className="btn" href={asset("explorer/")}><Compass /> Explorer</a>
           </div>
           <p className="byline"><span>Sumit Kumar Jha</span><span>26210180</span><span>ES 678 · IIT Gandhinagar</span><span>Nov 2026</span></p>

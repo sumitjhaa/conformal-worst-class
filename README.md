@@ -66,7 +66,7 @@ The conformal thresholds use **`D_cal`** only. **`D_test`** is opened once. Mixi
 - `results/figures/*.pdf`, `results/table_*.tex`, `results/numbers.tex`
 
 ## Papers
-- `paper/es678_conformal.tex` — the 4-page course paper (supplied NeurIPS 2026 style, ≤ 4 pages incl. references).
+- `paper/26210180_Sumit_Jha.tex` — the 4-page course paper (supplied NeurIPS 2026 style, ≤ 4 pages incl. references).
 - `paper/conformal_worst_class.tex` — extended version with proofs, all tables and figures.
 Both read every number from `results/numbers.tex`; compile with `tectonic -X compile <file>.tex` from `paper/`.
 
