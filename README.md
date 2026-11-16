@@ -86,4 +86,4 @@ covariate shift, ImageNet gallery, draw-a-digit). Its data comes from `site/data
 
 ## AI-use disclosure
 AI assistance (Claude) helped organise the code, build parts of the interactive site and explorers, and edit the report's
-wording and structure. The experiments, analysis and results are the author's own. External datasets and methods are cited in `paper/refs.bib`.
+wording and structure. The experiments, analysis and results are my own. External datasets and methods are cited in `paper/refs.bib`.
