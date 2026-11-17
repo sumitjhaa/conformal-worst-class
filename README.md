@@ -8,12 +8,11 @@ leaves out, predicts the worst class with an exact law, and repairs it with a ch
 
 | Contribution | Where |
 |---|---|
-| **Exact worst-class law** under class-wise calibration (independent Beta–binomials), validated on 5 settings | `src/theory.py`, paper §4, site §8 |
+| **Exact worst-class law** under class-wise calibration (independent Beta–binomials), validated on 5 settings | `src/theory.py`, paper §4 |
 | **Calibration-size rule**: images per class needed so every class is within ε, w.p. 1−δ | `theory.n_per_class_needed` |
-| **Clustered-PAC**: simultaneous high-probability guarantee over clusters of classes (exact δ_g, no union bound) | `src/conformal.py`, paper §4–5, site §9 |
+| **Clustered-PAC**: simultaneous high-probability guarantee over clusters of classes (exact δ_g, no union bound) | `src/conformal.py`, paper §4–5 |
 | Label-shift corollary (worst case = worst class), empty-set lemma | `src/theory.py`, paper §4 |
 | Audit of 13 methods × 5 settings × 3–10 seeds, label/covariate shift, ACI, weighted CP, OOD, bootstrap CIs | `scripts/research.py` |
-| Interactive site that reruns conformal prediction in the browser | [live site](https://sumitjhaa.github.io/conformal-worst-class/), `web/` |
 
 ## Settings (runs)
 | Run | Model | Classes | Seeds |
@@ -45,7 +44,6 @@ python scripts/make_figures.py     # rebuild every figure/table from the CSVs
 python scripts/paper_numbers.py    # results/numbers.tex: every number quoted in the papers, as LaTeX macros
 python scripts/export_site.py      # site/data/*.json
 python scripts/make_gifs.py        # site/gifs/*.gif: animated figures for the web tour, from the exported outputs
-cd web && yarn && yarn dev         # interactive site at http://localhost:3000
 ```
 Downloads: torchvision datasets automatically; CIFAR-10.1 v6 `.npy` files into `data/cifar10_1/`
 (github.com/modestyachts/CIFAR-10.1); CIFAR-10-C into `data/cifar10_c/` (Zenodo record 2535967); ImageNet ResNet-152
@@ -69,20 +67,6 @@ The conformal thresholds use **`D_cal`** only. **`D_test`** is opened once. Mixi
 - `paper/26210180_Sumit_Jha.tex` — the 4-page course paper (supplied NeurIPS 2026 style, ≤ 4 pages incl. references).
 - `paper/conformal_worst_class.tex` — extended version with proofs, all tables and figures.
 Both read every number from `results/numbers.tex`; compile with `tectonic -X compile <file>.tex` from `paper/`.
-
-## Website
-**Live:** https://sumitjhaa.github.io/conformal-worst-class/
-
-`web/` is a Next.js + React app exported as a static site: a plain-language, animated tour (problem, method on real scores,
-worst-class law, the fix, shift, results, glossary) plus 17 explorers that rerun conformal prediction in the browser from
-the exported logits (live set lab with every method, per-class audit, worst-class law, cluster trade-off, label and
-covariate shift, ImageNet gallery, draw-a-digit). Its data comes from `site/data/` and `site/gifs/` (written by
-`scripts/export_site.py` and `scripts/make_gifs.py`) and the paper PDFs, copied in by `web/scripts/sync-data.mjs`.
-
-- Local: `cd web && yarn && yarn dev`; see `web/README.md`. `node web/scripts/check-explorer.mjs` checks the browser maths
-  against the Python results.
-- Deploy: `.github/workflows/pages.yml` builds and publishes it on every push to `main`. One-time setup on GitHub:
-  Settings → Pages → Source: **GitHub Actions**.
 
 ## AI-use disclosure
 AI assistance (Claude) helped organise the code, build parts of the interactive site and explorers, and edit the report's

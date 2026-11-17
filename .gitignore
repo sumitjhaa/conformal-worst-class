@@ -18,3 +18,7 @@ checkpoints/
 results/*.pt
 results/cache/
 .pytest_cache/
+
+# Website lives on the `site` branch
+/web/
+/site/
