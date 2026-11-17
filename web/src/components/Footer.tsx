@@ -64,7 +64,7 @@ export default function Footer() {
             <h4>Read</h4>
             <ul>
               <li><a href={asset("papers/26210180_Sumit_Jha.pdf")} target="_blank" rel="noopener noreferrer"><FileText /> 4-page paper</a></li>
-              {/* <li><a href={asset("explorer/")}><Compass /> Explorers</a></li> */}
+              <li><a href={asset("explorer/")}><Compass /> Explorers</a></li>
               <li><a href="#glossary"><Hash /> Glossary</a></li>
             </ul>
           </div>
